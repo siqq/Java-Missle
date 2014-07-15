@@ -4,11 +4,11 @@ import java.util.ArrayList;
 public class Launcher extends Thread{
 	private int id;
 	private boolean isHidden;
-	private ArrayList<Missle> missles = new ArrayList();
+	private ArrayList<Missile> missiles = new ArrayList();
 	
-	public Launcher(int id, ArrayList<Missle> missles) {
+	public Launcher(int id, ArrayList<Missile> missiles) {
 		super();
 		this.id = id;
-		this.missles = missles;
+		this.missiles = missiles;
 	}	
 }
