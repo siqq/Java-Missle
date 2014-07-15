@@ -1,5 +1,5 @@
 
-public class Missile {
+public class Missile extends Thread{
 	
 	private int id;
 	private String destination;
