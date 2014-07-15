@@ -1,13 +1,13 @@
 
 public class Missile extends Thread{
 	
-	private int id;
+	private String id;
 	private String destination;
 	private int launchTime;
 	private int flyTime;
 	private int damage;
 	
-	public Missile(int id, String destination, int launchTime, int flyTime, int damage) {
+	public Missile(String id, String destination, int launchTime, int flyTime, int damage) {
 		this.id = id;
 		this.destination = destination;
 		this.launchTime = launchTime;
