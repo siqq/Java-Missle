@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,6 +18,8 @@ public class War extends Thread {
 	private ArrayList<Launcher> missileLaunchers = new ArrayList<>();
 	private ArrayList<Destructor<DestructedMissile>> missileDestructors = new ArrayList<>();
 	private ArrayList<Destructor<DestructedLanucher>> missileLauncherDestructors = new ArrayList<>();
+	private FileHandler fileHandler;
+	private Logger logger = Logger.getLogger("warLogger");
 
 	public War(ArrayList<Launcher> missleLaunchers, ArrayList<Destructor<DestructedMissile>> missileDestructors,
 			ArrayList<Destructor<DestructedLanucher>> missileLauncherDestructors) {
@@ -25,6 +30,15 @@ public class War extends Thread {
 	}
 
 	public War() throws ParserConfigurationException, SAXException, IOException {
+		
+		fileHandler = new FileHandler("warLogger.xml", false);
+		logger.addHandler(fileHandler);
+		
+		fileHandler.setFormatter(new MyFormatter());
+		
+		
+		
+		
 		// Get the DOM Builder Factory
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -50,14 +64,17 @@ public class War extends Thread {
 					if (childNodeList.getNodeName().equals("launcher")) {
 						boolean isHidden = Boolean.parseBoolean(childNodeList.getAttributes().getNamedItem("isHidden").getNodeValue());
 						missileLaunchers.add(new Launcher(id, isHidden));
+						logger.log(Level.SEVERE, missileLaunchers.get(j/2).toString());
 					} 
 					else {
 						String type = childNodeList.getAttributes().getNamedItem("type").getNodeValue();
 						if ((rootNode.getNodeName().equals("missileDestructors"))) {
 							missileDestructors.add(new Destructor<DestructedMissile>(id, type, new ArrayList<DestructedMissile>()));
+							logger.log(Level.SEVERE, missileDestructors.get(j/2).toString());
 						} 
 						else {
 							missileLauncherDestructors.add(new Destructor<DestructedLanucher>(id, type, new ArrayList<DestructedLanucher>()));
+							logger.log(Level.SEVERE, missileLauncherDestructors.get(j/2).toString());
 
 						}
 					}
