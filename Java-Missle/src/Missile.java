@@ -13,7 +13,15 @@ public class Missile extends Thread{
 		this.launchTime = launchTime;
 		this.flyTime = flyTime;
 		this.damage = damage;
+		System.out.println(this.toString());
 		
 	}
+
+	@Override
+	public String toString() {
+		return "Missile [id=" + id + ", destination=" + destination + ", launchTime=" + launchTime + ", flyTime=" + flyTime + ", damage=" + damage
+				+ "]";
+	}
+	
 
 }
