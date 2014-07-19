@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,7 +93,6 @@ public class War extends Thread {
 							//get the launcher and add missile to it
 							Launcher launcher = missileLaunchers.get(j/2);
 							launcher.addMissile(id, destination, launchtime, flytime, damage);
-							missileLaunchers.add(j/2, launcher);
 							break;
 							
 						case "destructdMissile":
@@ -103,7 +103,6 @@ public class War extends Thread {
 							DestructedMissile destructedM = new DestructedMissile(id, destructAfterLaunch);
 							Destructor<DestructedMissile> destructor_m = missileDestructors.get(j/2);
 							destructor_m.addDestructMissile(destructedM);
-							missileDestructors.add(j/2, destructor_m);
 							break;
 							
 						case "destructedLanucher":
@@ -114,7 +113,6 @@ public class War extends Thread {
 							DestructedLanucher destructedL = new DestructedLanucher(id, destructTime);
 							Destructor<DestructedLanucher> destructor_l = missileLauncherDestructors.get(j/2);
 							destructor_l.addDestructMissile(destructedL);
-							missileLauncherDestructors.add(j/2, destructor_l);
 							break;
 
 						}
@@ -122,5 +120,27 @@ public class War extends Thread {
 				}
 			}
 		}
+	}
+	
+	public void run() {
+		for(int i=0; i<missileLaunchers.size(); i++) {
+			Launcher l = missileLaunchers.get(i);
+			l.start();
+		}
+		/*
+		Iterator<Launcher> iterator_launcher = missileLaunchers.iterator();
+		while (iterator_launcher.hasNext()) {
+			iterator_launcher.next().start();
+		}
+		
+		Iterator<Destructor<DestructedLanucher>> iterator_destructL = missileLauncherDestructors.iterator();
+		while (iterator_destructL.hasNext()) {
+			iterator_destructL.next().start();
+		}
+		Iterator<Destructor<DestructedMissile>> iterator_destructM = missileDestructors.iterator();
+		while (iterator_destructM.hasNext()) {
+			iterator_destructM.next().start();
+		}
+		*/
 	}
 }

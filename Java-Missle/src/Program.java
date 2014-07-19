@@ -9,6 +9,7 @@ public class Program {
 	public static void main(String[]args) {
 		try {
 			War war = new War();
+			war.start();
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
