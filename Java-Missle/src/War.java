@@ -30,14 +30,9 @@ public class War extends Thread {
 	}
 
 	public War() throws ParserConfigurationException, SAXException, IOException {
-		
 		fileHandler = new FileHandler("warLogger.xml", false);
 		logger.addHandler(fileHandler);
-		
 		fileHandler.setFormatter(new MyFormatter());
-		
-		
-		
 		
 		// Get the DOM Builder Factory
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -93,10 +88,9 @@ public class War extends Thread {
 							int launchtime = Integer.parseInt(missile.getAttributes().getNamedItem("launchTime").getNodeValue());
 							int flytime = Integer.parseInt(missile.getAttributes().getNamedItem("flyTime").getNodeValue());
 							int damage = Integer.parseInt(missile.getAttributes().getNamedItem("damage").getNodeValue());
-							// now create a temp missile to add it to the launcher
-							Missile missile_temp = new Missile(id, destination, launchtime, flytime, damage);
+							//get the launcher and add missile to it
 							Launcher launcher = missileLaunchers.get(j/2);
-							launcher.addMissile(missile_temp);
+							launcher.addMissile(id, destination, launchtime, flytime, damage);
 							missileLaunchers.add(j/2, launcher);
 							break;
 							
@@ -104,9 +98,10 @@ public class War extends Thread {
 							//case 2 it is a missle to destruct missles need 
 							//to add to destructors list
 							int destructAfterLaunch = Integer.parseInt(missile.getAttributes().getNamedItem("destructAfterLaunch").getNodeValue());
-							DestructedMissile destructedM_temp = new DestructedMissile(id, destructAfterLaunch);
+							//get the destructor and then add missile destructor to it 
+							DestructedMissile destructedM = new DestructedMissile(id, destructAfterLaunch);
 							Destructor<DestructedMissile> destructor_m = missileDestructors.get(j/2);
-							destructor_m.addMissile(destructedM_temp);
+							destructor_m.addDestructMissile(destructedM);
 							missileDestructors.add(j/2, destructor_m);
 							break;
 							
@@ -114,9 +109,10 @@ public class War extends Thread {
 							//case 3 it is a missle to destruct launchers need 
 							//to add to destructors list
 							int destructTime = Integer.parseInt(missile.getAttributes().getNamedItem("destructTime").getNodeValue());
-							DestructedLanucher destructedL_temp = new DestructedLanucher(id, destructTime);
+							//get the destructor and then add missile launcher destructor to it
+							DestructedLanucher destructedL = new DestructedLanucher(id, destructTime);
 							Destructor<DestructedLanucher> destructor_l = missileLauncherDestructors.get(j/2);
-							destructor_l.addMissile(destructedL_temp);
+							destructor_l.addDestructMissile(destructedL);
 							missileLauncherDestructors.add(j/2, destructor_l);
 							break;
 
