@@ -30,6 +30,7 @@ public class Launcher extends Thread{
 	public void setLogger() throws SecurityException, IOException {
 		fileHandler = new FileHandler("Launcher_"+this.id+".xml", false);
 		logger.addHandler(fileHandler);
+		logger.setUseParentHandlers(false);
 		fileHandler.setFormatter(new MyFormatter());
 	}
 	

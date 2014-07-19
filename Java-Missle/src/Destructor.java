@@ -17,13 +17,13 @@ public class Destructor<E> extends Thread{
 		this.id = id;
 		this.type = type;
 		this.Destructed = destructed;
-		System.out.println(this.toString());
 		this.setLogger();
 	} 
 	
 	public void setLogger() throws SecurityException, IOException {
 		fileHandler = new FileHandler("Destructor_"+this.id+".xml", false);
 		logger.addHandler(fileHandler);
+		logger.setUseParentHandlers(false);
 		fileHandler.setFormatter(new MyFormatter());
 	}
 	

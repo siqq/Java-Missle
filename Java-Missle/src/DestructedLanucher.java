@@ -10,7 +10,6 @@ public class DestructedLanucher extends Thread{
 		super();
 		this.id = id;
 		this.destructTime = destructTime;
-		System.out.println(this.toString());
 	}
 
 	@Override

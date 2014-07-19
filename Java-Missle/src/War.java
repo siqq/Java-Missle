@@ -32,6 +32,7 @@ public class War extends Thread {
 	public War() throws ParserConfigurationException, SAXException, IOException {
 		fileHandler = new FileHandler("warLogger.xml", false);
 		logger.addHandler(fileHandler);
+		logger.setUseParentHandlers(false);
 		fileHandler.setFormatter(new MyFormatter());
 		
 		// Get the DOM Builder Factory
