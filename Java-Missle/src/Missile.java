@@ -1,9 +1,8 @@
+import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Missile extends Thread{
@@ -11,21 +10,24 @@ public class Missile extends Thread{
 	private boolean isRunning = true;
 	private String missileId;
 	private String destination;
+	private String launcherId;
 	private int launchTime;
 	private int flyTime;
 	private int damage;
-	private Logger logger;
+//	private Logger logger;
 	private Lock locker;
-//	private Condition wakeupConditionS;
+	private FileHandler fileHandler;
 	private CountDownLatch latch;
 	
-	public Missile(String id, String destination, int launchTime, int flyTime, int damage, Logger logger) {
+	
+	public Missile(String id, String destination, int launchTime, int flyTime, int damage, String launcherId) {
 		this.missileId = id;
 		this.destination = destination;
 		this.launchTime = launchTime;
 		this.flyTime = flyTime;
 		this.damage = damage;
-		this.logger = logger;
+		this.launcherId = launcherId;
+//		this.logger = logger;
 	}
 
 	public String getMissileId() {
@@ -38,9 +40,21 @@ public class Missile extends Thread{
 			sleep(launchTime*1000);
 			sleep(flyTime*1000);
 			latch.countDown();//wake up launcher after missile finish
-			logger.log(Level.INFO, "Missle "+ this.missileId + "hit its target with "+ this.damage + "damage");
+//			logger.log(Level.INFO, "Missle "+ this.missileId + "hit its target with "+ this.damage + "damage");
+			fileHandler = new FileHandler("Launcher_" + this.launcherId+".xml", false);
+			TheLogger.logger.addHandler(fileHandler);
+			
+			TheLogger.logger.log(Level.INFO, "Missle " + this.launcherId + " hit its target with "+ this.damage + " damage");
 		} catch (InterruptedException e) {
-			logger.log(Level.INFO, "Missle "+ this.missileId + "was Bombed");
+//			logger.log(Level.INFO, "Missle "+ this.missileId + "was Bombed");
+			TheLogger.logger.log(Level.INFO, "Missle " + this.launcherId + " was Bombed");
+			
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
@@ -59,9 +73,9 @@ public class Missile extends Thread{
 				+ "]";
 	}
 
-	public void addlogger(Logger logger) {
-		this.logger = logger;	
-	}
+//	public void addlogger(Logger logger) {
+//		this.logger = logger;	
+//	}
 	
 	public void addLocker(Lock locker, CountDownLatch latch) {
 		this.locker = locker; 

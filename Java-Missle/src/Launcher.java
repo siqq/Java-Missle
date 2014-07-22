@@ -2,12 +2,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Launcher extends Thread{
 	private String id;
@@ -15,10 +12,10 @@ public class Launcher extends Thread{
 	private boolean isRunning = true;
 	private ArrayList<Missile> missiles;
 	private Lock locker = new ReentrantLock();
-	private Condition wakeupCondition = locker.newCondition();
+//	private Condition wakeupCondition = locker.newCondition();
 	private CountDownLatch latch ;
-	private FileHandler fileHandler;
-	private Logger logger = Logger.getLogger("Launcher_"+this.id);
+//	private FileHandler fileHandler;
+//	private Logger logger = Logger.getLogger("Launcher_"+this.id);
 
 
 	public Launcher(String id, boolean isHidden, ArrayList<Missile> missiles) throws SecurityException, IOException {
@@ -26,14 +23,14 @@ public class Launcher extends Thread{
 		this.id = id;
 		this.isHidden = isHidden;
 		this.missiles = missiles;
-		this.setLogger();
+//		this.setLogger();
 	}
 	public Launcher(String id, boolean isHidden) throws SecurityException, IOException {
 		super();
 		this.id = id;
 		this.isHidden = isHidden;
 		this.missiles = new ArrayList<Missile>();
-		this.setLogger();
+//		this.setLogger();
 	}
 
 	@Override
@@ -41,7 +38,8 @@ public class Launcher extends Thread{
 		Iterator<Missile> iterator = missiles.iterator();
 		while (iterator.hasNext() && isRunning) {
 			Missile missile = iterator.next();
-			logger.log(Level.INFO, "Launching Missle: " + missile.getMissileId());
+//			logger.log(Level.INFO, "Launching Missle: " + missile.getMissileId());
+			TheLogger.logger.log(Level.INFO, "Launching Missle: " + missile.getMissileId());
 			missile.start();
 			try {
 				latch = new CountDownLatch(1);
@@ -54,15 +52,15 @@ public class Launcher extends Thread{
 		}
 	}
 
-	public void setLogger() throws SecurityException, IOException {
+	/*public void setLogger() throws SecurityException, IOException {
 		fileHandler = new FileHandler("Launcher_"+this.id+".xml", false);
-		logger.addHandler(fileHandler);
+//		logger.addHandler(fileHandler);
 		//logger.setUseParentHandlers(false);
 		fileHandler.setFormatter(new MyFormatter());
-	}
+	}*/
 
 	public void addMissile(String id2, String destination, int launchtime, int flytime, int damage) {
-		Missile missile = new Missile(id2, destination, launchtime, flytime, damage, logger);
+		Missile missile = new Missile(id2, destination, launchtime, flytime, damage, this.id);
 		this.missiles.add(missile);
 	}
 	@Override

@@ -24,8 +24,8 @@ public class War extends Thread {
 	private ArrayList<Launcher> missileLaunchers = new ArrayList<>();
 	private ArrayList<Destructor<DestructedMissile>> missileDestructors = new ArrayList<>();
 	private ArrayList<Destructor<DestructedLanucher>> missileLauncherDestructors = new ArrayList<>();
-	private FileHandler fileHandler;
-	private Logger logger = Logger.getLogger("warLogger");
+//	private FileHandler fileHandler;
+//	private Logger logger = Logger.getLogger("warLogger");
 
 	
 	/**
@@ -36,10 +36,10 @@ public class War extends Thread {
 	 */
 	public War() throws ParserConfigurationException, SAXException, IOException {
 		//create a logger file to record every move in war into files
-		fileHandler = new FileHandler("warLogger.xml", false);
-		logger.addHandler(fileHandler);
-		logger.setUseParentHandlers(false);
-		fileHandler.setFormatter(new MyFormatter());
+//		fileHandler = new FileHandler("warLogger.xml", false);
+//		logger.addHandler(fileHandler);
+//		logger.setUseParentHandlers(false);
+//		fileHandler.setFormatter(new MyFormatter());
 
 		//read the XNL file
 		this.readXML();
