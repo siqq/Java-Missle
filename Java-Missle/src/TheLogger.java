@@ -49,6 +49,7 @@ public class TheLogger {
 				break;
 			}
 			logger.removeHandler(file);
+			
 		}	
 	}
 	
