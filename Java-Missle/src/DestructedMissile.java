@@ -3,9 +3,9 @@ import java.util.logging.Logger;
 
 public class DestructedMissile extends Thread{
 	
-	private String id;
-	private int destructAfterLaunch;
-	private Logger logger;
+	private String 	id;
+	private int 	destructAfterLaunch;
+	private Logger 	logger;
 	
 	public DestructedMissile(String id, int destructAfterLaunch) {
 		super();
@@ -20,7 +20,6 @@ public class DestructedMissile extends Thread{
 
 	public void addLogger(Logger logger) {
 		this.logger = logger;
-		
 	}
 
 

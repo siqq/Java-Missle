@@ -8,20 +8,22 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 
 public class Launcher extends Thread {
-	private String id;
-	private boolean isHidden;
-	private boolean isRunning = true;
-	private ArrayList<Missile> missiles;
-	private Lock locker = new ReentrantLock();
-	private CountDownLatch latch;
-	private FileHandler fileHandler;
+	private String 				id;
+	private boolean 			isHidden;
+	private boolean 			isRunning = true;
+	private ArrayList<Missile> 	missiles;
+	private Lock 				locker = new ReentrantLock();
+	private CountDownLatch 		latch;
+	private FileHandler 		fileHandler;
 
 	public Launcher(String id, boolean isHidden, ArrayList<Missile> missiles)
 			throws SecurityException, IOException {
 		super();
 		this.id = id;
-		this.isHidden = isHidden;
+		this.isHidden = true;
+//		this.isRunning = true;
 		this.missiles = missiles;
+//		this.locker = new ReentrantLock();
 		this.fileHandler = new FileHandler("Launcher_" + this.id + ".txt", false);
 	}
 
@@ -45,7 +47,7 @@ public class Launcher extends Thread {
 			try {
 				latch = new CountDownLatch(1);
 				missile.addLocker(locker, latch);
-				latch.await();// wait untill the missile will hit or destroy
+				latch.await();		// wait untill the missile will hit or destroy
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();

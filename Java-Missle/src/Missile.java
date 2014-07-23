@@ -36,7 +36,7 @@ public class Missile extends Thread {
 		try {
 			sleep(launchTime * 1000);
 			sleep(flyTime * 1000);
-			latch.countDown();// wake up launcher after missile finish
+			latch.countDown();		// wake up launcher after missile finish
 
 			// print to log that missile successfully hit targer
 			String print_log = "Missle from launcher " + this.launcherId

@@ -14,10 +14,8 @@ public class TheLogger {
 			file.setFormatter(new MyFormatter());
 			logger.addHandler(file);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -48,8 +46,7 @@ public class TheLogger {
 			default:
 				break;
 			}
-			logger.removeHandler(file);
-			
+			logger.removeHandler(file);	
 		}	
 	}
 	

@@ -8,16 +8,14 @@ import org.xml.sax.SAXException;
 public class Program {
 	public static void main(String[]args) {
 		try {
-			War war = new War();
+			XMLparser xml = new XMLparser();
+			War war = xml.readXML();
 			war.start();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

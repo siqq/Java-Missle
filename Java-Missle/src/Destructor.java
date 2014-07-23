@@ -6,17 +6,18 @@ import java.util.logging.Logger;
 
 public class Destructor<E> extends Thread{
 	
-	private String id;
-	private String type;
-	private ArrayList<E> Destructed;
-	private FileHandler fileHandler;
-	private Logger logger = Logger.getLogger("Destuctor_"+this.id);
+	private String 			id;
+	private String 			type;
+	private ArrayList<E> 	Destructed;
+	private FileHandler 	fileHandler;
+	private Logger 			logger = Logger.getLogger("Destuctor_"+this.id);
 	
 	public Destructor(String id, String type, ArrayList<E> destructed) throws SecurityException, IOException {
 		super();
 		this.id = id;
 		this.type = type;
 		this.Destructed = destructed;
+//		this.logger = Logger.getLogger("Destuctor_"+this.id);
 		this.setLogger();
 	} 
 	
@@ -42,10 +43,5 @@ public class Destructor<E> extends Thread{
 		}
 		this.Destructed.add(destruct);
 	}
-	
-	
-	
-	
-	
 
 }
