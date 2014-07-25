@@ -6,8 +6,13 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Launcher extends Thread {
+	
+	private static Logger logger = Logger.getLogger("warLogger");
+	
+	private ArrayList<Object> arr = new ArrayList<Object>();
 	private String 				id;
 	private boolean 			isHidden;
 	private boolean 			isRunning = true;
@@ -25,6 +30,9 @@ public class Launcher extends Thread {
 		this.missiles = missiles;
 //		this.locker = new ReentrantLock();
 		this.fileHandler = new FileHandler("Launcher_" + this.id + ".txt", false);
+		fileHandler.setFilter(new ObjectFilter(this));
+		fileHandler.setFormatter(new MyFormatter());
+		
 	}
 
 	public Launcher(String id, boolean isHidden) throws SecurityException,
@@ -34,15 +42,22 @@ public class Launcher extends Thread {
 		this.isHidden = isHidden;
 		this.missiles = new ArrayList<Missile>();
 		this.fileHandler = new FileHandler("Launcher_" + this.id + ".txt", false);
+		fileHandler.setFilter(new ObjectFilter(this));
+		fileHandler.setFormatter(new MyFormatter());
+		
+		
 	}
 
 	@Override
 	public void run() {
+		arr.add(this);
 		Iterator<Missile> iterator = missiles.iterator();
 		while (iterator.hasNext() && isRunning) {
 			Missile missile = iterator.next();
-			TheLogger.printLog(this.fileHandler, "INFO", "Launching Missle: "
-							 + missile.getMissileId());
+			arr.add(missile);
+			logger.log(Level.INFO, "Launching Missle: " + missile.getMissileId(), this);
+//			TheLogger.printLog(this.fileHandler, "INFO", "Launching Missle: "
+//							 + missile.getMissileId());
 			missile.start();
 			try {
 				latch = new CountDownLatch(1);

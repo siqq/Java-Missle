@@ -1,9 +1,13 @@
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Lock;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Missile extends Thread {
 
+	private static Logger logger = Logger.getLogger("warLogger");
+	
 	private boolean 		isRunning;
 	private String 			missileId;
 	private String 			destination;
@@ -25,6 +29,8 @@ public class Missile extends Thread {
 		this.damage = damage;
 		this.launcherId = launcherId;
 		this.fileHandler = fileHandler;
+		//fileHandler.setFilter(new ObjectFilter(this));
+		fileHandler.setFormatter(new MyFormatter());
 	}
 
 	public String getMissileId() {
@@ -41,12 +47,17 @@ public class Missile extends Thread {
 			// print to log that missile successfully hit targer
 			String print_log = "Missle from launcher " + this.launcherId
 							 + " hit its target with " + this.damage + " damage";
-			TheLogger.printLog(fileHandler, "INFO", print_log);
+//			TheLogger.printLog(fileHandler, "INFO", print_log);
+			
+			logger.log(Level.INFO, print_log, this);
 
 		} catch (InterruptedException e) {
 			// print to log that missile was destroyed
 			String print_log = "Missle from launcher " + this.launcherId + " was Bombed";
-			TheLogger.printLog(fileHandler, "INFO", print_log);
+			
+//			TheLogger.printLog(fileHandler, "INFO", print_log);
+			logger.log(Level.INFO, print_log, this);
+			
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
