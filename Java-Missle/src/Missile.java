@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class Missile extends Thread {
 
 	private static Logger logger = Logger.getLogger("warLogger");
-	
+
 	private boolean 		isRunning;
 	private String 			missileId;
 	private String 			destination;
@@ -28,9 +28,12 @@ public class Missile extends Thread {
 		this.flyTime = flyTime;
 		this.damage = damage;
 		this.launcherId = launcherId;
+		
 		this.fileHandler = fileHandler;
-		//fileHandler.setFilter(new ObjectFilter(this));
+		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
+		filter.addFilter(this);
 		fileHandler.setFormatter(new MyFormatter());
+
 	}
 
 	public String getMissileId() {
@@ -45,27 +48,26 @@ public class Missile extends Thread {
 			latch.countDown();		// wake up launcher after missile finish
 
 			// print to log that missile successfully hit targer
-			String print_log = "Missle from launcher " + this.launcherId
+			String print_log = "Missle "+ this.missileId +" from launcher " + this.launcherId
 							 + " hit its target with " + this.damage + " damage";
-//			TheLogger.printLog(fileHandler, "INFO", print_log);
-			
-			logger.log(Level.INFO, print_log, this);
+			Object arr[] = {this};
+			logger.log(Level.INFO, print_log, arr);
 
 		} catch (InterruptedException e) {
-			// print to log that missile was destroyed
-			String print_log = "Missle from launcher " + this.launcherId + " was Bombed";
-			
-//			TheLogger.printLog(fileHandler, "INFO", print_log);
-			logger.log(Level.INFO, print_log, this);
-			
+
+
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public void destroy() {
+	public void destroy(Destructor<DestructedMissile> destructor) {
 		synchronized (this) {
+			Object arr[] = {this, destructor};
+			// print to log that missile was destroyed
+			String print_log = "Missle "+ this.missileId +" from launcher " + this.launcherId + " was Bombed";
+			logger.log(Level.INFO, print_log, arr);
+			
 			if (isRunning) {
 				this.interrupt();
 			}

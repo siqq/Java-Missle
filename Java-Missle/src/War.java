@@ -22,7 +22,8 @@ import org.xml.sax.SAXException;
  * 
  */
 public class War extends Thread {
-
+	
+	private static Logger logger = Logger.getLogger("warLogger");
 
 	private ArrayList<Launcher> missileLaunchers = new ArrayList<>();
 	private ArrayList<Destructor<DestructedMissile>> missileDestructors = new ArrayList<>();
@@ -36,6 +37,9 @@ public class War extends Thread {
 	 * @throws IOException
 	 */
 	public War() throws ParserConfigurationException, SAXException, IOException {
+		FileHandler fileHandler = new FileHandler("war_log.txt");
+		fileHandler.setFormatter(new MyFormatter());
+		logger.addHandler(fileHandler);
 	}
 	
 	public void setMissileLaunchers(ArrayList<Launcher> missileLaunchers) {
