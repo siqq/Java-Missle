@@ -11,23 +11,21 @@ public class Missile extends Thread {
 	private boolean 		isRunning;
 	private String 			missileId;
 	private String 			destination;
-	private String 			launcherId;
 	private int 			launchTime;
 	private int 			flyTime;
 	private int 			damage;
-	private Lock 			locker;
 	private FileHandler 	fileHandler;
+	private Lock 			locker;
 	private CountDownLatch 	latch;
 
 	public Missile(String id, String destination, int launchTime, int flyTime,
-			int damage, String launcherId, FileHandler fileHandler) {
+			int damage, FileHandler fileHandler) {
 		this.isRunning = true;
 		this.missileId = id;
 		this.destination = destination;
 		this.launchTime = launchTime;
 		this.flyTime = flyTime;
 		this.damage = damage;
-		this.launcherId = launcherId;
 		
 		this.fileHandler = fileHandler;
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
@@ -39,20 +37,36 @@ public class Missile extends Thread {
 	public String getMissileId() {
 		return missileId;
 	}
+	
+	public boolean isRunning() {
+		return isRunning;
+	}
 
+	public int getLaunchTime() {
+		return launchTime;
+	}
+
+	public int getFlyTime() {
+		return flyTime;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+	
 	@Override
 	public void run() {
 		try {
 			sleep(launchTime * 1000);
 			sleep(flyTime * 1000);
-			latch.countDown();		// wake up launcher after missile finish
-
+			
 			// print to log that missile successfully hit targer
-			String print_log = "Missle "+ this.missileId +" from launcher " + this.launcherId
-							 + " hit its target with " + this.damage + " damage";
+			String print_log = "Missle "+ this.missileId + " hit its target with " + this.damage + " damage";
 			Object arr[] = {this};
 			logger.log(Level.INFO, print_log, arr);
 
+			latch.countDown();		// wake up launcher after missile finish
+			
 		} catch (InterruptedException e) {
 
 
@@ -61,11 +75,11 @@ public class Missile extends Thread {
 		}
 	}
 
-	public void destroy(Destructor<DestructedMissile> destructor) {
+	public void destroy(DestructedMissile destructor) {
 		synchronized (this) {
 			Object arr[] = {this, destructor};
 			// print to log that missile was destroyed
-			String print_log = "Missle "+ this.missileId +" from launcher " + this.launcherId + " was Bombed";
+			String print_log = "Missle "+ this.missileId +" was Bombed";
 			logger.log(Level.INFO, print_log, arr);
 			
 			if (isRunning) {
@@ -74,12 +88,6 @@ public class Missile extends Thread {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "Missile [id=" + missileId + ", destination=" + destination
-				+ ", launchTime=" + launchTime + ", flyTime=" + flyTime
-				+ ", damage=" + damage + "]";
-	}
 
 	public void addLocker(Lock locker, CountDownLatch latch) {
 		this.locker = locker;

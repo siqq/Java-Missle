@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Vector;
 import java.util.Iterator;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -22,12 +22,12 @@ import org.xml.sax.SAXException;
  * 
  */
 public class War extends Thread {
-	
+
 	private static Logger logger = Logger.getLogger("warLogger");
 
-	private ArrayList<Launcher> missileLaunchers = new ArrayList<>();
-	private ArrayList<Destructor<DestructedMissile>> missileDestructors = new ArrayList<>();
-	private ArrayList<Destructor<DestructedLanucher>> missileLauncherDestructors = new ArrayList<>();
+	private Vector<Launcher> missileLaunchers = new Vector<>();
+	private Vector<Destructor<DestructedMissile>> missileDestructors = new Vector<>();
+	private Vector<Destructor<DestructedLanucher>> missileLauncherDestructors = new Vector<>();
 
 	/**
 	 * Constructor for the war which take from XML the stats to begin
@@ -41,40 +41,42 @@ public class War extends Thread {
 		fileHandler.setFormatter(new MyFormatter());
 		logger.addHandler(fileHandler);
 	}
-	
-	public void setMissileLaunchers(ArrayList<Launcher> missileLaunchers) {
+
+	public void setMissileLaunchers(Vector<Launcher> missileLaunchers) {
 		this.missileLaunchers = missileLaunchers;
 	}
 
 	public void setMissileDestructors(
-			ArrayList<Destructor<DestructedMissile>> missileDestructors) {
+			Vector<Destructor<DestructedMissile>> missileDestructors) {
 		this.missileDestructors = missileDestructors;
 	}
 
 	public void setMissileLauncherDestructors(
-			ArrayList<Destructor<DestructedLanucher>> missileLauncherDestructors) {
+			Vector<Destructor<DestructedLanucher>> missileLauncherDestructors) {
 		this.missileLauncherDestructors = missileLauncherDestructors;
 	}
+	
 	/**
 	 * This method start all the other threads this is where all the war begins.
 	 */
 	public void run() {
-		for (int i = 0; i < missileLaunchers.size(); i++) {
+		int size = missileLaunchers.size();
+		for (int i = 0; i < size; i++) {
 			Launcher l = missileLaunchers.get(i);
 			l.start();
 		}
 		/*
-		 * Iterator<Launcher> iterator_launcher = missileLaunchers.iterator();
-		 * while (iterator_launcher.hasNext()) {
-		 * iterator_launcher.next().start(); }
-		 * 
-		 * Iterator<Destructor<DestructedLanucher>> iterator_destructL =
-		 * missileLauncherDestructors.iterator(); while
-		 * (iterator_destructL.hasNext()) { iterator_destructL.next().start(); }
-		 * Iterator<Destructor<DestructedMissile>> iterator_destructM =
-		 * missileDestructors.iterator(); while (iterator_destructM.hasNext()) {
-		 * iterator_destructM.next().start(); }
-		 */
+		size = missileLauncherDestructors.size();
+		for (int i = 0; i < size; i++) {
+			Destructor<DestructedLanucher> d = missileLauncherDestructors.get(i);
+			d.start();
+		}
+		*/
+		size = missileDestructors.size();
+		for (int i = 0; i < size; i++) {
+			Destructor<DestructedMissile> d = missileDestructors.get(i);
+			d.start();
+		}
 	}
 
 }

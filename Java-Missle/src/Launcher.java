@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Vector;
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Lock;
@@ -15,12 +15,12 @@ public class Launcher extends Thread {
 	private String 				id;
 	private boolean 			isHidden;
 	private boolean 			isRunning;
-	private ArrayList<Missile> 	missiles;
+	private Vector<Missile> 	missiles;
 	private Lock 				locker;
 	private CountDownLatch 		latch;
 	private FileHandler 		fileHandler;
 
-	public Launcher(String id, boolean isHidden, ArrayList<Missile> missiles)
+	public Launcher(String id, boolean isHidden, Vector<Missile> missiles)
 			throws SecurityException, IOException {
 		super();
 		this.id = id;
@@ -41,7 +41,7 @@ public class Launcher extends Thread {
 		super();
 		this.id = id;
 		this.isHidden = isHidden;
-		this.missiles = new ArrayList<Missile>();
+		this.missiles = new Vector<Missile>();
 		this.isRunning = true;
 		this.locker = new ReentrantLock();
 		
@@ -73,16 +73,15 @@ public class Launcher extends Thread {
 		}
 	}
 
+	
+	public Vector<Missile> getMissiles() {
+		return missiles;
+	}
+
 	public void addMissile(String id2, String destination, int launchtime,
 			int flytime, int damage) {
-		Missile missile = new Missile(id2, destination, launchtime, flytime,
-				damage, this.id, this.fileHandler);
+		Missile missile = new Missile(id2, destination, launchtime, flytime, damage, this.fileHandler);
 		this.missiles.add(missile);
 	}
 
-	@Override
-	public String toString() {
-		return "Launcher [id=" + id + ", isHidden=" + isHidden + ", missiles="
-				+ missiles + "]";
-	}
 }

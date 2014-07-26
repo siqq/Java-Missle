@@ -1,47 +1,70 @@
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Vector;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Lock;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class Destructor<E> extends Thread{
 	
-	private String 			id;
-	private String 			type;
-	private ArrayList<E> 	Destructed;
-	private FileHandler 	fileHandler;
-	private Logger 			logger = Logger.getLogger("Destuctor_"+this.id);
+	private static Logger logger = Logger.getLogger("warLogger");
 	
-	public Destructor(String id, String type, ArrayList<E> destructed) throws SecurityException, IOException {
+	private String 				id;
+	private String 				type;
+	private Vector<E> 			Destructed;
+	private FileHandler 		fileHandler;
+	private Lock 				locker;
+	private CountDownLatch 		latch;
+	
+	public Destructor(String id, String type, Vector<E> destructed) throws SecurityException, IOException {
 		super();
 		this.id = id;
 		this.type = type;
 		this.Destructed = destructed;
-//		this.logger = Logger.getLogger("Destuctor_"+this.id);
-		this.setLogger();
-	} 
-	
-	public void setLogger() throws SecurityException, IOException {
-		fileHandler = new FileHandler("Destructor_"+this.id+".xml", false);
-		logger.addHandler(fileHandler);
-		logger.setUseParentHandlers(false);
+		
+		fileHandler = new FileHandler("Destructor_"+this.id+".txt", false);
+		fileHandler.setFilter(new ObjectFilter(this));
 		fileHandler.setFormatter(new MyFormatter());
-	}
-	
-	@Override
-	public String toString() {
-		return "Destructor [id=" + id + ", type=" + type + ", Destructed=" + Destructed + "]";
-	}
-
+		logger.addHandler(fileHandler);
+		
+	} 
 
 	public void addDestructMissile(E destruct) {
 		if (destruct instanceof DestructedMissile) {
-			((DestructedMissile)(destruct)).addLogger(logger);
+			((DestructedMissile)(destruct)).addFileHandler(this.fileHandler);
 		}
 		else if (destruct instanceof DestructedLanucher) {
-			((DestructedLanucher)(destruct)).addLogger(logger);
+			((DestructedLanucher)(destruct)).addFileHandler(this.fileHandler);
 		}
 		this.Destructed.add(destruct);
+	}
+	
+	@Override
+	public void run() {
+		Iterator<E> iterator = Destructed.iterator();
+		synchronized (iterator) {
+			while (iterator.hasNext()) {
+				E destruct = iterator.next();
+				Object arr[] = {this};
+				logger.log(Level.INFO, "Launching destructor from type: " + this.type, arr);
+				
+				((Thread) destruct).start();
+				try {
+					latch = new CountDownLatch(1);
+					if (destruct instanceof DestructedMissile) {
+						((DestructedMissile) destruct).addLocker(locker, latch);
+					}
+					latch.await();		// wait untill the destructor will hit or miss
+
+				} catch (InterruptedException e) {
+				
+				}
+			}
+		}
+		
 	}
 
 }

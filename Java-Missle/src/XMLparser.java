@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,12 +15,15 @@ import org.xml.sax.SAXException;
 
 public class XMLparser {
 
-	private ArrayList<Launcher> missileLaunchers = new ArrayList<>();
-	private ArrayList<Destructor<DestructedMissile>> missileDestructors = new ArrayList<>();
-	private ArrayList<Destructor<DestructedLanucher>> missileLauncherDestructors = new ArrayList<>();
-
+	private Vector<Launcher> missileLaunchers = new Vector<>();
+	private Vector<Destructor<DestructedMissile>> missileDestructors = new Vector<>();
+	private Vector<Destructor<DestructedLanucher>> missileLauncherDestructors = new Vector<>();
+	private War war;
+	
+	public XMLparser() throws ParserConfigurationException, SAXException, IOException {
+		this.war = new War();
+	}
 	public War readXML() throws ParserConfigurationException, SAXException, IOException {
-		War war = new War();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		// Get the DOM Builder
 		DocumentBuilder builder;
@@ -75,10 +78,10 @@ public class XMLparser {
 				String type = launcher.getAttributes().getNamedItem("type").getNodeValue();
 				if ((rootNode.getNodeName().equals("missileDestructors"))) {
 					missileDestructors.add(new Destructor<DestructedMissile>(
-							id, type, new ArrayList<DestructedMissile>()));
+							id, type, new Vector<DestructedMissile>()));
 				} else {
 					missileLauncherDestructors.add(new Destructor<DestructedLanucher>(id, type,
-							new ArrayList<DestructedLanucher>()));
+							new Vector<DestructedLanucher>()));
 				}
 			}
 		}
@@ -116,7 +119,7 @@ public class XMLparser {
 				int destructAfterLaunch = Integer.parseInt(missile
 						.getAttributes().getNamedItem("destructAfterLaunch").getNodeValue());
 				// get the destructor and then add missile destructor to it
-				DestructedMissile destructedM = new DestructedMissile(id, destructAfterLaunch);
+				DestructedMissile destructedM = new DestructedMissile(getMissileById(id), destructAfterLaunch);
 				Destructor<DestructedMissile> destructor_m = missileDestructors.get(index / 2);
 				destructor_m.addDestructMissile(destructedM);
 				break;
@@ -133,6 +136,26 @@ public class XMLparser {
 				break;
 			}
 		}
+	}
+	
+	/**
+	 * get id and search for missile with that id in missileLaunchers vector
+	 * @param id
+	 * @return wanted Missile from war
+	 */
+	public Missile getMissileById(String id) {
+		int size_launcher = missileLaunchers.size();
+		for (int i = 0; i < size_launcher; i++) {
+			Launcher l = missileLaunchers.elementAt(i);
+			int size_missile = l.getMissiles().size();
+			for (int j=0; j < size_missile; j++){
+				Missile m = l.getMissiles().elementAt(j);
+				if (id.equals(m.getMissileId())) {
+					return m;
+				}
+			}
+		}
+		return null;
 	}
 
 }
