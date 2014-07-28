@@ -54,7 +54,6 @@ public class DestructedMissile extends Thread{
 	}
 
 	public void addFileHandler(FileHandler fileHandler) {
-		System.out.println(this.missile.getMissileId() + " -");
 		this.fileHandler = fileHandler;
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
 		filter.addFilter(this);
