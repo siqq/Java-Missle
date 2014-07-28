@@ -33,7 +33,9 @@ public class Destructor<E> extends Thread{
 	} 
 
 	public void addDestructMissile(E destruct) {
+		
 		if (destruct instanceof DestructedMissile) {
+			System.out.println(1);
 			((DestructedMissile)(destruct)).addFileHandler(this.fileHandler);
 		}
 		else if (destruct instanceof DestructedLanucher) {
@@ -45,26 +47,17 @@ public class Destructor<E> extends Thread{
 	@Override
 	public void run() {
 		Iterator<E> iterator = Destructed.iterator();
-		synchronized (iterator) {
-			while (iterator.hasNext()) {
-				E destruct = iterator.next();
-				Object arr[] = {this};
-				logger.log(Level.INFO, "Launching destructor from type: " + this.type, arr);
-				
-				((Thread) destruct).start();
-				try {
-					latch = new CountDownLatch(1);
-					if (destruct instanceof DestructedMissile) {
-						((DestructedMissile) destruct).addLocker(locker, latch);
-					}
-					latch.await();		// wait untill the destructor will hit or miss
+		while (iterator.hasNext()) {
+			E destruct = iterator.next();
 
-				} catch (InterruptedException e) {
-				
-				}
-			}
+			((Thread) destruct).start();
+			/*
+			try {
+				((Thread) destruct).join(); // wait untill the destructor will hit or miss
+			} catch (InterruptedException e) {
+
+			}*/
 		}
-		
 	}
 
 }

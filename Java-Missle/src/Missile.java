@@ -57,35 +57,36 @@ public class Missile extends Thread {
 	@Override
 	public void run() {
 		try {
-			sleep(launchTime * 1000);
-			sleep(flyTime * 1000);
-			
-			// print to log that missile successfully hit targer
-			String print_log = "Missle "+ this.missileId + " hit its target with " + this.damage + " damage";
 			Object arr[] = {this};
-			logger.log(Level.INFO, print_log, arr);
-
-			latch.countDown();		// wake up launcher after missile finish
+			synchronized (this) {
+				sleep(launchTime * Constatns.TIME_INTERVAL);
+				String print_log = "Missle "+ this.missileId + " was launched";
+				logger.log(Level.INFO, print_log, arr);
+				latch.countDown();	// wake up destructor after missile launch
+				sleep(flyTime * Constatns.TIME_INTERVAL);
 			
+				// print to log that missile successfully hit targer
+				print_log = "Missle "+ this.missileId + " hit its target with " + this.damage + " damage";
+				logger.log(Level.INFO, print_log, arr);
+				this.isRunning = false;
+			}	
 		} catch (InterruptedException e) {
-
-
+			this.isRunning = false;
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	public void destroy(DestructedMissile destructor) {
-		synchronized (this) {
+		if (isRunning) {
 			Object arr[] = {this, destructor};
 			// print to log that missile was destroyed
 			String print_log = "Missle "+ this.missileId +" was Bombed";
 			logger.log(Level.INFO, print_log, arr);
-			
-			if (isRunning) {
-				this.interrupt();
-			}
+			this.interrupt();
 		}
+
 	}
 
 

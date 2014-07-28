@@ -22,28 +22,30 @@ public class DestructedMissile extends Thread{
 	
 	public void run() {
 		try {
-			sleep(missile.getLaunchTime()*1000);  //wait untill missile launch
-			sleep(this.destructAfterLaunch*1000); //wait untill destroy after launch
+			latch = new CountDownLatch(1);
+			missile.addLocker(locker, latch);
+			latch.await();	// wait untill the missile will be launched
+			
+			sleep(this.destructAfterLaunch * Constatns.TIME_INTERVAL); //wait untill destroy after launch
+			
 			synchronized (this) {
+				Object arr[] = {this};
+				logger.log(Level.INFO, "Launching Missile Destructor for missile :" + missile.getMissileId(), arr);
 				boolean destroy = false;
 				//try to destroy missile only if it didnt hit target
 				if (this.destructAfterLaunch < missile.getFlyTime()) {
 					//generate random success
 					double rate = Math.random();
-					//80% success rate
-					if (rate > 0.2) { 
+					//if rate bigger than success rate it will destroy
+					if (rate > Constatns.SUCCESS_RATE) { 
 						missile.destroy(this);
 						destroy = true;
 					}
 				}
 				if (!destroy) {
 					int destruct_time = this.destructAfterLaunch + missile.getLaunchTime();
-					Object arr[] = {this};
 					logger.log(Level.INFO, "Destruction of missile " + missile.getMissileId() +" was failed at time " + destruct_time, arr);
 				}
-				
-				latch.countDown();		// wake up destructor after missile finish
-				
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -52,6 +54,7 @@ public class DestructedMissile extends Thread{
 	}
 
 	public void addFileHandler(FileHandler fileHandler) {
+		System.out.println(this.missile.getMissileId() + " -");
 		this.fileHandler = fileHandler;
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
 		filter.addFilter(this);

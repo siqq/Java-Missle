@@ -55,22 +55,22 @@ public class Launcher extends Thread {
 
 	@Override
 	public void run() {
-		Iterator<Missile> iterator = missiles.iterator();
-		while (iterator.hasNext() && isRunning) {
-			Missile missile = iterator.next();
-			Object arr[] = {this};
-			logger.log(Level.INFO, "Launching Missle: " + missile.getMissileId(), arr);
-			
-			missile.start();
-			try {
-				latch = new CountDownLatch(1);
-				missile.addLocker(locker, latch);
-				latch.await();		// wait untill the missile will hit or destroy
-
-			} catch (InterruptedException e) {
-				logger.log(Level.INFO, "Launcher: " + this.id + " was destroyed", this);  //need to move to different method
+		synchronized (this) {
+			Iterator<Missile> iterator = missiles.iterator();
+			while (iterator.hasNext() && isRunning) {
+				Missile missile = iterator.next();
+				Object arr[] = {this};
+				logger.log(Level.INFO, "Launcher id: " + this.id + " preparing Missle: " + missile.getMissileId() + " to launch", arr);
+				
+				missile.start();
+				try {
+					missile.join(); // wait untill the missile will hit or destroy
+				} catch (InterruptedException e) {
+					logger.log(Level.INFO, "Launcher: " + this.id + " was destroyed", this);  //need to move to different method
+				}
 			}
 		}
+		
 	}
 
 	

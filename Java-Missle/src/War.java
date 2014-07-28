@@ -60,23 +60,27 @@ public class War extends Thread {
 	 * This method start all the other threads this is where all the war begins.
 	 */
 	public void run() {
-		int size = missileLaunchers.size();
-		for (int i = 0; i < size; i++) {
-			Launcher l = missileLaunchers.get(i);
-			l.start();
+		synchronized (this) {
+			int size = missileDestructors.size();
+			for (int i = 0; i < size; i++) {
+				Destructor<DestructedMissile> d = missileDestructors.get(i);
+				d.start();
+			}
+			/*
+			size = missileLauncherDestructors.size();
+			for (int i = 0; i < size; i++) {
+				Destructor<DestructedLanucher> d = missileLauncherDestructors.get(i);
+				d.start();
+			}
+			*/
+			
+			size = missileLaunchers.size();
+			for (int i = 0; i < size; i++) {
+				Launcher l = missileLaunchers.get(i);
+				l.start();
+			}
 		}
-		/*
-		size = missileLauncherDestructors.size();
-		for (int i = 0; i < size; i++) {
-			Destructor<DestructedLanucher> d = missileLauncherDestructors.get(i);
-			d.start();
-		}
-		*/
-		size = missileDestructors.size();
-		for (int i = 0; i < size; i++) {
-			Destructor<DestructedMissile> d = missileDestructors.get(i);
-			d.start();
-		}
+		
 	}
 
 }
