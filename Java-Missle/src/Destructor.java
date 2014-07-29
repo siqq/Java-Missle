@@ -35,7 +35,6 @@ public class Destructor<E> extends Thread{
 	public void addDestructMissile(E destruct) {
 		
 		if (destruct instanceof DestructedMissile) {
-			System.out.println(1);
 			((DestructedMissile)(destruct)).addFileHandler(this.fileHandler);
 		}
 		else if (destruct instanceof DestructedLanucher) {
