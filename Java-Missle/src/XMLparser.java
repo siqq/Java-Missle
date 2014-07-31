@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

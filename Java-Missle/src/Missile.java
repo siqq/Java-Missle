@@ -15,23 +15,24 @@ public class Missile extends Thread {
 	private int 			flyTime;
 	private int 			damage;
 	private FileHandler 	fileHandler;
+	private Launcher 		launcher; 
 	private Lock 			locker;
 	private CountDownLatch 	latch;
 
 	public Missile(String id, String destination, int launchTime, int flyTime,
-			int damage, FileHandler fileHandler) {
+			int damage, FileHandler fileHandler, Launcher launcher) {
 		this.isRunning = true;
 		this.missileId = id;
 		this.destination = destination;
 		this.launchTime = launchTime;
 		this.flyTime = flyTime;
 		this.damage = damage;
+		this.launcher = launcher;
 		
 		this.fileHandler = fileHandler;
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
 		filter.addFilter(this);
 		fileHandler.setFormatter(new MyFormatter());
-
 	}
 
 	public String getMissileId() {
@@ -58,24 +59,26 @@ public class Missile extends Thread {
 	public void run() {
 		try {
 			Object arr[] = {this};
-			synchronized (this) {
-				sleep(launchTime * Constatns.TIME_INTERVAL);
-				String print_log = "Missle "+ this.missileId + " was launched";
+			synchronized (launcher) {
+				sleep(launchTime * War.TIME_INTERVAL);
+				String print_log = "Missle "+ this.missileId + " was launched from launcher: "
+						+ this.launcher.getLauncherId();
 				logger.log(Level.INFO, print_log, arr);
 				latch.countDown();	// wake up destructor after missile launch
-				sleep(flyTime * Constatns.TIME_INTERVAL);
-			
+				sleep(flyTime * War.TIME_INTERVAL);
+				
 				// print to log that missile successfully hit targer
-				print_log = "Missle "+ this.missileId + " hit its target with " + this.damage + " damage";
+				print_log = "Missle "+ this.missileId + " hit " + this.destination + 
+						" with " + this.damage + " damage";
 				logger.log(Level.INFO, print_log, arr);
 				this.isRunning = false;
+				
 			}	
 		} catch (InterruptedException e) {
 			this.isRunning = false;
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	public void destroy(DestructedMissile destructor) {
