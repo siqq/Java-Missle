@@ -1,5 +1,3 @@
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.Lock;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,8 +9,6 @@ public class DestructedMissile extends Thread{
 	private Missile 		missile;
 	private int 			destructAfterLaunch;
 	private FileHandler		fileHandler;
-	private Lock 			locker;
-	private CountDownLatch 	latch;
 
 	public DestructedMissile(Missile missile, int destructAfterLaunch) {
 		super();
@@ -22,29 +18,25 @@ public class DestructedMissile extends Thread{
 
 	public void run() {
 		try {
-			latch = new CountDownLatch(1);
-			missile.addLocker(locker, latch);
-			latch.await();	// wait untill the missile will be launched
 
-			sleep(this.destructAfterLaunch * War.TIME_INTERVAL); //wait untill destroy after launch
+			sleep(this.destructAfterLaunch * War.TIME_INTERVAL); //wait untill destroy after war launch
 
 			synchronized (this) {
 				Object arr[] = {this};
-				logger.log(Level.INFO, "Launching Missile Destructor for missile :" + missile.getMissileId(), arr);
+				logger.log(Level.INFO, "Trying to destroy missile :" + missile.getMissileId() + " from Missile Destructor", arr);
 				boolean destroy = false;
 				//try to destroy missile only if it didnt hit target
-				if (this.destructAfterLaunch < missile.getFlyTime()) {
+				if (this.destructAfterLaunch < (missile.getLaunchTime() + missile.getFlyTime())) {
 					//generate random success
 					double rate = Math.random();
 					//if rate bigger than success rate it will destroy
 					if (rate > War.SUCCESS_RATE) { 
-						missile.destroy(this);
+						this.destroyMissile(missile);
 						destroy = true;
 					}
 				}
 				if (!destroy) {
-					int destruct_time = this.destructAfterLaunch + missile.getLaunchTime();
-					logger.log(Level.INFO, "Destruction of missile " + missile.getMissileId() +" was failed at time " + destruct_time, arr);
+					logger.log(Level.INFO, "Destruction of missile " + missile.getMissileId() +" was failed at time " + this.destructAfterLaunch, arr);
 				}
 			}
 		} catch (InterruptedException e) {
@@ -53,6 +45,16 @@ public class DestructedMissile extends Thread{
 
 	}
 
+	public void destroyMissile(Missile missile) {
+		if (missile.isRunning()) {
+			Object arr[] = {this, missile};
+			// print to log that missile was destroyed
+			String print_log = "Missle "+ missile.getMissileId() +" was destroyed";
+			logger.log(Level.INFO, print_log, arr);
+			missile.interrupt();
+		}
+	}
+	
 	public void addFileHandler(FileHandler fileHandler) {
 		this.fileHandler = fileHandler;
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
@@ -62,10 +64,6 @@ public class DestructedMissile extends Thread{
 		logger.addHandler(this.fileHandler);
 	}
 
-	public void addLocker(Lock locker, CountDownLatch latch) {
-		this.locker = locker;
-		this.latch = latch;		
-	}
 
 
 }

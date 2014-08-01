@@ -1,8 +1,6 @@
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.Lock;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
@@ -15,8 +13,6 @@ public class Destructor<E> extends Thread{
 	private String 				type;
 	private Vector<E> 			Destructed;
 	private FileHandler 		fileHandler;
-	private Lock 				locker;
-	private CountDownLatch 		latch;
 	
 	public Destructor(String id, String type, Vector<E> destructed) throws SecurityException, IOException {
 		super();
@@ -49,12 +45,6 @@ public class Destructor<E> extends Thread{
 			E destruct = iterator.next();
 
 			((Thread) destruct).start();
-			/*
-			try {
-				((Thread) destruct).join(); // wait untill the destructor will hit or miss
-			} catch (InterruptedException e) {
-
-			}*/
 		}
 	}
 

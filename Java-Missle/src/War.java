@@ -1,8 +1,11 @@
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.SAXException;
 
 /**
@@ -55,23 +58,25 @@ public class War extends Thread {
 	 */
 	public void run() {
 		synchronized (this) {
-			int size = missileDestructors.size();
+			String print_log = "War Has been started";
+			logger.log(Level.INFO, print_log, this);
+			
+			int size = missileLaunchers.size();
+			for (int i = 0; i < size; i++) {
+				Launcher l = missileLaunchers.get(i);
+				l.start();
+			}
+			
+			size = missileDestructors.size();
 			for (int i = 0; i < size; i++) {
 				Destructor<DestructedMissile> d = missileDestructors.get(i);
 				d.start();
 			}
-			/*
+			
 			size = missileLauncherDestructors.size();
 			for (int i = 0; i < size; i++) {
 				Destructor<DestructedLanucher> d = missileLauncherDestructors.get(i);
 				d.start();
-			}
-			 */
-
-			size = missileLaunchers.size();
-			for (int i = 0; i < size; i++) {
-				Launcher l = missileLaunchers.get(i);
-				l.start();
 			}
 		}
 

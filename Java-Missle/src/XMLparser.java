@@ -129,7 +129,7 @@ public class XMLparser {
 						.getNamedItem("destructTime").getNodeValue());
 				// get the destructor and then add missile launcher destructor
 				// to it
-				DestructedLanucher destructedL = new DestructedLanucher(id, destructTime);
+				DestructedLanucher destructedL = new DestructedLanucher(getLauncherById(id), destructTime);
 				Destructor<DestructedLanucher> destructor_l = missileLauncherDestructors.get(index / 2);
 				destructor_l.addDestructMissile(destructedL);
 				break;
@@ -152,6 +152,22 @@ public class XMLparser {
 				if (id.equals(m.getMissileId())) {
 					return m;
 				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * get id and search for Launcher with that id in missileLaunchers vector
+	 * @param id
+	 * @return wanted Launcher from war
+	 */
+	public Launcher getLauncherById(String id) {
+		int size_launcher = missileLaunchers.size();
+		for (int i = 0; i < size_launcher; i++) {
+			Launcher l = missileLaunchers.elementAt(i);
+			if (id.equals(l.getLauncherId())) {
+				return l;
 			}
 		}
 		return null;
