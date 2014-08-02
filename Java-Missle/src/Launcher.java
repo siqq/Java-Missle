@@ -73,6 +73,7 @@ public class Launcher extends Thread {
 
 	public void addMissile(String id, String destination, int launchtime,
 			int flytime, int damage) {
+		System.out.println(id + " " + this.id);
 		Missile missile = new Missile(id, destination, launchtime, flytime, damage, this.fileHandler, this);
 		this.missiles.add(missile);
 		synchronized (this) {
@@ -98,6 +99,7 @@ public class Launcher extends Thread {
 		this.isHidden = true;
 	}
 
+	/*
 	//stop all missile that will not launch
 	public void stopAllMissiles() {
 		synchronized (this) {
@@ -107,6 +109,10 @@ public class Launcher extends Thread {
 				missile.interrupt();
 			}
 		}
+	}*/
+	
+	public void stopLauncher() {
+		this.isRunning = false;
 	}
 	
 	@Override
@@ -114,19 +120,23 @@ public class Launcher extends Thread {
 		try {
 			int size = this.getMissiles().size();
 			synchronized (this) {
+				//fix for new launcher 
+				if (size == 0) {
+					wait();
+					size = this.getMissiles().size();
+					System.out.println("size is : " + size);
+				}
 				for(int i = 0; i < size; i++) {
 					this.getMissiles().get(i).start();		
 					if (i == size-1) {
 						wait();
 						size = this.getMissiles().size();
+						System.out.println("size is : " + size);
 					}
 				}
 			}
 		} catch (InterruptedException e) {
-			synchronized (this) {
-				this.isRunning = false;
-				stopAllMissiles();
-			}
+			
 		}
 	}
 }

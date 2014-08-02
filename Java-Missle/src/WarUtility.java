@@ -40,4 +40,17 @@ public class WarUtility {
 		}
 		return null;
 	}
+
+	public static Destructor<DestructedLanucher> getDestructorById(String id, War war) {
+		
+		Vector<Destructor<DestructedLanucher>> destructors = war.getMissileLauncherDestructors();
+		int size_launcher = destructors.size();
+		for (int i = 0; i < size_launcher; i++) {
+			Destructor<DestructedLanucher> d = destructors.elementAt(i);
+			if (id.equals(d.getDestructorId())) {
+				return d;
+			}
+		}
+		return null;
+	}
 }

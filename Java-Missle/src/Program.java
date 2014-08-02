@@ -46,12 +46,15 @@ public class Program {
 				case 4:
 					launchMissile(war);
 					break;
+				case 5:
+					destructLauncher(war);
+					break;
 				case 9:
-					//finish war
+					// finish war
 					System.exit(0);
 					break;
 				}
-				
+
 			} catch (InputMismatchException e) {
 				System.out.println("The Input was Invalid... Please try again");
 				input.nextLine();
@@ -104,6 +107,7 @@ public class Program {
 
 	/**
 	 * search for launcher and add missile to it from user's input
+	 * 
 	 * @param war
 	 * @throws InputMismatchException
 	 */
@@ -113,16 +117,17 @@ public class Program {
 				.println("Choose launcher from the following Launchers list:");
 		Vector<Launcher> launchers = war.getMissileLaunchers();
 		printLaunchers(launchers);
-		System.out.print("/nEnter your Choise: ");
-		input.nextLine(); //clean buffer
+		System.out.print("\nEnter your Choise: ");
+		// input.next(); //clean buffer
 		String launcher_id = input.nextLine();
-		//find selected launcher so we can add missile to it
-		Launcher selected_launcher = WarUtility.getLauncherById(launcher_id,war);
+		// find selected launcher so we can add missile to it
+		Launcher selected_launcher = WarUtility.getLauncherById(launcher_id,
+				war);
 		if (selected_launcher == null) {
 			throw new InputMismatchException();
 		}
-		//now create new missile from user input
-		System.out.print("Please insert id: ");
+		// now create new missile from user input
+		System.out.print("Please insert Missile id: ");
 		String missile_id = input.nextLine();
 		System.out.print("Please insert your destination: ");
 		String destination = input.nextLine();
@@ -130,13 +135,57 @@ public class Program {
 		int fly_time = input.nextInt();
 		System.out.print("Please insert potential damage: ");
 		int damage = input.nextInt();
-		
+
 		selected_launcher.addMissile(missile_id, destination, 0, fly_time, damage);
-		
+
+	}
+
+	/**
+	 * pick up a destructor and select a launcher to destruct
+	 * @param war
+	 */
+	private static void destructLauncher(War war) {
+		//first pick a destructor
+		System.out
+				.println("Choose destructor from the following Destructors list:");
+		Vector<Destructor<DestructedLanucher>> destructors = war
+				.getMissileLauncherDestructors();
+		printDestructors(destructors);	
+		System.out.print("\nEnter your Choise: ");
+		String destructor_id = input.nextLine();
+		Destructor<DestructedLanucher> selected_destructor = WarUtility.getDestructorById(destructor_id, war);
+		if (selected_destructor == null) {
+			throw new InputMismatchException();
+		}
+		//now choose it's target
+		System.out
+				.println("Choose a launcher to destruct from the following Launchers list:");
+		Vector<Launcher> launchers = war.getMissileLaunchers();
+		printLaunchers(launchers);
+		System.out.print("\nEnter your Choise: ");
+		String launcher_id = input.nextLine();
+		Launcher selected_launcher = WarUtility.getLauncherById(launcher_id, war);
+		if (selected_launcher == null) {
+			throw new InputMismatchException();
+		}
+		//assign destructor to destruct the launcher
+		selected_destructor.addDestructMissile(new DestructedLanucher(selected_launcher, 0));
+	}
+
+	/**
+	 * print all Destructor's id from destructors array
+	 * @param destructors
+	 */
+	private static <E> void printDestructors(Vector<Destructor<E>> destructors) {
+		for (Destructor<E> d : destructors) {
+			System.out.print("[" + d.getType() + " - " + d.getDestructorId()
+					+ "] ");
+		}
 	}
 
 	/**
 	 * print all launcher's id from launchers array
+	 * 
 	 * @param launchers
 	 */
 	private static void printLaunchers(Vector<Launcher> launchers) {
