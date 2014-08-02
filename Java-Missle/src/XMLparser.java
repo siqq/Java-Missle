@@ -21,6 +21,9 @@ public class XMLparser {
 	
 	public XMLparser() throws ParserConfigurationException, SAXException, IOException {
 		this.war = new War();
+		war.setMissileDestructors(missileDestructors);
+		war.setMissileLauncherDestructors(missileLauncherDestructors);
+		war.setMissileLaunchers(missileLaunchers);
 	}
 	public War readXML() throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -50,9 +53,6 @@ public class XMLparser {
 				}
 			}
 		}
-		war.setMissileDestructors(missileDestructors);
-		war.setMissileLauncherDestructors(missileLauncherDestructors);
-		war.setMissileLaunchers(missileLaunchers);
 		return war;
 	}
 
@@ -118,7 +118,7 @@ public class XMLparser {
 				int destructAfterLaunch = Integer.parseInt(missile
 						.getAttributes().getNamedItem("destructAfterLaunch").getNodeValue());
 				// get the destructor and then add missile destructor to it
-				DestructedMissile destructedM = new DestructedMissile(getMissileById(id), destructAfterLaunch);
+				DestructedMissile destructedM = new DestructedMissile(WarUtility.getMissileById(id, war), destructAfterLaunch);
 				Destructor<DestructedMissile> destructor_m = missileDestructors.get(index / 2);
 				destructor_m.addDestructMissile(destructedM);
 				break;
@@ -129,7 +129,7 @@ public class XMLparser {
 						.getNamedItem("destructTime").getNodeValue());
 				// get the destructor and then add missile launcher destructor
 				// to it
-				DestructedLanucher destructedL = new DestructedLanucher(getLauncherById(id), destructTime);
+				DestructedLanucher destructedL = new DestructedLanucher(WarUtility.getLauncherById(id, war), destructTime);
 				Destructor<DestructedLanucher> destructor_l = missileLauncherDestructors.get(index / 2);
 				destructor_l.addDestructMissile(destructedL);
 				break;
@@ -137,40 +137,4 @@ public class XMLparser {
 		}
 	}
 	
-	/**
-	 * get id and search for missile with that id in missileLaunchers vector
-	 * @param id
-	 * @return wanted Missile from war
-	 */
-	public Missile getMissileById(String id) {
-		int size_launcher = missileLaunchers.size();
-		for (int i = 0; i < size_launcher; i++) {
-			Launcher l = missileLaunchers.elementAt(i);
-			int size_missile = l.getMissiles().size();
-			for (int j=0; j < size_missile; j++){
-				Missile m = l.getMissiles().elementAt(j);
-				if (id.equals(m.getMissileId())) {
-					return m;
-				}
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * get id and search for Launcher with that id in missileLaunchers vector
-	 * @param id
-	 * @return wanted Launcher from war
-	 */
-	public Launcher getLauncherById(String id) {
-		int size_launcher = missileLaunchers.size();
-		for (int i = 0; i < size_launcher; i++) {
-			Launcher l = missileLaunchers.elementAt(i);
-			if (id.equals(l.getLauncherId())) {
-				return l;
-			}
-		}
-		return null;
-	}
-
 }

@@ -52,7 +52,34 @@ public class War extends Thread {
 			Vector<Destructor<DestructedLanucher>> missileLauncherDestructors) {
 		this.missileLauncherDestructors = missileLauncherDestructors;
 	}
+	
+	public Vector<Launcher> getMissileLaunchers() {
+		return missileLaunchers;
+	}
 
+	public Vector<Destructor<DestructedMissile>> getMissileDestructors() {
+		return missileDestructors;
+	}
+
+	public Vector<Destructor<DestructedLanucher>> getMissileLauncherDestructors() {
+		return missileLauncherDestructors;
+	}
+
+	public void addLauncherDestructor(Destructor<DestructedLanucher> desctructor) {
+		this.missileLauncherDestructors.add(desctructor);	
+		desctructor.start();
+	}
+	
+	public void addMissileDestructor(Destructor<DestructedMissile> desctructor) {
+		this.missileDestructors.add(desctructor);	
+		desctructor.start();
+	}
+
+	public void addLauncher(Launcher launcher) {
+		this.missileLaunchers.add(launcher);
+		launcher.start();
+	}
+	
 	/**
 	 * This method start all the other threads this is where all the war begins.
 	 */
@@ -79,7 +106,6 @@ public class War extends Thread {
 				d.start();
 			}
 		}
-
 	}
 
 }

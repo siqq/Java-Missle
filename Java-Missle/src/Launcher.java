@@ -62,39 +62,23 @@ public class Launcher extends Thread {
 	public boolean isRunning() {
 		return isRunning;
 	}
-
-	@Override
-	public void run() {
-		try {
-			int size = this.getMissiles().size();
-			synchronized (this) {
-				for(int i = 0; i < size; i++) {
-					this.getMissiles().get(i).start();		
-					if (i == size-1) {
-						System.out.println("size-1 is : " + i);
-						wait();
-						size = this.getMissiles().size();
-					}
-				}
-
-			}
-		} catch (InterruptedException e) {
-			synchronized (this) {
-				System.out.println("enter here");
-				this.isRunning = false;
-				stopAllMissiles();
-			}
-		}
+	
+	public FileHandler getFileHandler() {
+		return fileHandler;
 	}
 
 	public Vector<Missile> getMissiles() {
 		return missiles;
 	}
 
-	public void addMissile(String id2, String destination, int launchtime,
+	public void addMissile(String id, String destination, int launchtime,
 			int flytime, int damage) {
-		Missile missile = new Missile(id2, destination, launchtime, flytime, damage, this.fileHandler, this);
+		Missile missile = new Missile(id, destination, launchtime, flytime, damage, this.fileHandler, this);
 		this.missiles.add(missile);
+		synchronized (this) {
+			this.notify();
+		}
+		
 	}
 
 	public void revealYourSelf() {
@@ -121,6 +105,27 @@ public class Launcher extends Thread {
 			for (int i=0; i<size; i++) {
 				Missile missile = this.missiles.get(i);
 				missile.interrupt();
+			}
+		}
+	}
+	
+	@Override
+	public void run() {
+		try {
+			int size = this.getMissiles().size();
+			synchronized (this) {
+				for(int i = 0; i < size; i++) {
+					this.getMissiles().get(i).start();		
+					if (i == size-1) {
+						wait();
+						size = this.getMissiles().size();
+					}
+				}
+			}
+		} catch (InterruptedException e) {
+			synchronized (this) {
+				this.isRunning = false;
+				stopAllMissiles();
 			}
 		}
 	}
