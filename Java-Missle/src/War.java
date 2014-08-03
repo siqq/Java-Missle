@@ -16,18 +16,23 @@ import org.xml.sax.SAXException;
  */
 public class War extends Thread {
 
-	public static final int TIME_INTERVAL = 1000; 	//sleep time for threads
-	public static final double SUCCESS_RATE = 0.2;	//success rate for destructors
+	public static final int 	TIME_INTERVAL = 1000; 	//sleep time for threads
+	public static final double 	SUCCESS_RATE = 0.2;	//success rate for destructors
 
-	private static Logger logger = Logger.getLogger("warLogger");
+	private static Logger 		logger;
 
-	private Vector<Launcher> missileLaunchers = new Vector<>();
-	private Vector<Destructor<DestructedMissile>> missileDestructors = new Vector<>();
-	private Vector<Destructor<DestructedLanucher>> missileLauncherDestructors = new Vector<>();
+	public static int 			total_launched_missiles = 0;
+	public static int 			total_destroyed_missiles = 0;
+	public static int 			total_missiles_hit = 0;
+	public static int 			total_destroyed_launchers = 0;
+	public static int 			total_damage = 0;
+
+	private Vector<Launcher> 	missileLaunchers = new Vector<>();
+	private Vector<Destructor<DestructedMissile>> 	missileDestructors = new Vector<>();
+	private Vector<Destructor<DestructedLanucher>> 	missileLauncherDestructors = new Vector<>();
 
 	/**
 	 * Constructor for the war which take from XML the stats to begin
-	 * 
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 * @throws IOException
@@ -35,6 +40,7 @@ public class War extends Thread {
 	public War() throws ParserConfigurationException, SAXException, IOException {
 		FileHandler fileHandler = new FileHandler("war_log.txt");
 		fileHandler.setFormatter(new MyFormatter());
+		logger = Logger.getLogger("warLogger");
 		logger.addHandler(fileHandler);
 		logger.setUseParentHandlers(false);
 	}
@@ -52,7 +58,7 @@ public class War extends Thread {
 			Vector<Destructor<DestructedLanucher>> missileLauncherDestructors) {
 		this.missileLauncherDestructors = missileLauncherDestructors;
 	}
-	
+
 	public Vector<Launcher> getMissileLaunchers() {
 		return missileLaunchers;
 	}
@@ -69,7 +75,7 @@ public class War extends Thread {
 		this.missileLauncherDestructors.add(desctructor);	
 		desctructor.start();
 	}
-	
+
 	public void addMissileDestructor(Destructor<DestructedMissile> desctructor) {
 		this.missileDestructors.add(desctructor);	
 		desctructor.start();
@@ -79,30 +85,29 @@ public class War extends Thread {
 		this.missileLaunchers.add(launcher);
 		launcher.start();
 	}
-	
-	/**
-	 * This method start all the other threads this is where all the war begins.
-	 */
+
+	/** This method start all the other threads this is where all the war begins. */
 	public void run() {
 		synchronized (this) {
 			String print_log = "War Has been started";
 			logger.log(Level.INFO, print_log, this);
-			
+
 			int size = missileLaunchers.size();
 			for (int i = 0; i < size; i++) {
 				Launcher l = missileLaunchers.get(i);
 				l.start();
 			}
-			
+
 			size = missileDestructors.size();
 			for (int i = 0; i < size; i++) {
 				Destructor<DestructedMissile> d = missileDestructors.get(i);
 				d.start();
 			}
-			
+
 			size = missileLauncherDestructors.size();
 			for (int i = 0; i < size; i++) {
-				Destructor<DestructedLanucher> d = missileLauncherDestructors.get(i);
+				Destructor<DestructedLanucher> d =
+						missileLauncherDestructors.get(i);
 				d.start();
 			}
 		}

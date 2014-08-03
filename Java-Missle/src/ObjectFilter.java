@@ -2,7 +2,6 @@ import java.util.Vector;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 
-
 public class ObjectFilter implements Filter {
 
 	private Vector<Object> objects = new Vector<Object>();
@@ -15,7 +14,6 @@ public class ObjectFilter implements Filter {
 		this.objects.add(toFilter);
 	}
 	
-	@Override
 	public boolean isLoggable(LogRecord rec) {
 		if(rec.getParameters() != null) {
 			int size = objects.size();
@@ -26,7 +24,6 @@ public class ObjectFilter implements Filter {
 						return true;
 				}
 			}
-			
 		}
 		return false;	
 	}

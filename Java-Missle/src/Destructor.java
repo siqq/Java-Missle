@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -7,14 +6,23 @@ import java.util.logging.Logger;
 
 public class Destructor<E> extends Thread{
 
-	private static Logger logger = Logger.getLogger("warLogger");
+	private static Logger logger;
 
 	private String 				id;
 	private String 				type;
 	private Vector<E> 			Destructed;
 	private FileHandler 		fileHandler;
 
-	public Destructor(String id, String type, Vector<E> destructed) throws SecurityException, IOException {
+	/**
+	 * Constructor 
+	 * @param id
+	 * @param type
+	 * @param destructed
+	 * @throws SecurityException
+	 * @throws IOException
+	 */
+	public Destructor(String id, String type, Vector<E> destructed)
+			throws SecurityException, IOException {
 		super();
 		this.id = id;
 		this.type = type;
@@ -23,18 +31,25 @@ public class Destructor<E> extends Thread{
 		fileHandler = new FileHandler("Destructor_"+this.id+".txt", false);
 		fileHandler.setFilter(new ObjectFilter(this));
 		fileHandler.setFormatter(new MyFormatter());
+		logger = Logger.getLogger("warLogger");
 		logger.addHandler(fileHandler);
-
 	} 
 
+	/** return id of destructor */
 	public String getDestructorId() {
 		return id;
 	}
 
+	/** return type of destructor */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * Add destruct missile by type 
+	 * DestructedMissile / DestructedLanucher
+	 * @param destruct
+	 */
 	public void addDestructMissile(E destruct) {
 
 		if (destruct instanceof DestructedMissile) {
@@ -49,9 +64,7 @@ public class Destructor<E> extends Thread{
 		}
 	}
 
-
-
-	@Override
+	/** Run destructor */
 	public void run() {
 		try {
 			int size = this.Destructed.size();
