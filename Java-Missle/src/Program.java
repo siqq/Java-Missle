@@ -36,8 +36,8 @@ public class Program {
 	/** Print menu */
 	public static void menu(War war) throws SecurityException, IOException {
 		while (true) {
-			System.out.println("press 1: to add new destructed lanucher\n"
-					+ "press 2: to add new destructed missile\n"
+			System.out.println("press 1: to add new lanucher destructor \n"
+					+ "press 2: to add new missile destructor \n"
 					+ "press 3: to add new lanucher\n"
 					+ "press 4: to lanuch missile\n"
 					+ "press 5: to destroy Launcher\n"
@@ -225,7 +225,7 @@ public class Program {
 	 * @param option
 	 */
 	private static void displayStatistics(int option) {
-		System.out.println("The statistics of war is: \n"
+		String statistic = "The statistics of war is: \n"
 				+ "The number of missiles launched:\t" 
 				+ War.total_launched_missiles + "\n"
 				+ "The number of missiles destroyed:\t" 
@@ -235,9 +235,10 @@ public class Program {
 				+ "The number of missile were destroyed:\t" 
 				+ War.total_destroyed_launchers + "\n"
 				+ "The total value of damage caused:\t" 
-				+ War.total_damage);
+				+ War.total_damage + "\n";
+		System.out.println(statistic);
 		if(option == 8) {
-			logger.log(Level.INFO, "end war");
+			logger.log(Level.INFO, "end war\n" + statistic);
 			System.exit(0);
 		}
 	}
