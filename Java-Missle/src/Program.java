@@ -11,10 +11,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class Program {
+	private static final String LAUNCHER = "launcher";
+	private static final String MISSILE = "missile";
 
 	private static Logger logger = Logger.getLogger("warLogger");
 	private static Scanner input = new Scanner(System.in);
-	public static LocalDateTime start_time;	
+	public static LocalDateTime start_time;
 
 	public static void main(String[] args) {
 		try {
@@ -63,9 +65,10 @@ public class Program {
 					launchMissile(war);
 					break;
 				case 5:
-					destructLauncher(war);
+					destructLauncherOrMissile(war, LAUNCHER);
 					break;
 				case 6:
+					destructLauncherOrMissile(war, MISSILE);
 					break;
 				case 7:
 					displayStatistics(option);
@@ -84,42 +87,40 @@ public class Program {
 
 	/**
 	 * Add new Destructor (Iron Dome/Plane/Ship)
+	 * 
 	 * @param war
 	 * @throws InputMismatchException
 	 * @throws SecurityException
 	 * @throws IOException
 	 */
 	public static void addNewDestructor(War war) throws InputMismatchException,
-	SecurityException, IOException {
+			SecurityException, IOException {
 		System.out.print("Please Insert Id: ");
 		String id = input.nextLine();
 		System.out.print("Please Insert Type(Plane/Ship) : ");
 		String type = input.nextLine();
 		if (type.equals("Plane") || type.equals("Ship")) {
-			Destructor<DestructedLanucher> desctructor = 
-					new Destructor<DestructedLanucher>(
-							id, type, new Vector<DestructedLanucher>());
+			Destructor<DestructedLanucher> desctructor = new Destructor<DestructedLanucher>(
+					id, type, new Vector<DestructedLanucher>());
 			war.addLauncherDestructor(desctructor);
-		}
-		else if (type.equals("Iron Dome")) {
-			Destructor<DestructedMissile> desctructor = 
-					new Destructor<DestructedMissile>(
-							id, type, new Vector<DestructedMissile>());
+		} else if (type.equals("Iron Dome")) {
+			Destructor<DestructedMissile> desctructor = new Destructor<DestructedMissile>(
+					id, type, new Vector<DestructedMissile>());
 			war.addMissileDestructor(desctructor);
-		} 
-		else {
+		} else {
 			throw new InputMismatchException();
 		}
 	}
 
 	/**
 	 * add new launcher to war
+	 * 
 	 * @param war
 	 * @throws SecurityException
 	 * @throws IOException
 	 */
 	public static void addNewLauncher(War war) throws SecurityException,
-	IOException {
+			IOException {
 		System.out.print("Please Insert Id: ");
 		String id = input.nextLine();
 		boolean is_hidden = ((int) (Math.random()) == 1) ? true : false;
@@ -128,6 +129,7 @@ public class Program {
 
 	/**
 	 * search for launcher and add missile to it from user's input
+	 * 
 	 * @param war
 	 * @throws InputMismatchException
 	 */
@@ -141,8 +143,8 @@ public class Program {
 		// input.next(); //clean buffer
 		String launcher_id = input.nextLine();
 		// find selected launcher so we can add missile to it
-		Launcher selected_launcher = 
-				WarUtility.getLauncherById(launcher_id, war);
+		Launcher selected_launcher = WarUtility.getLauncherById(launcher_id,
+				war);
 		if (selected_launcher == null) {
 			throw new InputMismatchException();
 		}
@@ -156,91 +158,106 @@ public class Program {
 		System.out.print("Please insert potential damage: ");
 		int damage = input.nextInt();
 
-		selected_launcher.addMissile(missile_id, destination, 0,
-									fly_time, damage);
+		selected_launcher.addMissile(missile_id, destination, 0, fly_time,
+				damage);
 		War.total_launched_missiles++;
 
 	}
 
 	/**
-	 * pick up a destructor and select a launcher to destruct
+	 * choose a destructor and select a launcher to destruct
+	 * 
 	 * @param war
+	 * @param option choose what is the target : LAUNCHER or MISSILE
 	 */
-	private static void destructLauncher(War war) {
-		//first pick a destructor
+	private static <E> void destructLauncherOrMissile(War war, String option) {
+		// first pick a destructor
 		System.out.println("Choose destructor "
 				+ "from the following Destructors list:");
-		Vector<Destructor<DestructedLanucher>> destructors = war
-				.getMissileLauncherDestructors();
-		printDestructors(destructors);
+		if (option.equals(LAUNCHER)) {
+			Vector<Destructor<DestructedLanucher>> destructors = war
+					.getMissileLauncherDestructors();
+			printDestructors(destructors);
+		} else if (option.equals(MISSILE)) {
+			Vector<Destructor<DestructedMissile>> destructors = war
+					.getMissileDestructors();
+			printDestructors(destructors);
+		}
+
 		System.out.print("\nEnter your Choise: ");
 		String destructor_id = input.nextLine();
-		Destructor<DestructedLanucher> selected_destructor = 
-				WarUtility.getDestructorById(destructor_id, war);
+		Destructor<E> selected_destructor = WarUtility.getDestructorById(
+				destructor_id, war);
 		if (selected_destructor == null) {
 			throw new InputMismatchException();
 		}
-		//now choose it's target
+
+		// now choose it's target
 		System.out.println("Choose a launcher to destruct "
 				+ "from the following Launchers list:");
 		Vector<Launcher> launchers = war.getMissileLaunchers();
 		printLaunchers(launchers);
+
 		System.out.print("\nEnter your Choise: ");
-		String launcher_id = input.nextLine();
-		Launcher selected_launcher = WarUtility.getLauncherById(launcher_id, war);
-		if (selected_launcher == null) {
+		String target_id = input.nextLine();
+		Thread target = (option.equals(LAUNCHER)) ? WarUtility.getLauncherById(
+				target_id, war) : WarUtility.getMissileById(target_id, war);
+		if (target == null) {
 			throw new InputMismatchException();
 		}
-		//assign destructor to destruct the launcher
-		selected_destructor.addDestructMissile(new DestructedLanucher(selected_launcher, 0));
+		// assign destructor to destruct the launcher
+		E assigned_destructor = (E) ((option.equals(LAUNCHER)) ? new DestructedLanucher(
+				(Launcher) target, 0) : new DestructedMissile((Missile) target,	0));
+		selected_destructor.addDestructMissile(assigned_destructor);
 	}
 
 	/**
 	 * print all Destructor's id from destructors array
+	 * 
 	 * @param destructors
 	 */
 	private static <E> void printDestructors(Vector<Destructor<E>> destructors) {
 		for (Destructor<E> d : destructors) {
-			System.out.print("[" + d.getType() + " - " 
-					+ d.getDestructorId() + "] ");
+			System.out.print("[" + d.getType() + " - " + d.getDestructorId()
+					+ "] ");
 		}
 	}
 
 	/**
 	 * print all active launcher's id from launchers array
+	 * 
 	 * @param launchers
 	 */
 	private static void printLaunchers(Vector<Launcher> launchers) {
 		for (Launcher l : launchers) {
-			if(l.isRunning()) {
+			if (l.isRunning()) {
 				System.out.print(l.getLauncherId() + " ");
 			}
 		}
 	}
 
 	/**
-	 * The method checks the option that receives
-	 * if option = 7 - only display statistics of war
-	 * if option = 8 - end war and display statistics of war
+	 * The method checks the option that receives if option = 7 - only display
+	 * statistics of war if option = 8 - end war and display statistics of war
+	 * 
 	 * @param option
 	 */
 	private static void displayStatistics(int option) {
 		String statistic = "The statistics of war is: \n"
-				+ "The number of missiles launched:\t" 
+				+ "The number of missiles launched:\t"
 				+ War.total_launched_missiles + "\n"
-				+ "The number of missiles destroyed:\t" 
+				+ "The number of missiles destroyed:\t"
 				+ War.total_destroyed_missiles + "\n"
-				+ "The number of missiles that hit:\t" 
-				+ War.total_missiles_hit + "\n"
-				+ "The number of missile were destroyed:\t" 
+				+ "The number of missiles that hit:\t" + War.total_missiles_hit
+				+ "\n" + "The number of missile were destroyed:\t"
 				+ War.total_destroyed_launchers + "\n"
-				+ "The total value of damage caused:\t" 
-				+ War.total_damage + "\n";
+				+ "The total value of damage caused:\t" + War.total_damage
+				+ "\n";
 		System.out.println(statistic);
-		if(option == 8) {
+		if (option == 8) {
 			logger.log(Level.INFO, "end war\n" + statistic);
 			System.exit(0);
 		}
 	}
-	
+
 }

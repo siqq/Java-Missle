@@ -47,13 +47,21 @@ public class WarUtility {
 	 * @param war
 	 * @return destructe launcher by id
 	 */
-	public static Destructor<DestructedLanucher> getDestructorById(String id
-			, War war) {
-		Vector<Destructor<DestructedLanucher>> destructors =
-				war.getMissileLauncherDestructors();
-		int size_launcher = destructors.size();
+	@SuppressWarnings("unchecked")
+	public static <E> Destructor<E> getDestructorById(String id, War war) {
+		E destruct_type = null;
+		Vector<E> destructors = null;
+		int size_launcher = 0;
+		if (destruct_type instanceof DestructedLanucher) {
+			destructors = (Vector<E>) war.getMissileLauncherDestructors();
+			
+		}
+		else {
+			destructors = (Vector<E>) war.getMissileDestructors();
+		}
+		size_launcher = destructors.size();
 		for (int i = 0; i < size_launcher; i++) {
-			Destructor<DestructedLanucher> d = destructors.elementAt(i);
+			Destructor<E> d = (Destructor<E>) destructors.elementAt(i);
 			if (id.equals(d.getDestructorId())) {
 				return d;
 			}
