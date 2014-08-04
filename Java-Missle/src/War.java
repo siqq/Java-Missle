@@ -27,36 +27,38 @@ public class War extends Thread {
 	public static int 			total_destroyed_launchers = 0;
 	public static int 			total_damage = 0;
 
-	private Vector<Launcher> 	missileLaunchers = new Vector<>();
+	private Vector<Launcher> 						missileLaunchers = new Vector<>();
 	private Vector<Destructor<DestructedMissile>> 	missileDestructors = new Vector<>();
 	private Vector<Destructor<DestructedLanucher>> 	missileLauncherDestructors = new Vector<>();
 
 	/**
 	 * Constructor for the war which take from XML the stats to begin
+	 * @param missileLaunchers2 
+	 * @param missileLauncherDestructors2 
+	 * @param missileDestructors2 
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public War() throws ParserConfigurationException, SAXException, IOException {
+	public War(Vector<Destructor<DestructedMissile>> missileDestructors, 
+			   Vector<Destructor<DestructedLanucher>> missileLauncherDestructors, 
+			   Vector<Launcher> missileLaunchers) 
+		       throws ParserConfigurationException, SAXException, IOException {
+		
 		FileHandler fileHandler = new FileHandler("war_log.txt");
 		fileHandler.setFormatter(new MyFormatter());
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(fileHandler);
 		logger.setUseParentHandlers(false);
-	}
-
-	public void setMissileLaunchers(Vector<Launcher> missileLaunchers) {
 		this.missileLaunchers = missileLaunchers;
-	}
-
-	public void setMissileDestructors(
-			Vector<Destructor<DestructedMissile>> missileDestructors) {
 		this.missileDestructors = missileDestructors;
-	}
-
-	public void setMissileLauncherDestructors(
-			Vector<Destructor<DestructedLanucher>> missileLauncherDestructors) {
 		this.missileLauncherDestructors = missileLauncherDestructors;
+	}
+	
+	public War() {
+		this.missileLaunchers = new Vector<>();
+		this.missileDestructors = new Vector<>();
+		this.missileLauncherDestructors = new Vector<>();
 	}
 
 	public Vector<Launcher> getMissileLaunchers() {

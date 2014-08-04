@@ -8,20 +8,24 @@ public class DestructedLanucher extends Thread {
 	private static Logger 	logger;
 
 	private LocalDateTime 	current_time;
-
-	private Launcher 		launcher;
+	
 	private int 			destructTime;
+	private Launcher 		target; 
 	private FileHandler 	fileHandler;
+	
+	private Destructor<DestructedLanucher> destructor;
 
 	/**
 	 * Constructor
 	 * @param launcher
 	 * @param destructTime
 	 */
-	public DestructedLanucher(Launcher launcher, int destructTime) {
+	public DestructedLanucher(Launcher target, int destructTime, 
+			Destructor<DestructedLanucher> destructor) {
 		super();
-		this.launcher = launcher;
+		this.target = target;
 		this.destructTime = destructTime;
+		this.destructor = destructor;
 	}
 
 	/**
@@ -34,25 +38,24 @@ public class DestructedLanucher extends Thread {
 		filter.addFilter(this);
 		fileHandler.setFormatter(new MyFormatter());
 		logger = Logger.getLogger("warLogger");
-		logger.addHandler(this.fileHandler);
 	}
 
 	/** Run object */
 	public void run() {
-		Object arr[] = {this, launcher};
+		Object arr[] = {this, target};
 		try {
 			sleep(this.destructTime * War.TIME_INTERVAL); // wait untill destroy after war launch
 
 			current_time = LocalDateTime.now();
-			synchronized (this) {
+			synchronized (destructor) {
 				logger.log(Level.INFO, "Trying to destroy launcher :"
-						  + launcher.getLauncherId()
+						  + target.getLauncherId()
 						  + " from Launcher Destructor -" 
-						  + launcher.isHidden(), arr);
+						  + target.isHidden(), arr);
 				// try to destroy launcher
-				if (destroyLauncher(launcher)) {
+				if (destroyLauncher(target)) {
 					// print to log that missile was destroyed
-					String print_log = "Launcher " + launcher.getLauncherId()
+					String print_log = "Launcher " + target.getLauncherId()
 									 + " was destroyed at time " 
 							         + WarUtility.currentTime(current_time);
 					logger.log(Level.INFO, print_log, arr);
@@ -66,37 +69,37 @@ public class DestructedLanucher extends Thread {
 
 	/**
 	 * method to destroy a selected launcher
-	 * @param launcher - the target that need to be destroyed
+	 * @param target - the target that need to be destroyed
 	 * @return true if destruction was success
 	 * @throws Exception with message of fail reason
 	 */
-	public boolean destroyLauncher(Launcher launcher) throws Exception {
-		if (launcher.isRunning()) {
-			if (!launcher.isHidden()) {
+	public boolean destroyLauncher(Launcher target) throws Exception {
+		if (target.isRunning()) {
+			if (!target.isHidden()) {
 				// generate random success
 				double rate = Math.random();
 				// if rate bigger than success rate it will destroy
 				if (rate > War.SUCCESS_RATE) {
-					launcher.stopLauncher();
+					target.stopLauncher();
 					War.total_destroyed_launchers++;
 					
 					return true;
 				} 
 				else {
 					throw new Exception("Destruction of launcher "
-									   + launcher.getLauncherId() 
+									   + target.getLauncherId() 
 									   + " was failed");
 				}
 			}
 			else {
 				throw new Exception("Destruction of launcher "
-								   + launcher.getLauncherId() 
+								   + target.getLauncherId() 
 								   + " was failed - Launcher is hidden!");
 			}
 		} 
 		else {
 			throw new Exception("Destruction of launcher "
-							   + launcher.getLauncherId() 
+							   + target.getLauncherId() 
 							   + " was failed - Launcher is not running!");
 		}
 	}

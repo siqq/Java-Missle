@@ -111,7 +111,6 @@ public class Launcher extends Thread {
 		synchronized (this) {
 			this.notify();
 		}
-
 	}
 
 	/** The method checks the status of launcher 

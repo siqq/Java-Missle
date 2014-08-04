@@ -11,8 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class Program {
-	private static final String LAUNCHER = "launcher";
-	private static final String MISSILE = "missile";
+	public static final String LAUNCHER = "launcher";
+	public static final String MISSILE = "missile";
 
 	private static Logger logger = Logger.getLogger("warLogger");
 	private static Scanner input = new Scanner(System.in);
@@ -213,10 +213,10 @@ public class Program {
 		// assign destructor to destruct the launcher
 		E assigned_destructor = null;
 		if(option.equals(LAUNCHER)) {
-			assigned_destructor = (E)new DestructedLanucher((Launcher) target, 0);
+			assigned_destructor = (E)new DestructedLanucher((Launcher) target, 0, (Destructor<DestructedLanucher>) selected_destructor);
 		}
 		else if(option.equals(MISSILE)) {
-			assigned_destructor = (E) new DestructedMissile((Missile) target,	0);
+			assigned_destructor = (E) new DestructedMissile((Missile) target, 0, (Destructor<DestructedMissile>) selected_destructor);
 			
 		}
 		selected_destructor.addDestructMissile(assigned_destructor);
