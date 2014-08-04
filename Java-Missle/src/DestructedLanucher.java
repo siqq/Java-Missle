@@ -5,13 +5,13 @@ import java.util.logging.Logger;
 
 public class DestructedLanucher extends Thread {
 
-	private static Logger logger;
+	private static Logger 	logger;
 
-	private LocalDateTime current_time;
+	private LocalDateTime 	current_time;
 
-	private Launcher launcher;
-	private int destructTime;
-	private FileHandler fileHandler;
+	private Launcher 		launcher;
+	private int 			destructTime;
+	private FileHandler 	fileHandler;
 
 	/**
 	 * Constructor
@@ -79,6 +79,7 @@ public class DestructedLanucher extends Thread {
 				if (rate > War.SUCCESS_RATE) {
 					launcher.stopLauncher();
 					War.total_destroyed_launchers++;
+					
 					return true;
 				} 
 				else {

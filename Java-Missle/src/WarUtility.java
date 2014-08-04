@@ -2,6 +2,10 @@ import java.time.LocalDateTime;
 import java.util.Vector;
 
 public class WarUtility {
+	
+	private static final int HOUR = 24;
+	private static final int MINUTE = 60;
+	private static final int SECOND = 60;
 
 	/**
 	 * get id and search for missile with that id in missileLaunchers vector
@@ -48,13 +52,11 @@ public class WarUtility {
 	 * @return destructe launcher by id
 	 */
 	@SuppressWarnings("unchecked")
-	public static <E> Destructor<E> getDestructorById(String id, War war) {
-		E destruct_type = null;
+	public static <E> Destructor<E> getDestructorById(String id, War war, String type) {
 		Vector<E> destructors = null;
 		int size_launcher = 0;
-		if (destruct_type instanceof DestructedLanucher) {
+		if (type.equals("launcher")) {
 			destructors = (Vector<E>) war.getMissileLauncherDestructors();
-			
 		}
 		else {
 			destructors = (Vector<E>) war.getMissileDestructors();
@@ -67,6 +69,25 @@ public class WarUtility {
 			}
 		}
 		return null;
+		
+//		Object destruct_type = type;
+//		Vector<E> destructors = null;
+//		int size_launcher = 0;
+//		if (destruct_type instanceof DestructedLanucher) {
+//			destructors = (Vector<E>) war.getMissileLauncherDestructors();
+//			
+//		}
+//		else {
+//			destructors = (Vector<E>) war.getMissileDestructors();
+//		}
+//		size_launcher = destructors.size();
+//		for (int i = 0; i < size_launcher; i++) {
+//			Destructor<E> d = (Destructor<E>) destructors.elementAt(i);
+//			if (id.equals(d.getDestructorId())) {
+//				return d;
+//			}
+//		}
+//		return null;
 	}
 
 	/**
@@ -77,27 +98,28 @@ public class WarUtility {
 	public static String currentTime(LocalDateTime current_time) {
 		String time;
 		int hour, minute, second;
-		hour = current_time.getHour() - Program.start_time.getHour();
-		if(hour >= 0) {
-			time = "" + hour;
-		}
-		else {
-			time = "" + (24 - hour);
-		}
-		minute = current_time.getMinute() - Program.start_time.getMinute();
-		if(minute >= 0) {
-			time += ":" + minute;
-		}
-		else {
-			time += ":" + (60 - minute);
-		}
+		
 		second = current_time.getSecond() - Program.start_time.getSecond();
-		if(second >= 0) {
-			time += ":" + second;
+		minute = current_time.getMinute() - Program.start_time.getMinute();
+		hour = current_time.getHour() - Program.start_time.getHour();
+		
+		if(second < 0) {
+			second = SECOND - Program.start_time.getSecond() 
+					+ current_time.getSecond();
+			minute--;
 		}
-		else {
-			time += ":" + (60 - second);
+		
+		if(minute < 0) {
+			minute += MINUTE - Program.start_time.getMinute() 
+					+ current_time.getMinute(); 
+			hour--;
 		}
+		
+		if(hour < 0) {
+			hour += HOUR - Program.start_time.getHour() 
+					+ current_time.getHour();
+		}
+		time = hour + ":" + minute + ":" + second;
 		return time;		
 	}
 }

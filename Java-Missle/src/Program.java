@@ -183,20 +183,25 @@ public class Program {
 					.getMissileDestructors();
 			printDestructors(destructors);
 		}
-
+		
 		System.out.print("\nEnter your Choise: ");
 		String destructor_id = input.nextLine();
 		Destructor<E> selected_destructor = WarUtility.getDestructorById(
-				destructor_id, war);
+				destructor_id, war, option);
 		if (selected_destructor == null) {
 			throw new InputMismatchException();
 		}
 
 		// now choose it's target
-		System.out.println("Choose a launcher to destruct "
-				+ "from the following Launchers list:");
+		System.out.println("Choose a " + option + " to destruct "
+				+ "from the following "+ option + " list:");
 		Vector<Launcher> launchers = war.getMissileLaunchers();
-		printLaunchers(launchers);
+		if(option.equals(LAUNCHER)) {
+			printLaunchers(launchers);
+		}
+		else if(option.equals(MISSILE)) {
+			printMissiles(launchers);
+		}
 
 		System.out.print("\nEnter your Choise: ");
 		String target_id = input.nextLine();
@@ -206,8 +211,14 @@ public class Program {
 			throw new InputMismatchException();
 		}
 		// assign destructor to destruct the launcher
-		E assigned_destructor = (E) ((option.equals(LAUNCHER)) ? new DestructedLanucher(
-				(Launcher) target, 0) : new DestructedMissile((Missile) target,	0));
+		E assigned_destructor = null;
+		if(option.equals(LAUNCHER)) {
+			assigned_destructor = (E)new DestructedLanucher((Launcher) target, 0);
+		}
+		else if(option.equals(MISSILE)) {
+			assigned_destructor = (E) new DestructedMissile((Missile) target,	0);
+			
+		}
 		selected_destructor.addDestructMissile(assigned_destructor);
 	}
 
@@ -235,6 +246,25 @@ public class Program {
 			}
 		}
 	}
+	
+	/**
+	 * print all active missiles's id
+	 * @param launchers
+	 */
+	private static void printMissiles(Vector<Launcher> launchers) {
+		Launcher launcher;
+		Missile missile;
+		int launcher_size = launchers.size();
+		for(int i = 0; i < launcher_size; i++) {
+			launcher = launchers.get(i);
+			for(int j = 0; j <launcher.getMissiles().size(); j++ ) {
+				missile = launcher.getMissiles().get(j);
+				if(missile.isRunning()) {
+					System.out.print(missile.getMissileId() + " ");
+				}
+			}
+		}		
+	}
 
 	/**
 	 * The method checks the option that receives if option = 7 - only display
@@ -249,7 +279,7 @@ public class Program {
 				+ "The number of missiles destroyed:\t"
 				+ War.total_destroyed_missiles + "\n"
 				+ "The number of missiles that hit:\t" + War.total_missiles_hit
-				+ "\n" + "The number of missile were destroyed:\t"
+				+ "\n" + "The number launchers were destroyed:\t"
 				+ War.total_destroyed_launchers + "\n"
 				+ "The total value of damage caused:\t" + War.total_damage
 				+ "\n";
