@@ -1,6 +1,8 @@
 import java.time.LocalDateTime;
 import java.util.Vector;
 
+
+
 public class WarUtility {
 	
 	private static final int HOUR = 24;
@@ -69,25 +71,6 @@ public class WarUtility {
 			}
 		}
 		return null;
-		
-//		Object destruct_type = type;
-//		Vector<E> destructors = null;
-//		int size_launcher = 0;
-//		if (destruct_type instanceof DestructedLanucher) {
-//			destructors = (Vector<E>) war.getMissileLauncherDestructors();
-//			
-//		}
-//		else {
-//			destructors = (Vector<E>) war.getMissileDestructors();
-//		}
-//		size_launcher = destructors.size();
-//		for (int i = 0; i < size_launcher; i++) {
-//			Destructor<E> d = (Destructor<E>) destructors.elementAt(i);
-//			if (id.equals(d.getDestructorId())) {
-//				return d;
-//			}
-//		}
-//		return null;
 	}
 
 	/**

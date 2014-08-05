@@ -27,13 +27,17 @@ public class Destructor<E> extends Thread{
 		this.id = id;
 		this.type = type;
 		this.Destructed = destructed;
-
+		
 		fileHandler = new FileHandler("Destructor_"+this.id+".txt", false);
 		fileHandler.setFilter(new ObjectFilter(this));
 		fileHandler.setFormatter(new MyFormatter());
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(fileHandler);
 	} 
+
+	public FileHandler getFileHandler() {
+		return fileHandler;
+	}
 
 	/** return id of destructor */
 	public String getDestructorId() {

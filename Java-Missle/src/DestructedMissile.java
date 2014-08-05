@@ -20,11 +20,13 @@ public class DestructedMissile extends Thread {
 	 * @param target
 	 * @param destructAfterLaunch
 	 */
-	public DestructedMissile(Missile target, int destructAfterLaunch, Destructor<DestructedMissile> destructor) {
+	public DestructedMissile(Missile target, int destructAfterLaunch, 
+			Destructor<DestructedMissile> destructor, FileHandler fileHandler) {
 		super();
 		this.target = target;
 		this.destructAfterLaunch = destructAfterLaunch;
 		this.destructor = destructor;
+		addFileHandler(fileHandler);
 	}
 
 	/**
@@ -32,11 +34,19 @@ public class DestructedMissile extends Thread {
 	 * @param fileHandler
 	 */
 	public void addFileHandler(FileHandler fileHandler) {
-		this.fileHandler = fileHandler;
+		this.setFileHandler(fileHandler);
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
 		filter.addFilter(this);
 		fileHandler.setFormatter(new MyFormatter());
 		logger = Logger.getLogger("warLogger");
+	}
+	
+	public FileHandler getFileHandler() {
+		return fileHandler;
+	}
+
+	public void setFileHandler(FileHandler fileHandler) {
+		this.fileHandler = fileHandler;
 	}
 
 	/** Run object */

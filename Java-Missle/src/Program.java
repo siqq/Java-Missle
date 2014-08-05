@@ -65,10 +65,10 @@ public class Program {
 					launchMissile(war);
 					break;
 				case 5:
-					destructLauncherOrMissile(war, LAUNCHER);
+					destructLauncher(war);
 					break;
 				case 6:
-					destructLauncherOrMissile(war, MISSILE);
+					destructMissile(war);
 					break;
 				case 7:
 					displayStatistics(option);
@@ -94,7 +94,7 @@ public class Program {
 	 * @throws IOException
 	 */
 	public static void addNewDestructor(War war) throws InputMismatchException,
-			SecurityException, IOException {
+	SecurityException, IOException {
 		System.out.print("Please Insert Id: ");
 		String id = input.nextLine();
 		System.out.print("Please Insert Type(Plane/Ship) : ");
@@ -120,7 +120,7 @@ public class Program {
 	 * @throws IOException
 	 */
 	public static void addNewLauncher(War war) throws SecurityException,
-			IOException {
+	IOException {
 		System.out.print("Please Insert Id: ");
 		String id = input.nextLine();
 		boolean is_hidden = ((int) (Math.random()) == 1) ? true : false;
@@ -168,57 +168,72 @@ public class Program {
 	 * choose a destructor and select a launcher to destruct
 	 * 
 	 * @param war
-	 * @param option choose what is the target : LAUNCHER or MISSILE
 	 */
-	private static <E> void destructLauncherOrMissile(War war, String option) {
+	public static void destructLauncher(War war) {
 		// first pick a destructor
 		System.out.println("Choose destructor "
 				+ "from the following Destructors list:");
-		if (option.equals(LAUNCHER)) {
-			Vector<Destructor<DestructedLanucher>> destructors = war
-					.getMissileLauncherDestructors();
-			printDestructors(destructors);
-		} else if (option.equals(MISSILE)) {
-			Vector<Destructor<DestructedMissile>> destructors = war
-					.getMissileDestructors();
-			printDestructors(destructors);
-		}
-		
+
+		Vector<Destructor<DestructedLanucher>> destructors = war
+				.getMissileLauncherDestructors();
+		printDestructors(destructors);
+
 		System.out.print("\nEnter your Choise: ");
 		String destructor_id = input.nextLine();
-		Destructor<E> selected_destructor = WarUtility.getDestructorById(
-				destructor_id, war, option);
+		Destructor<DestructedLanucher> selected_destructor = WarUtility.getDestructorById(
+				destructor_id, war, LAUNCHER);
 		if (selected_destructor == null) {
 			throw new InputMismatchException();
 		}
 
 		// now choose it's target
-		System.out.println("Choose a " + option + " to destruct "
-				+ "from the following "+ option + " list:");
+		System.out.println("Choose a launcher to destruct "
+				+ "from the following launchers list:");
 		Vector<Launcher> launchers = war.getMissileLaunchers();
-		if(option.equals(LAUNCHER)) {
-			printLaunchers(launchers);
-		}
-		else if(option.equals(MISSILE)) {
-			printMissiles(launchers);
-		}
+		printLaunchers(launchers);
 
 		System.out.print("\nEnter your Choise: ");
 		String target_id = input.nextLine();
-		Thread target = (option.equals(LAUNCHER)) ? WarUtility.getLauncherById(
-				target_id, war) : WarUtility.getMissileById(target_id, war);
+		Launcher target =  WarUtility.getLauncherById(target_id, war);
 		if (target == null) {
 			throw new InputMismatchException();
 		}
 		// assign destructor to destruct the launcher
-		E assigned_destructor = null;
-		if(option.equals(LAUNCHER)) {
-			assigned_destructor = (E)new DestructedLanucher((Launcher) target, 0, (Destructor<DestructedLanucher>) selected_destructor);
+		DestructedLanucher assigned_destructor = new DestructedLanucher(target, 0, 
+				selected_destructor, selected_destructor.getFileHandler());
+
+		selected_destructor.addDestructMissile(assigned_destructor);
+	}
+
+	public static void destructMissile(War war) {
+		// first pick a destructor
+		System.out.println("Choose destructor "
+				+ "from the following Destructors list:");
+		Vector<Destructor<DestructedMissile>> destructors = war
+				.getMissileDestructors();
+		printDestructors(destructors);
+		
+		System.out.print("\nEnter your Choise: ");
+		String destructor_id = input.nextLine();
+		Destructor<DestructedMissile> selected_destructor = WarUtility.getDestructorById(
+				destructor_id, war, MISSILE);
+		if (selected_destructor == null) {
+			throw new InputMismatchException();
 		}
-		else if(option.equals(MISSILE)) {
-			assigned_destructor = (E) new DestructedMissile((Missile) target, 0, (Destructor<DestructedMissile>) selected_destructor);
-			
+		// now choose it's target
+		System.out.println("Choose a launcher to destruct "
+				+ "from the following launchers list:");
+		Vector<Launcher> launchers = war.getMissileLaunchers();
+		printMissiles(launchers);
+		
+		System.out.print("\nEnter your Choise: ");
+		String target_id = input.nextLine();
+		Missile target = WarUtility.getMissileById(target_id, war);
+		if (target == null) {
+			throw new InputMismatchException();
 		}
+		DestructedMissile assigned_destructor = new DestructedMissile(target, 0, 
+				selected_destructor, selected_destructor.getFileHandler());
 		selected_destructor.addDestructMissile(assigned_destructor);
 	}
 
@@ -227,7 +242,7 @@ public class Program {
 	 * 
 	 * @param destructors
 	 */
-	private static <E> void printDestructors(Vector<Destructor<E>> destructors) {
+	public static <E> void printDestructors(Vector<Destructor<E>> destructors) {
 		for (Destructor<E> d : destructors) {
 			System.out.print("[" + d.getType() + " - " + d.getDestructorId()
 					+ "] ");
@@ -239,19 +254,19 @@ public class Program {
 	 * 
 	 * @param launchers
 	 */
-	private static void printLaunchers(Vector<Launcher> launchers) {
+	public static void printLaunchers(Vector<Launcher> launchers) {
 		for (Launcher l : launchers) {
 			if (l.isRunning()) {
 				System.out.print(l.getLauncherId() + " ");
 			}
 		}
 	}
-	
+
 	/**
 	 * print all active missiles's id
 	 * @param launchers
 	 */
-	private static void printMissiles(Vector<Launcher> launchers) {
+	public static void printMissiles(Vector<Launcher> launchers) {
 		Launcher launcher;
 		Missile missile;
 		int launcher_size = launchers.size();
@@ -272,7 +287,7 @@ public class Program {
 	 * 
 	 * @param option
 	 */
-	private static void displayStatistics(int option) {
+	public static void displayStatistics(int option) {
 		String statistic = "The statistics of war is: \n"
 				+ "The number of missiles launched:\t"
 				+ War.total_launched_missiles + "\n"

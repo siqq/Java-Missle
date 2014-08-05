@@ -35,6 +35,15 @@ public class Missile extends Thread {
 		this.damage = damage;
 		this.launcher = launcher;
 
+		addFileHandler(fileHandler);
+		
+	}
+	
+	/**
+	 * Add file handler and filter log by object
+	 * @param fileHandler
+	 */
+	public void addFileHandler(FileHandler fileHandler) {
 		this.setFileHandler(fileHandler);
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
 		filter.addFilter(this);

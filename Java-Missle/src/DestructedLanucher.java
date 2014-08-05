@@ -21,11 +21,12 @@ public class DestructedLanucher extends Thread {
 	 * @param destructTime
 	 */
 	public DestructedLanucher(Launcher target, int destructTime, 
-			Destructor<DestructedLanucher> destructor) {
+			Destructor<DestructedLanucher> destructor, FileHandler fileHandler) {
 		super();
 		this.target = target;
 		this.destructTime = destructTime;
 		this.destructor = destructor;
+		addFileHandler(fileHandler);
 	}
 
 	/**
@@ -33,11 +34,19 @@ public class DestructedLanucher extends Thread {
 	 * @param fileHandler
 	 */
 	public void addFileHandler(FileHandler fileHandler) {
-		this.fileHandler = fileHandler;
+		this.setFileHandler(fileHandler);
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
 		filter.addFilter(this);
 		fileHandler.setFormatter(new MyFormatter());
 		logger = Logger.getLogger("warLogger");
+	}
+	
+	public FileHandler getFileHandler() {
+		return fileHandler;
+	}
+
+	public void setFileHandler(FileHandler fileHandler) {
+		this.fileHandler = fileHandler;
 	}
 
 	/** Run object */
