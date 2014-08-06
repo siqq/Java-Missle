@@ -251,6 +251,11 @@ public class Program {
 		selected_destructor.addDestructMissile(assigned_destructor);
 	}
 
+	/**
+	 * choose a destructor and select a missile to destruct
+	 * @param war
+	 * @throws Exception
+	 */
 	private static void destructMissile(War war) throws Exception {
 		// first pick a destructor
 		System.out.println("Choose destructor "
