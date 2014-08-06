@@ -1,19 +1,13 @@
-import java.time.LocalDateTime;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DestructedLanucher extends Thread {
+public class DestructedLanucher extends AbstractMissile {
 
 	private static Logger 	logger;
 
-	private LocalDateTime 	current_time;
-	
-	private int 			destructTime;
 	private Launcher 		target; 
-	private FileHandler 	fileHandler;
-	
-	private Destructor<DestructedLanucher> destructor;
+	private Destructor 		destructor;
 
 	/**
 	 * Constructor
@@ -21,54 +15,27 @@ public class DestructedLanucher extends Thread {
 	 * @param destructTime
 	 */
 	public DestructedLanucher(Launcher target, int destructTime, 
-			Destructor<DestructedLanucher> destructor, FileHandler fileHandler) {
-		super();
+			Destructor destructor, FileHandler fileHandler) {
+		super(destructTime, fileHandler);
 		this.target = target;
-		this.destructTime = destructTime;
 		this.destructor = destructor;
-		addFileHandler(fileHandler);
-	}
 
-	/**
-	 * Add file handler and filter log by object
-	 * @param fileHandler
-	 */
-	public void addFileHandler(FileHandler fileHandler) {
-		this.setFileHandler(fileHandler);
-		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
-		filter.addFilter(this);
-		fileHandler.setFormatter(new MyFormatter());
 		logger = Logger.getLogger("warLogger");
-	}
-	
-	public FileHandler getFileHandler() {
-		return fileHandler;
-	}
-
-	public void setFileHandler(FileHandler fileHandler) {
-		this.fileHandler = fileHandler;
 	}
 
 	/** Run object */
 	public void run() {
 		Object arr[] = {this, target};
 		try {
-			sleep(this.destructTime * War.TIME_INTERVAL); // wait untill destroy after war launch
+			sleep(super.getDelayBeforeLaunch() * War.TIME_INTERVAL); // wait untill destroy after war launch
 
-			current_time = LocalDateTime.now();
 			synchronized (destructor) {
 				logger.log(Level.INFO, "Trying to destroy launcher :"
 						  + target.getLauncherId()
 						  + " from Launcher Destructor -" 
 						  + target.isHidden(), arr);
 				// try to destroy launcher
-				if (destroyLauncher(target)) {
-					// print to log that missile was destroyed
-					String print_log = "Launcher " + target.getLauncherId()
-									 + " was destroyed at time " 
-							         + WarUtility.currentTime(current_time);
-					logger.log(Level.INFO, print_log, arr);
-				}
+				destroyTarget();
 			}
 		} 
 		catch (Exception e) {
@@ -78,11 +45,12 @@ public class DestructedLanucher extends Thread {
 
 	/**
 	 * method to destroy a selected launcher
-	 * @param target - the target that need to be destroyed
-	 * @return true if destruction was success
-	 * @throws Exception with message of fail reason
+	 * @throws Exception if fails with message of fail reason
 	 */
-	public boolean destroyLauncher(Launcher target) throws Exception {
+	@Override
+	public void destroyTarget() throws Exception {
+		Object arr[] = {this, target};
+		
 		if (target.isRunning()) {
 			if (!target.isHidden()) {
 				// generate random success
@@ -90,9 +58,10 @@ public class DestructedLanucher extends Thread {
 				// if rate bigger than success rate it will destroy
 				if (rate > War.SUCCESS_RATE) {
 					target.stopLauncher();
-					War.total_destroyed_launchers++;
-					
-					return true;
+					// print to log that missile was destroyed
+					String print_log = "Launcher " + target.getLauncherId()
+									 + " was destroyed";
+					logger.log(Level.INFO, print_log, arr);
 				} 
 				else {
 					throw new Exception("Destruction of launcher "

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,9 +14,9 @@ import org.xml.sax.SAXException;
 
 public class XMLparser {
 
-	private Vector<Launcher> 						missileLaunchers = new Vector<>();
-	private Vector<Destructor<DestructedMissile>> 	missileDestructors = new Vector<>();
-	private Vector<Destructor<DestructedLanucher>> 	missileLauncherDestructors = new Vector<>();
+	private Vector<Launcher> 	missileLaunchers = new Vector<>();
+	private Vector<Destructor> 	missileDestructors = new Vector<>();
+	private Vector<Destructor> 	missileLauncherDestructors = new Vector<>();
 	private War war;
 
 	public XMLparser() throws ParserConfigurationException, SAXException,
@@ -29,8 +30,13 @@ public class XMLparser {
 		// Get the DOM Builder
 		DocumentBuilder builder;
 		builder = factory.newDocumentBuilder();
-		Document document = builder.parse(ClassLoader
-				.getSystemResourceAsStream("war.xml"));
+		InputStream xml_file = ClassLoader
+				.getSystemResourceAsStream("war.xml");
+		//check if we have xml file
+		if (xml_file == null) {
+			return war;
+		}
+		Document document = builder.parse(xml_file);
 		// Load and Parse the XML document
 		// document contains the complete XML as a Tree.
 		// Iterating through the nodes and extracting the data.
@@ -58,11 +64,8 @@ public class XMLparser {
 
 	/**
 	 * add a launcher or destructor to array
-	 * 
-	 * @param launcher
-	 *            - a launcher or destructor we want to add to list
-	 * @param rootNode
-	 *            - one of the 3 root array lists
+	 * @param launcher - a launcher or destructor we want to add to list
+	 * @param rootNode - one of the 3 root array lists
 	 * @throws SecurityException
 	 * @throws IOException
 	 */
@@ -80,12 +83,12 @@ public class XMLparser {
 				String type = launcher.getAttributes().getNamedItem("type")
 						.getNodeValue();
 				if ((rootNode.getNodeName().equals("missileDestructors"))) {
-					missileDestructors.add(new Destructor<DestructedMissile>(
-							id, type, new Vector<DestructedMissile>()));
+					missileDestructors.add(new Destructor(
+							id, type, new Vector<AbstractMissile>()));
 				} else {
 					missileLauncherDestructors
-							.add(new Destructor<DestructedLanucher>(id, type,
-									new Vector<DestructedLanucher>()));
+							.add(new Destructor(id, type,
+									new Vector<AbstractMissile>()));
 				}
 			}
 		}
@@ -94,10 +97,8 @@ public class XMLparser {
 	/**
 	 * This method add a missile to the launcher's or destructor's array
 	 * 
-	 * @param missile
-	 *            - the missile to add
-	 * @param index
-	 *            - the index inside war's arrays
+	 * @param missile - the missile to add
+	 * @param index - the index inside war's arrays
 	 */
 	private void addMissileToArray(Node missile, int index) {
 		if (missile instanceof Element) {
@@ -128,7 +129,7 @@ public class XMLparser {
 						.getAttributes().getNamedItem("destructAfterLaunch")
 						.getNodeValue());
 				// get the destructor and then add missile destructor to it
-				Destructor<DestructedMissile> destructor_m = missileDestructors
+				Destructor destructor_m = missileDestructors
 						.get(index / 2);
 				Missile target_m = WarUtility.getMissileById(id, war);
 				DestructedMissile destructedM = new DestructedMissile(target_m, 
@@ -142,7 +143,7 @@ public class XMLparser {
 						.getNamedItem("destructTime").getNodeValue());
 				// get the destructor and then add missile launcher destructor
 				// to it
-				Destructor<DestructedLanucher> destructor_l = missileLauncherDestructors
+				Destructor destructor_l = missileLauncherDestructors
 						.get(index / 2);
 				Launcher target_l = WarUtility.getLauncherById(id, war);
 				DestructedLanucher destructedL = new DestructedLanucher(target_l, 

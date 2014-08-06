@@ -3,16 +3,15 @@ import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-
-public class Destructor<E> extends Thread{
+public class Destructor extends Thread{
 
 	private static Logger logger;
 
-	private String 				id;
-	private String 				type;
-	private Vector<E> 			Destructed;
-	private FileHandler 		fileHandler;
-
+	private String 					id;
+	private String 					type;
+	private FileHandler 			fileHandler;
+	private Vector<AbstractMissile>	Destructed;
+	
 	/**
 	 * Constructor 
 	 * @param id
@@ -21,7 +20,7 @@ public class Destructor<E> extends Thread{
 	 * @throws SecurityException
 	 * @throws IOException
 	 */
-	public Destructor(String id, String type, Vector<E> destructed)
+	public Destructor(String id, String type, Vector<AbstractMissile> destructed)
 			throws SecurityException, IOException {
 		super();
 		this.id = id;
@@ -54,7 +53,7 @@ public class Destructor<E> extends Thread{
 	 * DestructedMissile / DestructedLanucher
 	 * @param destruct
 	 */
-	public void addDestructMissile(E destruct) {
+	public void addDestructMissile(AbstractMissile destruct) {
 
 		if (destruct instanceof DestructedMissile) {
 			((DestructedMissile)(destruct)).addFileHandler(this.fileHandler);

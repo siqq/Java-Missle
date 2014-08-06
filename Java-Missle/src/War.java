@@ -21,15 +21,9 @@ public class War extends Thread {
 
 	private static Logger 		logger;
 
-	public static int 			total_launched_missiles = 0;
-	public static int 			total_destroyed_missiles = 0;
-	public static int 			total_missiles_hit = 0;
-	public static int 			total_destroyed_launchers = 0;
-	public static int 			total_damage = 0;
-
-	private Vector<Launcher> 						missileLaunchers = new Vector<>();
-	private Vector<Destructor<DestructedMissile>> 	missileDestructors = new Vector<>();
-	private Vector<Destructor<DestructedLanucher>> 	missileLauncherDestructors = new Vector<>();
+	private Vector<Launcher> 	missileLaunchers = new Vector<>();
+	private Vector<Destructor> 	missileDestructors = new Vector<>();
+	private Vector<Destructor> 	missileLauncherDestructors = new Vector<>();
 
 	/**
 	 * Constructor for the war which take from XML the stats to begin
@@ -40,8 +34,8 @@ public class War extends Thread {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public War(Vector<Destructor<DestructedMissile>> missileDestructors, 
-			   Vector<Destructor<DestructedLanucher>> missileLauncherDestructors, 
+	public War(Vector<Destructor> missileDestructors, 
+			   Vector<Destructor> missileLauncherDestructors, 
 			   Vector<Launcher> missileLaunchers) 
 		       throws ParserConfigurationException, SAXException, IOException {
 		
@@ -65,20 +59,20 @@ public class War extends Thread {
 		return missileLaunchers;
 	}
 
-	public Vector<Destructor<DestructedMissile>> getMissileDestructors() {
+	public Vector<Destructor> getMissileDestructors() {
 		return missileDestructors;
 	}
 
-	public Vector<Destructor<DestructedLanucher>> getMissileLauncherDestructors() {
+	public Vector<Destructor> getMissileLauncherDestructors() {
 		return missileLauncherDestructors;
 	}
 
-	public void addLauncherDestructor(Destructor<DestructedLanucher> desctructor) {
+	public void addLauncherDestructor(Destructor desctructor) {
 		this.missileLauncherDestructors.add(desctructor);	
 		desctructor.start();
 	}
 
-	public void addMissileDestructor(Destructor<DestructedMissile> desctructor) {
+	public void addMissileDestructor(Destructor desctructor) {
 		this.missileDestructors.add(desctructor);	
 		desctructor.start();
 	}
@@ -102,14 +96,13 @@ public class War extends Thread {
 
 			size = missileDestructors.size();
 			for (int i = 0; i < size; i++) {
-				Destructor<DestructedMissile> d = missileDestructors.get(i);
+				Destructor d = missileDestructors.get(i);
 				d.start();
 			}
 
 			size = missileLauncherDestructors.size();
 			for (int i = 0; i < size; i++) {
-				Destructor<DestructedLanucher> d =
-						missileLauncherDestructors.get(i);
+				Destructor d =	missileLauncherDestructors.get(i);
 				d.start();
 			}
 		}

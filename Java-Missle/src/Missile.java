@@ -2,18 +2,19 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Missile extends Thread {
+public class Missile extends AbstractMissile {
 
+	public enum Status {Waiting, Launched, Destroyed, Hit};
+	
 	private static Logger 	logger;
 
 	private boolean 		isRunning;
 	private String 			missileId;
 	private String 			destination;
-	private int 			launchTime;
 	private int 			flyTime;
 	private int 			damage;
-	private FileHandler 	fileHandler;
-	private Launcher 		launcher; 
+	private Launcher 		launcher;
+	private Status			status;
 
 	/**
 	 * Constructor 
@@ -27,27 +28,15 @@ public class Missile extends Thread {
 	 */
 	public Missile(String id, String destination, int launchTime, int flyTime,
 			int damage, FileHandler fileHandler, Launcher launcher) {
+		super(launchTime, fileHandler);
 		this.isRunning = false;
 		this.missileId = id;
 		this.destination = destination;
-		this.launchTime = launchTime;
 		this.flyTime = flyTime;
 		this.damage = damage;
 		this.launcher = launcher;
-
-		addFileHandler(fileHandler);
+		this.setStatus(Status.Waiting);
 		
-	}
-	
-	/**
-	 * Add file handler and filter log by object
-	 * @param fileHandler
-	 */
-	public void addFileHandler(FileHandler fileHandler) {
-		this.setFileHandler(fileHandler);
-		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
-		filter.addFilter(this);
-		fileHandler.setFormatter(new MyFormatter());
 		logger = Logger.getLogger("warLogger");
 	}
 
@@ -65,7 +54,7 @@ public class Missile extends Thread {
 
 	/** Return launch time */
 	public int getLaunchTime() {
-		return launchTime;
+		return super.getDelayBeforeLaunch();
 	}
 
 	/** Return fly time */
@@ -77,52 +66,64 @@ public class Missile extends Thread {
 	public int getDamage() {
 		return damage;
 	}
-
-	/** Return file handler */
-	public FileHandler getFileHandler() {
-		return fileHandler;
+	
+	public Status getStatus() {
+		return status;
 	}
 
-	/**
-	 * Set file handler 
-	 * @param fileHandler
-	 */
-	public void setFileHandler(FileHandler fileHandler) {
-		this.fileHandler = fileHandler;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	/** Run missile */
 	public void run() {
+		boolean reveal_status = false;
 		try {
-			sleep(launchTime * War.TIME_INTERVAL);
-
+			sleep(getLaunchTime() * War.TIME_INTERVAL);
+			
 			synchronized (launcher) {
+				this.setStatus(Status.Launched);
 				if (launcher.isRunning()) {
 					this.isRunning = true;
+					// make launcher not hidden for X amount of time
+					if (launcher.isHidden()) {
+						launcher.revealYourSelf(); 
+						reveal_status = true;
+					}
 					String print_log = "Missle "+ this.missileId 
 									 + " was launched from launcher: "
 									 + this.launcher.getLauncherId();
 					logger.log(Level.INFO, print_log, this);
-					War.total_launched_missiles++;
 					sleep(flyTime * War.TIME_INTERVAL);
-					// print to log that missile successfully hit targer
-					print_log = "Missle "+ this.missileId + " hit " 
-							  + this.destination + " with " 
-							  + this.damage + " damage";
-					logger.log(Level.INFO, print_log, this);
-					this.isRunning = false;		
-					launcher.revealYourSelf(); // make launcher not hidden for X amount of time
-					War.total_missiles_hit++;
-					War.total_damage += this.damage;
+					this.isRunning = false;	
+					destroyTarget();
+					if (reveal_status == true) {
+						launcher.hideYourSelf(); // make launcher hide again
+					}
 				}
 			}	
 		} catch (InterruptedException e) {
 			//missile is destroyed
 			this.isRunning = false;
-			launcher.revealYourSelf(); // make launcher not hidden for X amount of time
+			this.setStatus(Status.Destroyed);
+			if (reveal_status == true) {
+				launcher.hideYourSelf(); // make launcher hide again
+			}
 		} catch (SecurityException e) {
-			e.printStackTrace();
+			
+		} catch (Exception e) {
+			logger.log(Level.INFO, e.getMessage(), this);
 		}
 	}
 
+	@Override
+	public void destroyTarget() throws Exception {
+		// print to log that missile successfully hit targer
+		String print_log = "Missle "+ this.missileId + " hit " 
+				  + this.destination + " with " 
+				  + this.damage + " damage";
+		logger.log(Level.INFO, print_log, this);
+		this.setStatus(Status.Hit);
+	}
+	
 }

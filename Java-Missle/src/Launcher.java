@@ -113,39 +113,19 @@ public class Launcher extends Thread {
 		}
 	}
 
-	/** The method checks the status of launcher 
-	 * if hidden - changes status of launcher after launching 
-	 * and returns it hidden
-	 * if not hidden - do nothing */ 
+	/**
+	 * Reveals the launcher and makes it not hidden
+	 */
 	public void revealYourSelf() {
-		//if launcher was not hidden before there is no need to unhidden it
-		if (this.isHidden == false) {
-			return;
-		}
 		this.isHidden = false;
-		int sleep_time = MIN_REVEAL + (int)(Math.random() 
-					   * ((MAX_REVEAL - MIN_REVEAL) + 1));
-		logger.log(Level.WARNING,this.id + " sleep time is : " + sleep_time);
-		try {
-			sleep(sleep_time * War.TIME_INTERVAL);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		logger.log(Level.WARNING,this.id + " sleep time is : " + sleep_time);
+	}
+	
+	/**
+	 * Makes the launcher hidden
+	 */
+	public void hideYourSelf() {
 		this.isHidden = true;
 	}
-
-	/*
-	//stop all missile that will not launch
-	public void stopAllMissiles() {
-		synchronized (this) {
-			int size = this.missiles.size();
-			for (int i=0; i<size; i++) {
-				Missile missile = this.missiles.get(i);
-				missile.interrupt();
-			}
-		}
-	}*/
 
 	/** Run launcher */ 
 	public void run() {
