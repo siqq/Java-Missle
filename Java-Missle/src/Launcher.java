@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Launcher extends Thread {
@@ -61,36 +60,49 @@ public class Launcher extends Thread {
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(this.fileHandler);	
 	}
-
-	/** Return id of launcher */ 
+	
+	/**
+	 * @return id of launcher
+	 */
 	public String getLauncherId() {
 		return id;
 	}
-
-	/** Return the status of launcher 
-	 * true = hidden
-	 * false = no hidden */
+	
+	/**
+	 * @return the status of launcher 
+	 * true = hidden, 
+	 * false = no hidden 
+	 */
 	public boolean isHidden() {
 		return isHidden;
 	}
 
-	/** Return the status of launcher 
-	 * true = running 
-	 * false = not running */
+	/**
+	 * @return the status of launcher 
+	 * true = running, 
+	 * false = not running 
+	 */
 	public boolean isRunning() {
 		return isRunning;
 	}
-	/** Return the file handler */  
+	
+	/**
+	 * @return file handler
+	 */
 	public FileHandler getFileHandler() {
 		return fileHandler;
 	}
-
-	/** Return vector of missiles */
+	
+	/**
+	 * @return vector of missiles
+	 */
 	public Vector<Missile> getMissiles() {
 		return missiles;
 	}
 
-	/** The method changes status running to false */
+	/** 
+	 * The method changes status running to false 
+	 */
 	public void stopLauncher() {
 		this.isRunning = false;
 	}
@@ -127,7 +139,9 @@ public class Launcher extends Thread {
 		this.isHidden = true;
 	}
 
-	/** Run launcher */ 
+	/** 
+	 * Run launcher 
+	 */ 
 	public void run() {
 		try {
 			int size = this.getMissiles().size();

@@ -6,7 +6,6 @@ public class DestructedMissile extends AbstractMissile {
 	private static Logger   logger;
 	
 	private Missile 		target;
-	
 	private Destructor destructor;
 
 	/**
@@ -16,44 +15,48 @@ public class DestructedMissile extends AbstractMissile {
 	 */
 	public DestructedMissile(Missile target, int destructAfterLaunch, 
 			Destructor destructor, FileHandler fileHandler) {
-		super(destructAfterLaunch, fileHandler);
+		super (destructAfterLaunch, fileHandler);
 		this.target = target;
 		this.destructor = destructor;
 		logger = Logger.getLogger("warLogger");
 	}
 
-	/** Run object */
+	/**
+	 * Run object
+	 */
 	public void run() {
 		Object arr[] = { this, target };
 		try {
-			sleep(super.getDelayBeforeLaunch() * War.TIME_INTERVAL); // wait untill destroy after war launch
+			// wait untill destroy after war launch
+			sleep(super.getDelayBeforeLaunch() * War.TIME_INTERVAL); 
 
 			synchronized (destructor) {
 				logger.log(Level.INFO, "Trying to destroy missile :"
 						  + target.getMissileId()
 						  + " from Missile Destructor", arr);
-				// try to destroy missile
-				destroyTarget();
+				destroyTarget();		// try to destroy missile
 			}
 		} catch (Exception e) {
+			//no success destroy target and reason
 			logger.log(Level.INFO, e.getMessage(), arr);
 		}
 	}
-
 	
+	/**
+	 * method to destroy a selected mussile
+	 * @throws Exception if fails with message of fail reason
+	 */
 	@Override
 	public void destroyTarget() throws Exception{
 		Object arr[] = { this, target };
-		
+		double rate = Math.random();		// generate random success
+			
 		if (target.isRunning()) {
-			// generate random success
-			double rate = Math.random();
 			// if rate bigger than success rate it will destroy
 			if (rate > War.SUCCESS_RATE) {
 				synchronized (target) {
 					target.interrupt();
 				}
-				// print to log that missile was destroyed
 				String print_log = "Missle " + target.getMissileId()
 						+ " was destroyed";
 				logger.log(Level.INFO, print_log, arr);

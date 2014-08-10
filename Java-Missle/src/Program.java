@@ -36,7 +36,9 @@ public class Program {
 
 	}
 
-	/** Print menu */
+	/** 
+	 * Print menu 
+	 */
 	public static void menu(final War war) {
 		int option = 0;
 		
@@ -57,7 +59,7 @@ public class Program {
 	    while (true) {
 	    	
 			System.out.println(
-				      "press 1: to add new Missile/Launcher destructor   \n"
+				      "press 1: to add new Missile/Launcher destructor\n"
 					+ "press 2: to add new lanucher\n"
 					+ "press 3: to lanuch missile\n"
 					+ "press 4: to destroy Launcher\n"
@@ -65,7 +67,6 @@ public class Program {
 					+ "press 6: to display statistics\n"
 					+ "press 7: to end war and display statistics\n"
 					+ "Please choose option");
-			
 			try {
 				String string;
 				option = input.nextInt();
@@ -184,9 +185,12 @@ public class Program {
 		System.out.println("Choose launcher "
 				+ "from the following Launchers list:");
 		Vector<Launcher> launchers = war.getMissileLaunchers();
+		if (launchers.size() == 0) {
+			throw new Exception("no launchers...first insert launcher");
+		}
 		printLaunchers(launchers);
+		
 		System.out.print("\nEnter your Choise: ");
-		// input.next(); //clean buffer
 		String launcher_id = input.nextLine();
 		// find selected launcher so we can add missile to it
 		Launcher selected_launcher = WarUtility.getLauncherById(launcher_id,
@@ -349,7 +353,6 @@ public class Program {
 
 		Launcher l;
 		Missile m;
-
 		String statistic = ""; 
 		
 		for (int i = 0; i < size_launcher; i++) {
@@ -382,7 +385,6 @@ public class Program {
 				+ total_destroyed_launchers + "\n"
 				+ "The total value of damage caused:\t" 
 				+ total_damage + "\n";
-
 		return statistic;
 	}
 }

@@ -39,43 +39,62 @@ public class Missile extends AbstractMissile {
 		
 		logger = Logger.getLogger("warLogger");
 	}
-
-	/** Return id of missile */ 
+	
+	/**
+	 * @return id of missile 
+	 */
 	public String getMissileId() {
 		return missileId;
 	}
-
-	/** Return status of missile 
+	
+	/**
+	 * @return status of missile 
 	 * true = running 
-	 * false = not running */
+	 * false = not running
+	 */
 	public boolean isRunning() {
 		return isRunning;
 	}
-
-	/** Return launch time */
+	
+	/**
+	 * @return launch time
+	 */
 	public int getLaunchTime() {
 		return super.getDelayBeforeLaunch();
 	}
 
-	/** Return fly time */
+	/**
+	 * @return fly time
+	 */
 	public int getFlyTime() {
 		return flyTime;
 	}
 
-	/** Return damage */
+	/**
+	 * @return damage
+	 */
 	public int getDamage() {
 		return damage;
 	}
 	
+	/**
+	 * @return missile status 
+	 */
 	public Status getStatus() {
 		return status;
 	}
 
+	/**
+	 * set status
+	 * @param status
+	 */
 	public void setStatus(Status status) {
 		this.status = status;
 	}
 
-	/** Run missile */
+	/** 
+	 * Run missile 
+	 */
 	public void run() {
 		boolean reveal_status = false;
 		try {
@@ -115,7 +134,7 @@ public class Missile extends AbstractMissile {
 			logger.log(Level.INFO, e.getMessage(), this);
 		}
 	}
-
+	
 	@Override
 	public void destroyTarget() throws Exception {
 		// print to log that missile successfully hit targer

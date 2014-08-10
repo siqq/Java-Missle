@@ -25,14 +25,26 @@ public abstract class AbstractMissile extends Thread{
 
 	}
 
+	/**
+	 * 
+	 * @return file handler
+	 */
 	public FileHandler getFileHandler() {
 		return fileHandler;
 	}
 
+	/**
+	 * set file handler 
+	 * @param fileHandler
+	 */
 	public void setFileHandler(FileHandler fileHandler) {
 		this.fileHandler = fileHandler;
 	}
 	
+	/**
+	 * 
+	 * @return delay before launch
+	 */
 	public int getDelayBeforeLaunch() {
 		return delayBeforeLaunch;
 	}

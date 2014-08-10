@@ -34,16 +34,23 @@ public class Destructor extends Thread{
 		logger.addHandler(fileHandler);
 	} 
 
+	/**
+	 * @return file handler 
+	 */
 	public FileHandler getFileHandler() {
 		return fileHandler;
 	}
 
-	/** return id of destructor */
+	/**
+	 * return id of destructor 
+	 */
 	public String getDestructorId() {
 		return id;
 	}
 
-	/** return type of destructor */
+	/**
+	 * return type of destructor 
+	 */
 	public String getType() {
 		return type;
 	}
@@ -67,7 +74,9 @@ public class Destructor extends Thread{
 		}
 	}
 
-	/** Run destructor */
+	/**
+	 * Run destructor 
+	 */
 	public void run() {
 		try {
 			int size = this.Destructed.size();
