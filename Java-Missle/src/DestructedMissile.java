@@ -47,11 +47,12 @@ public class DestructedMissile extends AbstractMissile {
 	 * @throws Exception if fails with message of fail reason
 	 */
 	@Override
-	public void destroyTarget() throws Exception{
+	public void destroyTarget() throws Exception {
 		Object arr[] = { this, target };
 		double rate = Math.random();		// generate random success
 			
-		if (target.isRunning()) {
+		if ((target.getStatus() == Missile.Status.Launched) &&
+				(this.getDelayBeforeLaunch() < target.getFlyTime() + target.getLaunchTime())) {
 			// if rate bigger than success rate it will destroy
 			if (rate > War.SUCCESS_RATE) {
 				synchronized (target) {
@@ -60,14 +61,12 @@ public class DestructedMissile extends AbstractMissile {
 				String print_log = "Missle " + target.getMissileId()
 						+ " was destroyed";
 				logger.log(Level.INFO, print_log, arr);
-			} 
-			else {
+			} else {
 				throw new Exception("Destruction of missile "
 						+ target.getMissileId() 
 						+ " was failed");
 			}
-		} 
-		else {
+		} else {
 			throw new Exception("Destruction of missile "
 					+ target.getMissileId() 
 					+ " was failed - Missile is not running");

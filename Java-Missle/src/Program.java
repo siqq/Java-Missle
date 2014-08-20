@@ -95,6 +95,7 @@ public class Program {
 				case 7:
 					string = displayStatistics(war);
 					logger.log(Level.INFO, "end war\n" + string);
+					System.out.println(string);
 					System.exit(0);
 					break;
 				}
@@ -115,6 +116,15 @@ public class Program {
     		for (Launcher l : war.getMissileLaunchers() ) {
     			if (l.isRunning() == false) {
     				counter++;
+    				//loop to check if there is a missile in air
+    				int size_missiles = l.getMissiles().size();
+    				for (int j = 0; j < size_missiles; j++) {
+    					Missile m = l.getMissiles().get(j);
+    					//once we find a missile in air we dont stop the war
+    					if (m.getStatus() == Missile.Status.Launched) {
+    						return;
+    					}
+    				}
     			}
     		}
     		if (counter == size) {
@@ -330,7 +340,7 @@ public class Program {
 			launcher = launchers.get(i);
 			for(int j = 0; j <launcher.getMissiles().size(); j++ ) {
 				missile = launcher.getMissiles().get(j);
-				if(missile.isRunning()) {
+				if(missile.getStatus() == Missile.Status.Launched) {
 					System.out.print(missile.getMissileId() + " ");
 				}
 			}
@@ -368,7 +378,7 @@ public class Program {
 					if(m.getStatus() == Missile.Status.Hit) {
 						total_missiles_hit++;
 						total_damage += m.getDamage();
-					} else {
+					} else if (m.getStatus() == Missile.Status.Destroyed){
 						total_destroyed_missiles++;
 					}
 				}

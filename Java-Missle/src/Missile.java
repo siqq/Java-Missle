@@ -8,7 +8,6 @@ public class Missile extends AbstractMissile {
 	
 	private static Logger 	logger;
 
-	private boolean 		isRunning;
 	private String 			missileId;
 	private String 			destination;
 	private int 			flyTime;
@@ -29,7 +28,6 @@ public class Missile extends AbstractMissile {
 	public Missile(String id, String destination, int launchTime, int flyTime,
 			int damage, FileHandler fileHandler, Launcher launcher) {
 		super(launchTime, fileHandler);
-		this.isRunning = false;
 		this.missileId = id;
 		this.destination = destination;
 		this.flyTime = flyTime;
@@ -45,15 +43,6 @@ public class Missile extends AbstractMissile {
 	 */
 	public String getMissileId() {
 		return missileId;
-	}
-	
-	/**
-	 * @return status of missile 
-	 * true = running 
-	 * false = not running
-	 */
-	public boolean isRunning() {
-		return isRunning;
 	}
 	
 	/**
@@ -101,9 +90,8 @@ public class Missile extends AbstractMissile {
 			sleep(getLaunchTime() * War.TIME_INTERVAL);
 			
 			synchronized (launcher) {
-				this.setStatus(Status.Launched);
 				if (launcher.isRunning()) {
-					this.isRunning = true;
+					this.setStatus(Status.Launched);
 					// make launcher not hidden for X amount of time
 					if (launcher.isHidden()) {
 						launcher.revealYourSelf(); 
@@ -113,8 +101,7 @@ public class Missile extends AbstractMissile {
 									 + " was launched from launcher: "
 									 + this.launcher.getLauncherId();
 					logger.log(Level.INFO, print_log, this);
-					sleep(flyTime * War.TIME_INTERVAL);
-					this.isRunning = false;	
+					sleep(flyTime * War.TIME_INTERVAL);	
 					destroyTarget();
 					if (reveal_status == true) {
 						launcher.hideYourSelf(); // make launcher hide again
@@ -123,7 +110,6 @@ public class Missile extends AbstractMissile {
 			}	
 		} catch (InterruptedException e) {
 			//missile is destroyed
-			this.isRunning = false;
 			this.setStatus(Status.Destroyed);
 			if (reveal_status == true) {
 				launcher.hideYourSelf(); // make launcher hide again
@@ -136,7 +122,7 @@ public class Missile extends AbstractMissile {
 	}
 	
 	@Override
-	public void destroyTarget() throws Exception {
+	public void destroyTarget() {
 		// print to log that missile successfully hit targer
 		String print_log = "Missle "+ this.missileId + " hit " 
 				  + this.destination + " with " 
