@@ -68,7 +68,7 @@ public class Program {
 					+ "press 7: to end war and display statistics\n"
 					+ "Please choose option");
 			try {
-				String string;
+				String stats;
 				option = input.nextInt();
 				input.nextLine();
 				System.out.println();
@@ -89,13 +89,13 @@ public class Program {
 					destructMissile(war);
 					break;
 				case 6:
-					string = displayStatistics(war);
-					System.out.println(string);
+					stats = displayStatistics(war);
+					System.out.println(stats);
 					break;
 				case 7:
-					string = displayStatistics(war);
-					logger.log(Level.INFO, "end war\n" + string);
-					System.out.println(string);
+					stats = displayStatistics(war);
+					logger.log(Level.INFO, "end war\n" + stats);
+					System.out.println(stats);
 					System.exit(0);
 					break;
 				}
@@ -128,8 +128,10 @@ public class Program {
     			}
     		}
     		if (counter == size) {
+    			String stats = displayStatistics(war);
     			logger.log(Level.INFO, "All launchers destroyed - end of war");
-    			System.out.println(displayStatistics(war));
+    			logger.log(Level.INFO, "end war\n" + stats);
+    			System.out.println(stats);
     			System.exit(0);
     		}
     	}	

@@ -6,7 +6,7 @@ public class DestructedLanucher extends AbstractMissile {
 
 	private static Logger 	logger;
 
-	private Launcher 		target; 
+	private Launcher 		target;
 	private Destructor 		destructor;
 
 	/**
