@@ -1,3 +1,4 @@
+package war;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.FileHandler;
@@ -5,6 +6,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
+
+import launcher.Destructor;
+import launcher.Launcher;
+import logger.LogFormatter;
 
 import org.xml.sax.SAXException;
 
@@ -40,7 +45,7 @@ public class War extends Thread {
 		       throws ParserConfigurationException, SAXException, IOException {
 		
 		FileHandler fileHandler = new FileHandler("war_log.txt");
-		fileHandler.setFormatter(new MyFormatter());
+		fileHandler.setFormatter(new LogFormatter());
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(fileHandler);
 		logger.setUseParentHandlers(false);

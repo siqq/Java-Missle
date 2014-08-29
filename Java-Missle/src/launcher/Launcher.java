@@ -1,7 +1,12 @@
+package launcher;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+
+import logger.LogFormatter;
+import logger.ObjectFilter;
+import missile.Missile;
 
 public class Launcher extends Thread {
 
@@ -34,7 +39,7 @@ public class Launcher extends Thread {
 
 		fileHandler = new FileHandler("Launcher_" + this.id + ".txt", false);
 		fileHandler.setFilter(new ObjectFilter(this));
-		fileHandler.setFormatter(new MyFormatter());
+		fileHandler.setFormatter(new LogFormatter());
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(this.fileHandler);
 	}
@@ -56,7 +61,7 @@ public class Launcher extends Thread {
 
 		fileHandler = new FileHandler("Launcher_" + this.id + ".txt", false);
 		fileHandler.setFilter(new ObjectFilter(this));
-		fileHandler.setFormatter(new MyFormatter());
+		fileHandler.setFormatter(new LogFormatter());
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(this.fileHandler);	
 	}

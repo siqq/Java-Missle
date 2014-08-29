@@ -1,3 +1,4 @@
+package main;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -7,7 +8,17 @@ import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import launcher.Destructor;
+import launcher.Launcher;
+import missile.AbstractMissile;
+import missile.DestructedLanucher;
+import missile.DestructedMissile;
+import missile.Missile;
+
 import org.xml.sax.SAXException;
+
+import war.War;
+import war.WarUtility;
 
 public class Program {
 	public static final String LAUNCHER = "launcher";
@@ -166,7 +177,7 @@ public class Program {
 					id, type, new Vector<AbstractMissile>());
 			war.addMissileDestructor(desctructor);
 		} else {
-			throw new Exception("Type must be Plane/Ship/Iron Dome");
+			throw new Exception("Type must be Plane/Ship/Iron Dome\n");
 		}
 	}
 

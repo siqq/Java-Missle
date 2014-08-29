@@ -1,6 +1,10 @@
+package missile;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import launcher.Destructor;
+import war.War;
 
 public class DestructedMissile extends AbstractMissile {
 	private static Logger   logger;

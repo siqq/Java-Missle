@@ -1,4 +1,9 @@
+package war;
+
 import java.util.Vector;
+
+import launcher.*;
+import missile.Missile;
 
 public class WarUtility {
 
@@ -49,7 +54,7 @@ public class WarUtility {
 	public static Destructor getDestructorById(String id, War war, String type) {
 		Vector<Destructor> destructors = null;
 		int size_launcher = 0;
-		if (type.equals(Program.LAUNCHER)) {
+		if (type.equals(main.Program.LAUNCHER)) {
 			destructors = war.getMissileLauncherDestructors();
 		}
 		else {

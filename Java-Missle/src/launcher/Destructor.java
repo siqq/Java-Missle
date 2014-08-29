@@ -1,7 +1,14 @@
+package launcher;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+
+import logger.LogFormatter;
+import logger.ObjectFilter;
+import missile.AbstractMissile;
+import missile.DestructedLanucher;
+import missile.DestructedMissile;
 
 public class Destructor extends Thread{
 
@@ -29,7 +36,7 @@ public class Destructor extends Thread{
 		
 		fileHandler = new FileHandler("Destructor_"+this.id+".txt", false);
 		fileHandler.setFilter(new ObjectFilter(this));
-		fileHandler.setFormatter(new MyFormatter());
+		fileHandler.setFormatter(new LogFormatter());
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(fileHandler);
 	} 

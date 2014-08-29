@@ -1,4 +1,8 @@
+package missile;
 import java.util.logging.FileHandler;
+
+import logger.LogFormatter;
+import logger.ObjectFilter;
 
 public abstract class AbstractMissile extends Thread{
 	
@@ -21,7 +25,7 @@ public abstract class AbstractMissile extends Thread{
 		this.setFileHandler(fileHandler);
 		ObjectFilter filter = (ObjectFilter) fileHandler.getFilter();
 		filter.addFilter(this);
-		fileHandler.setFormatter(new MyFormatter());
+		fileHandler.setFormatter(new LogFormatter());
 
 	}
 
