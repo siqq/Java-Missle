@@ -16,7 +16,8 @@ import org.xml.sax.SAXException;
 /**
  * A war class that holds all the war objects
  * 
- * @author Avishay and Dvir
+ * @author first part: Avishay and Dvir
+ * @author 2nd and 3rd parts: Andrey & Gal
  * 
  */
 public class War extends Thread {
