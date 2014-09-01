@@ -17,6 +17,7 @@ import missile.Missile;
 
 import org.xml.sax.SAXException;
 
+import view.WarGui;
 import war.War;
 import war.WarUtility;
 
@@ -33,10 +34,12 @@ public class Program {
 	public static void main(String[] args) {
 		
 		try {
+			new WarGui();
 			XMLparser xml = new XMLparser();
 			War war = xml.readXML();
 			war.start();
 			menu(war);
+			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
