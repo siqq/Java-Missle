@@ -14,3 +14,18 @@ public class ProgressPanel extends JPanel {
 		
 	}
 }
+
+/*
+
+		JProgressBar progressBar_1 = new JProgressBar();
+		progressPanel.add(progressBar_1);
+		
+		JProgressBar progressBar_2 = new JProgressBar();
+		progressPanel.add(progressBar_2);
+		
+		JProgressBar progressBar_3 = new JProgressBar();
+		progressPanel.add(progressBar_3);
+		
+		JProgressBar progressBar = new JProgressBar();
+		progressPanel.add(progressBar);
+*/
