@@ -22,7 +22,10 @@ public class ProgressPanel extends JPanel {
 	    	for(int progressBarNo=0 ; progressBarNo < 10 ; progressBarNo++){
 	    	    
 	    	    progressBars.add(new JProgressBar());
-	    	    this.add(progressBars.peek());
+	    	    
+	    	}
+	    	for( JProgressBar j : progressBars){
+	    	    this.add(j);
 	    	}
 //		JProgressBar progressBar_1 = new JProgressBar();
 //		add(progressBar_1);
