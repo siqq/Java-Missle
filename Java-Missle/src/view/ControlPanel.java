@@ -1,8 +1,12 @@
 package view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 import javax.swing.SpringLayout;
@@ -24,6 +28,7 @@ public class ControlPanel extends JPanel {
 
 	public ControlPanel() {
 		setBackground(Color.DARK_GRAY);
+		
 		exitButton = new JButton();
 		startButton = new JButton();
 		fireMissileButton = new JButton();
@@ -130,6 +135,15 @@ public class ControlPanel extends JPanel {
 		
 		///////////////////////////////////////////
 
+		
+		addNewLauncherButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
 		
 	}
 

@@ -34,7 +34,7 @@ public class Program {
 	public static void main(String[] args) {
 		
 		try {
-			new WarGui();
+//			new WarGui();
 			XMLparser xml = new XMLparser();
 			War war = xml.readXML();
 			war.start();
