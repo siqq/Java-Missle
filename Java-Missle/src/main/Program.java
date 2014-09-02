@@ -34,9 +34,10 @@ public class Program {
 	public static void main(String[] args) {
 		
 		try {
-//			new WarGui();
+			
 			XMLparser xml = new XMLparser();
 			War war = xml.readXML();
+			new WarGui(war);
 			war.start();
 			menu(war);
 			
@@ -63,7 +64,7 @@ public class Program {
 				while (true) {
 					try {
 						Thread.sleep(War.TIME_INTERVAL);
-						checkEndOfWar(war);
+//						checkEndOfWar(war);
 					} catch (InterruptedException e) {
 					}
 				}	

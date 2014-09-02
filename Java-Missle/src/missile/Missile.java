@@ -3,6 +3,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JProgressBar;
+
 import launcher.Launcher;
 import war.War;
 
@@ -18,6 +20,8 @@ public class Missile extends AbstractMissile {
 	private int 			damage;
 	private Launcher 		launcher;
 	private Status			status;
+	private JProgressBar		progressBar;
+	private int			counter;
 
 	/**
 	 * Constructor 
@@ -38,6 +42,8 @@ public class Missile extends AbstractMissile {
 		this.damage = damage;
 		this.launcher = launcher;
 		this.setStatus(Status.Waiting);
+		progressBar = new JProgressBar(0 , flyTime-1);
+		counter=0;
 		
 		logger = Logger.getLogger("warLogger");
 	}
@@ -49,6 +55,11 @@ public class Missile extends AbstractMissile {
 		return missileId;
 	}
 	
+	
+	public String getDestination() {
+	    return destination;
+	}
+
 	/**
 	 * @return launch time
 	 */
@@ -76,6 +87,11 @@ public class Missile extends AbstractMissile {
 	public Status getStatus() {
 		return status;
 	}
+	
+
+	public JProgressBar getProgressBar() {
+	    return progressBar;
+	}
 
 	/**
 	 * set status
@@ -92,6 +108,7 @@ public class Missile extends AbstractMissile {
 		boolean reveal_status = false;
 		try {
 			sleep(getLaunchTime() * War.TIME_INTERVAL);
+//			progressBar.setValue(counter+1);
 			
 			synchronized (launcher) {
 				if (launcher.isRunning()) {
@@ -105,7 +122,15 @@ public class Missile extends AbstractMissile {
 									 + " was launched from launcher: "
 									 + this.launcher.getLauncherId();
 					logger.log(Level.INFO, print_log, this);
-					sleep(flyTime * War.TIME_INTERVAL);	
+					while(counter < flyTime){ // for updating the progressbars every second
+					    sleep(War.TIME_INTERVAL);
+					    progressBar.setValue(counter);
+					    counter += 1;
+					    System.out.println(counter);
+//					    progressBar.setVisible(false);
+
+					}
+//					sleep(flyTime * War.TIME_INTERVAL);	
 					destroyTarget();
 					if (reveal_status == true) {
 						launcher.hideYourSelf(); // make launcher hide again
@@ -133,6 +158,7 @@ public class Missile extends AbstractMissile {
 				  + this.damage + " damage";
 		logger.log(Level.INFO, print_log, this);
 		this.setStatus(Status.Hit);
+		progressBar.setVisible(false);
 	}
 	
 }

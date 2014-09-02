@@ -9,8 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
+import war.War;
+
 public class WarGui extends JFrame {
-	public WarGui() {
+	public WarGui(War war) {
 		setBackground(Color.DARK_GRAY);
 
 		SpringLayout springLayout = new SpringLayout();
@@ -24,7 +26,7 @@ public class WarGui extends JFrame {
 		springLayout.putConstraint(SpringLayout.EAST, ironDomesPanel, -856, SpringLayout.EAST, getContentPane());
 		LaunchersPanel launchersPanel = new LaunchersPanel();
 		springLayout.putConstraint(SpringLayout.WEST, launchersPanel, 10, SpringLayout.WEST, getContentPane());
-		ProgressPanel progressPanel = new ProgressPanel();
+		ProgressPanel progressPanel = new ProgressPanel(war);
 		springLayout.putConstraint(SpringLayout.SOUTH, progressPanel, -10, SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, launchersPanel, -6, SpringLayout.WEST, progressPanel);
 		springLayout.putConstraint(SpringLayout.EAST, destroyersPanel, -6, SpringLayout.WEST, progressPanel);

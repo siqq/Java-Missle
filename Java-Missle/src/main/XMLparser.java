@@ -42,7 +42,7 @@ public class XMLparser {
 		DocumentBuilder builder;
 		builder = factory.newDocumentBuilder();
 		InputStream xml_file = ClassLoader
-				.getSystemResourceAsStream("war.xml");
+				.getSystemResourceAsStream("war2.xml");
 		//check if we have xml file
 		if (xml_file == null) {
 			return war;
@@ -164,5 +164,10 @@ public class XMLparser {
 			}
 		}
 	}
+
+	public Vector<Launcher> getMissileLaunchers() {
+	    return missileLaunchers;
+	}
+	
 
 }
