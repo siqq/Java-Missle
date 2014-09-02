@@ -11,9 +11,9 @@ import javax.swing.SwingConstants;
 
 public class WarGui extends JFrame {
 	public WarGui() {
+		setBackground(Color.BLACK);
 
 		SpringLayout springLayout = new SpringLayout();
-		
 		ControlPanel controlPanel = new ControlPanel();
 		springLayout.putConstraint(SpringLayout.EAST, controlPanel, -10, SpringLayout.EAST, getContentPane());
 		DestroyersPanel destroyersPanel = new DestroyersPanel();
