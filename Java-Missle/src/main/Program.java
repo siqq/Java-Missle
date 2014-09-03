@@ -20,6 +20,8 @@ import org.xml.sax.SAXException;
 import view.WarGui;
 import war.War;
 import war.WarUtility;
+import war.controller.AbstractWarView;
+import war.controller.WarController;
 
 public class Program {
 	public static final String LAUNCHER = "launcher";
@@ -40,6 +42,13 @@ public class Program {
 			new WarGui(war);
 			war.start();
 			menu(war);
+			
+//			Bus model = new Bus();
+			
+//			AbstractWarView warView = new WarGui(war);
+
+			
+//			WarController warController = new WarController(war, warView);
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();

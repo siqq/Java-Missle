@@ -22,6 +22,7 @@ public class Missile extends AbstractMissile {
 	private Status			status;
 	private JProgressBar		progressBar;
 	private int			counter;
+	
 
 	/**
 	 * Constructor 
@@ -111,6 +112,7 @@ public class Missile extends AbstractMissile {
 //			progressBar.setValue(counter+1);
 			
 			synchronized (launcher) {
+				
 				if (launcher.isRunning()) {
 					this.setStatus(Status.Launched);
 					// make launcher not hidden for X amount of time
@@ -122,11 +124,11 @@ public class Missile extends AbstractMissile {
 									 + " was launched from launcher: "
 									 + this.launcher.getLauncherId();
 					logger.log(Level.INFO, print_log, this);
-					while(counter < flyTime){ // for updating the progressbars every second
+					while(counter < flyTime){// for updating the progressbars every second
+						
 					    sleep(War.TIME_INTERVAL);
 					    progressBar.setValue(counter);
 					    counter += 1;
-					    System.out.println(counter);
 //					    progressBar.setVisible(false);
 
 					}

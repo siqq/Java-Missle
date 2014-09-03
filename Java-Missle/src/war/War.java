@@ -4,14 +4,15 @@ import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import launcher.Destructor;
 import launcher.Launcher;
 import logger.LogFormatter;
 
 import org.xml.sax.SAXException;
+import war.controller.WarController;
+import war.controller.WarEventListener;
+
 
 /**
  * A war class that holds all the war objects
@@ -20,6 +21,7 @@ import org.xml.sax.SAXException;
  * @author 2nd and 3rd parts: Andrey & Gal
  * 
  */
+
 public class War extends Thread {
 
 	public static final int 	TIME_INTERVAL = 1000; 	//sleep time for threads
@@ -30,6 +32,7 @@ public class War extends Thread {
 	private Vector<Launcher> 	missileLaunchers = new Vector<>();
 	private Vector<Destructor> 	missileDestructors = new Vector<>();
 	private Vector<Destructor> 	missileLauncherDestructors = new Vector<>();
+	private Vector<WarEventListener> allListeners;
 
 	/**
 	 * Constructor for the war which take from XML the stats to begin
@@ -50,6 +53,7 @@ public class War extends Thread {
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(fileHandler);
 		logger.setUseParentHandlers(false);
+		allListeners = new Vector<WarEventListener>();
 		this.missileLaunchers = missileLaunchers;
 		this.missileDestructors = missileDestructors;
 		this.missileLauncherDestructors = missileLauncherDestructors;
@@ -112,6 +116,13 @@ public class War extends Thread {
 				d.start();
 			}
 		}
+	}
+
+
+
+	public void registerListener(WarController warController) {
+		allListeners.add(warController);
+		
 	}
 
 }
