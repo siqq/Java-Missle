@@ -14,9 +14,7 @@ import missile.AbstractMissile;
 import missile.DestructedLanucher;
 import missile.DestructedMissile;
 import missile.Missile;
-
 import org.xml.sax.SAXException;
-
 import view.WarGui;
 import war.War;
 import war.WarUtility;
@@ -36,12 +34,17 @@ public class Program {
 	public static void main(String[] args) {
 		
 		try {
-			
 			XMLparser xml = new XMLparser();
-			War war = xml.readXML();
-			new WarGui(war);
-			war.start();
-			menu(war);
+			War warModel = xml.readXML();			
+			AbstractWarView viewGui = new WarGui(warModel);
+			
+			WarController controller = new WarController(warModel, viewGui);
+			
+			
+//			new WarGui(warModel);
+						
+			
+//			menu(warModel);
 			
 //			Bus model = new Bus();
 			

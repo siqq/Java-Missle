@@ -20,10 +20,11 @@ public class WarGui extends JFrame implements AbstractWarView {
 	private List<WarUIEventsListener> allListeners;
 
 	public WarGui(War war) {
+		ControlPanel controlPanel = new ControlPanel(allListeners);
 		setBackground(Color.DARK_GRAY);
 
 		SpringLayout springLayout = new SpringLayout();
-		ControlPanel controlPanel = new ControlPanel();
+		
 		springLayout.putConstraint(SpringLayout.NORTH, controlPanel, 233,
 				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, controlPanel, -10,

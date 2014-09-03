@@ -5,7 +5,7 @@ import launcher.Destructor;
 import launcher.Launcher;
 import war.War;
 
-public class WarController implements WarEventListener,WarUIEventsListener {
+public class WarController implements WarUIEventsListener,WarEventListener {
 	private War warModel;
 	private AbstractWarView  warView;
 	
@@ -15,18 +15,31 @@ public class WarController implements WarEventListener,WarUIEventsListener {
         
     	warModel.registerListener(this);
     	warView.registerListener(this);
+    	warModel.start();
     }
-    
-    
+
+	@Override
+	public void addDestructorToModel(String id, String type) {		
+		
+	}
+
+	@Override
+	public void addLauncherToModel(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void addLauncherToUI(String id) {
-
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void addDestructorToUI(Destructor destructor) {
-
+	@Override
+	public void addDestructorToUI(String id, String type) {
+		// TODO Auto-generated method stub
+		
 	}
-
-	public void addMissileProgressBarToUI(Launcher launcher) {
-
-	}
+    
+    
 }

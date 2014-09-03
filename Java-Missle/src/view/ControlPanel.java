@@ -3,13 +3,19 @@ package view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 import javax.swing.SpringLayout;
+
+import war.controller.WarUIEventsListener;
 
 
 public class ControlPanel extends JPanel {
@@ -19,15 +25,15 @@ public class ControlPanel extends JPanel {
 	public static final String ADD_LAUNCHER_IMAGE_PATH = "/drawable/addNewLauncher.png";
 	public static final String INTERCEPT_MISSILE_IMAGE_PATH ="/drawable/interceptMissile.png";
 	public static final String ADD_DESTRUCTOR_IMAGE_PATH ="/drawable/addNewDestructor.png";
-	public static final String WAR_STATISTICS_IMAGE_PATH ="/drawable/warStatistics.png";
-	
+	public static final String WAR_STATISTICS_IMAGE_PATH ="/drawable/warStatistics.png";	
 	public static final String BACKGROUND_IMAGE_PATH = "/drawable/desert.png";
 	
 	JButton exitButton, startButton,fireMissileButton,addNewLauncherButton,interceptMissileButton,addNewDestructorButton,statisticsButton;
-	
+	private List<WarUIEventsListener> allListeners;
 
-	public ControlPanel() {
+	public ControlPanel(List<WarUIEventsListener> allListeners) {
 		setBackground(Color.DARK_GRAY);
+		this.allListeners = allListeners;
 		
 		exitButton = new JButton();
 		startButton = new JButton();
@@ -68,6 +74,7 @@ public class ControlPanel extends JPanel {
 		startButton.setContentAreaFilled(false);
 		validate();
 		add(startButton);
+				
 		
 		
 		
@@ -92,6 +99,14 @@ public class ControlPanel extends JPanel {
 		addNewLauncherButton.setContentAreaFilled(false);
 		validate();
 		add(addNewLauncherButton);
+		
+		addNewLauncherButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg) {
+				addNewLauncherPopUpFrame();				
+			}
+		});
 		
 		
 		interceptMissileButton.setIcon(new ImageIcon(ControlPanel.class.getResource(INTERCEPT_MISSILE_IMAGE_PATH)));
@@ -133,19 +148,16 @@ public class ControlPanel extends JPanel {
 		validate();
 		add(statisticsButton);
 		
-		///////////////////////////////////////////
-
-		
-		addNewLauncherButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
+		///////////////////////////////////////////		
 		
 	}
+
+	protected void addNewLauncherPopUpFrame() {
+		new LauncherPopUpFrame(allListeners);		
+	}
+
+
+
 
 }
 

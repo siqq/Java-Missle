@@ -4,12 +4,15 @@ import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import launcher.Destructor;
 import launcher.Launcher;
 import logger.LogFormatter;
 
 import org.xml.sax.SAXException;
+
 import war.controller.WarController;
 import war.controller.WarEventListener;
 
@@ -124,5 +127,6 @@ public class War extends Thread {
 		allListeners.add(warController);
 		
 	}
+
 
 }
