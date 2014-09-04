@@ -19,6 +19,32 @@ public class WarController implements WarUIEventsListener,WarEventListener {
     	warView.registerListener(this);
     	warModel.start();
     }
+    
+    
+
+	public War getWarModel() {
+		return warModel;
+	}
+
+
+
+	public void setWarModel(War warModel) {
+		this.warModel = warModel;
+	}
+
+
+
+	public AbstractWarView getWarView() {
+		return warView;
+	}
+
+
+
+	public void setWarView(AbstractWarView warView) {
+		this.warView = warView;
+	}
+
+
 
 	@Override
 	public void addDestructorToModel(String id, String type) {		

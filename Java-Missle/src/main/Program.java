@@ -34,13 +34,14 @@ public class Program {
 	public static void main(String[] args) {
 		
 		try {
-			XMLparser xml = new XMLparser();
 //			War warModel = xml.readXML();
+			
 			War warModel = new War();
-			AbstractWarView viewGui = new WarGui();
-			
+			AbstractWarView viewGui = new WarGui();	
+						
 			WarController controller = new WarController(warModel,viewGui);
-			
+			XMLparser xml = new XMLparser(controller);
+
 			
 //			new WarGui(warModel);									
 //			menu(warModel);			

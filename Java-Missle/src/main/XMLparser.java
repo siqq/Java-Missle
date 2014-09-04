@@ -1,6 +1,7 @@
 package main;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -22,20 +23,22 @@ import org.xml.sax.SAXException;
 
 import war.War;
 import war.WarUtility;
+import war.controller.WarController;
+import war.controller.WarUIEventsListener;
 
 public class XMLparser {
-
 	private Vector<Launcher> 	missileLaunchers = new Vector<>();
 	private Vector<Destructor> 	missileDestructors = new Vector<>();
 	private Vector<Destructor> 	missileLauncherDestructors = new Vector<>();
-	private War war;
+	WarController controller;
 
-	public XMLparser() throws ParserConfigurationException, SAXException,
+	public XMLparser(WarController controller) throws ParserConfigurationException, SAXException,
 			IOException {
-		this.war = new War(missileDestructors, missileLauncherDestructors, missileLaunchers);
+		this.controller = controller;
+		readXML();
 	}
 
-	public War readXML() throws ParserConfigurationException, SAXException,
+	public void  readXML() throws ParserConfigurationException, SAXException,
 			IOException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		// Get the DOM Builder
@@ -45,7 +48,6 @@ public class XMLparser {
 				.getSystemResourceAsStream("war2.xml");
 		//check if we have xml file
 		if (xml_file == null) {
-			return war;
 		}
 		Document document = builder.parse(xml_file);
 		// Load and Parse the XML document
@@ -70,7 +72,6 @@ public class XMLparser {
 				}
 			}
 		}
-		return war;
 	}
 
 	/**
@@ -142,7 +143,7 @@ public class XMLparser {
 				// get the destructor and then add missile destructor to it
 				Destructor destructor_m = missileDestructors
 						.get(index / 2);
-				Missile target_m = WarUtility.getMissileById(id, war);
+				Missile target_m = WarUtility.getMissileById(id, controller.getWarModel());
 				DestructedMissile destructedM = new DestructedMissile(target_m, 
 						destructAfterLaunch, destructor_m, destructor_m.getFileHandler());
 				destructor_m.addDestructMissile(destructedM);
@@ -156,7 +157,7 @@ public class XMLparser {
 				// to it
 				Destructor destructor_l = missileLauncherDestructors
 						.get(index / 2);
-				Launcher target_l = WarUtility.getLauncherById(id, war);
+				Launcher target_l = WarUtility.getLauncherById(id, controller.getWarModel());
 				DestructedLanucher destructedL = new DestructedLanucher(target_l, 
 						destructTime, destructor_l, destructor_l.getFileHandler());
 				destructor_l.addDestructMissile(destructedL);
