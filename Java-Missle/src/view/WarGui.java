@@ -2,14 +2,13 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.LinkedList;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-
 import launcher.Destructor;
 import launcher.Launcher;
 import war.War;
@@ -18,9 +17,17 @@ import war.controller.WarUIEventsListener;
 
 public class WarGui extends JFrame implements AbstractWarView {
 	private List<WarUIEventsListener> allListeners;
+	private ControlPanel controlPanel;
+	IronDomesPanel ironDomesPanel;
+	LaunchersPanel launchersPanel;
+	ProgressPanel progressPanel;
+	public WarGui() {
+		allListeners = new LinkedList<WarUIEventsListener>();
+		controlPanel = new ControlPanel(allListeners);
+		ironDomesPanel = new IronDomesPanel();
+		launchersPanel = new LaunchersPanel();
+		progressPanel = new ProgressPanel();
 
-	public WarGui(War war) {
-		ControlPanel controlPanel = new ControlPanel(allListeners);
 		setBackground(Color.DARK_GRAY);
 
 		SpringLayout springLayout = new SpringLayout();
@@ -32,16 +39,14 @@ public class WarGui extends JFrame implements AbstractWarView {
 		DestroyersPanel destroyersPanel = new DestroyersPanel();
 		springLayout.putConstraint(SpringLayout.WEST, destroyersPanel, 10,
 				SpringLayout.WEST, getContentPane());
-		IronDomesPanel ironDomesPanel = new IronDomesPanel();
+		
 
 		springLayout.putConstraint(SpringLayout.WEST, ironDomesPanel, 10,
 				SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, ironDomesPanel, -856,
 				SpringLayout.EAST, getContentPane());
-		LaunchersPanel launchersPanel = new LaunchersPanel();
 		springLayout.putConstraint(SpringLayout.WEST, launchersPanel, 10,
 				SpringLayout.WEST, getContentPane());
-		ProgressPanel progressPanel = new ProgressPanel(war);
 		springLayout.putConstraint(SpringLayout.SOUTH, progressPanel, -10,
 				SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, launchersPanel, -6,
@@ -128,8 +133,8 @@ public class WarGui extends JFrame implements AbstractWarView {
 	}
 
 	@Override
-	public void addLauncherToUI(String id) {
-
+	public void addLauncherToUI(String launcherId) {
+		launchersPanel.addLauncherToPanel(launcherId);
 	}
 
 	@Override

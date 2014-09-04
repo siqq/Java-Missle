@@ -25,7 +25,7 @@ public class ProgressPanel extends JPanel {
     private Queue <JProgressBar> progressBars = new LinkedList<JProgressBar>();	  
     private JLabel label;
     Font myFont = new Font("Tahoma",Font.BOLD,14);
-    public ProgressPanel(War war) {
+    public ProgressPanel() {
 	this.setBorder(new LineBorder(new Color(0, 0, 0)));
 	setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	
@@ -70,7 +70,7 @@ public class ProgressPanel extends JPanel {
 
 	int frameLimit = 0;
 //	while(true){ //always running until the program stops
-	    for( Launcher launcher : war.getMissileLaunchers() ){
+/*	    for( Launcher launcher : war.getMissileLaunchers() ){
 		if(frameLimit < 10){
 		    for( Missile missile : launcher.getMissiles()){
 //			JProgressBar tempProgressBar = missile.getProgressBar();
@@ -94,7 +94,7 @@ public class ProgressPanel extends JPanel {
 
 		    } 
 		}
-	    }
+	    }*/
 	}
 
 

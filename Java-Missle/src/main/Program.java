@@ -35,22 +35,17 @@ public class Program {
 		
 		try {
 			XMLparser xml = new XMLparser();
-			War warModel = xml.readXML();			
-			AbstractWarView viewGui = new WarGui(warModel);
+//			War warModel = xml.readXML();
+			War warModel = new War();
+			AbstractWarView viewGui = new WarGui();
 			
-			WarController controller = new WarController(warModel, viewGui);
+			WarController controller = new WarController(warModel,viewGui);
 			
 			
-//			new WarGui(warModel);
-						
-			
-//			menu(warModel);
-			
-//			Bus model = new Bus();
-			
-//			AbstractWarView warView = new WarGui(war);
-
-			
+//			new WarGui(warModel);									
+//			menu(warModel);			
+//			Bus model = new Bus();			
+//			AbstractWarView warView = new WarGui(war);			
 //			WarController warController = new WarController(war, warView);
 			
 		} catch (ParserConfigurationException e) {

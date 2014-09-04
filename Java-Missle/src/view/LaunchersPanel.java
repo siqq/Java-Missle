@@ -21,13 +21,6 @@ public class LaunchersPanel extends JPanel {
 	public LaunchersPanel() {
 		setLayout(new GridLayout(2, 3,3,3));
 		
-
-		addLauncherToPanel("404");	
-		addLauncherToPanel("404");
-		addLauncherToPanel("404");
-		addLauncherToPanel("404");	
-		addLauncherToPanel("404");
-		addLauncherToPanel("404");
 	}
 	
 	public void addLauncherToPanel(String id){
@@ -38,6 +31,7 @@ public class LaunchersPanel extends JPanel {
 		this.add(launcher);
 		launchersQueue.add(launcher);
 		repaint();
+		validate();
 		
 	}
 }

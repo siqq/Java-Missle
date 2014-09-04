@@ -35,7 +35,7 @@ public class War extends Thread {
 	private Vector<Launcher> 	missileLaunchers = new Vector<>();
 	private Vector<Destructor> 	missileDestructors = new Vector<>();
 	private Vector<Destructor> 	missileLauncherDestructors = new Vector<>();
-	private Vector<WarEventListener> allListeners;
+	private Vector<WarEventListener> listeners;
 
 	/**
 	 * Constructor for the war which take from XML the stats to begin
@@ -56,16 +56,19 @@ public class War extends Thread {
 		logger = Logger.getLogger("warLogger");
 		logger.addHandler(fileHandler);
 		logger.setUseParentHandlers(false);
-		allListeners = new Vector<WarEventListener>();
+		listeners = new Vector<WarEventListener>();
 		this.missileLaunchers = missileLaunchers;
 		this.missileDestructors = missileDestructors;
 		this.missileLauncherDestructors = missileLauncherDestructors;
 	}
 	
-	public War() {
-		this.missileLaunchers = new Vector<>();
-		this.missileDestructors = new Vector<>();
-		this.missileLauncherDestructors = new Vector<>();
+	public War() throws SecurityException, IOException {
+		FileHandler fileHandler = new FileHandler("war_log.txt");
+		fileHandler.setFormatter(new LogFormatter());
+		logger = Logger.getLogger("warLogger");
+		logger.addHandler(fileHandler);
+		logger.setUseParentHandlers(false);
+		listeners = new Vector<WarEventListener>();
 	}
 
 	public Vector<Launcher> getMissileLaunchers() {
@@ -92,7 +95,15 @@ public class War extends Thread {
 
 	public void addLauncher(Launcher launcher) {
 		this.missileLaunchers.add(launcher);
+		fireAddLauncherEvent(launcher);
 		launcher.start();
+	}
+
+	private void fireAddLauncherEvent(Launcher launcher) {
+		for (WarEventListener l : listeners) {
+			l.addedLauncherToModelEvent(launcher.getLauncherId());
+		}
+		
 	}
 
 	/** This method start all the other threads this is where all the war begins. */
@@ -124,9 +135,19 @@ public class War extends Thread {
 
 
 	public void registerListener(WarController warController) {
-		allListeners.add(warController);
+		listeners.add(warController);
 		
 	}
+
+	public void addLauncher(String id) throws Exception {
+		if ((id.isEmpty()) || (WarUtility.getLauncherById(id, this) != null)) {
+			throw new Exception("This Id is empty or already exist");
+		}
+		boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
+		addLauncher(new Launcher(id, is_hidden));
+	}
+		
+	
 
 
 }

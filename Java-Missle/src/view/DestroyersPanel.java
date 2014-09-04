@@ -33,6 +33,7 @@ public class DestroyersPanel extends JPanel {
 		this.add(f16);
 		domeQueue.add(f16);
 		repaint();
+		validate();
 		
 	}
 	public void addshipToPanel(String id){		
@@ -42,6 +43,7 @@ public class DestroyersPanel extends JPanel {
 		this.add(ship);
 		domeQueue.add(ship);
 		repaint();
+		validate();
 		
 	}
 }
