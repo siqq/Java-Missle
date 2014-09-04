@@ -98,16 +98,7 @@ public class ControlPanel extends JPanel {
 		addNewLauncherButton.setBorderPainted(false);
 		addNewLauncherButton.setContentAreaFilled(false);
 		validate();
-		add(addNewLauncherButton);
-		
-		addNewLauncherButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg) {
-				addNewLauncherPopUpFrame();				
-			}
-		});
-		
+		add(addNewLauncherButton);				
 		
 		interceptMissileButton.setIcon(new ImageIcon(ControlPanel.class.getResource(INTERCEPT_MISSILE_IMAGE_PATH)));
 		springLayout.putConstraint(SpringLayout.EAST, fireMissileButton, 0, SpringLayout.EAST, interceptMissileButton);
@@ -150,6 +141,35 @@ public class ControlPanel extends JPanel {
 		
 		///////////////////////////////////////////		
 		
+		
+		// ACTION LISTENERS //
+		
+		addNewLauncherButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg) {
+				addNewLauncherPopUpFrame();				
+			}
+		});
+		
+		addNewDestructorButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addNewDestroyerPopUpFrame();
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+	}
+
+	protected void addNewDestroyerPopUpFrame() {
+			new DestroyerPopUpFrame(allListeners);
 	}
 
 	protected void addNewLauncherPopUpFrame() {

@@ -15,15 +15,12 @@ public class DestroyersPanel extends JPanel {
 	public static final String F16_IMAGE_PATH = "/drawable/f16-100x80.png";
 	public static final String SHIP_IMAGE_PATH = "/drawable/ship.png";
 	
-	private ImageIcon shipIcon = new ImageIcon(SHIP_IMAGE_PATH);
-	private ImageIcon f16Icon = new ImageIcon(F16_IMAGE_PATH);
     private Queue<JButton> domeQueue = new LinkedList<JButton>();
     
 	public DestroyersPanel() {
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new GridLayout(2, 3,3,3));
-		addf16ToPanel("404");	
-		addshipToPanel("404");	
+	
 		}
 	
 	public void addf16ToPanel(String id){		
@@ -45,5 +42,13 @@ public class DestroyersPanel extends JPanel {
 		repaint();
 		validate();
 		
+	}
+
+	public void addLauncherDestructorToUI(String destructorId, String type) {
+		if(type.equalsIgnoreCase("ship"))
+			addshipToPanel(destructorId);
+		if(type.equalsIgnoreCase("plane"))
+			addf16ToPanel(destructorId);
+			
 	}
 }

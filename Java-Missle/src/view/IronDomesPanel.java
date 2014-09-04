@@ -18,14 +18,9 @@ public class IronDomesPanel extends JPanel {
 	public IronDomesPanel() {
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new GridLayout(2, 3,3,3));
-		addLauncherToPanel("404");	
-		addLauncherToPanel("404");
-		addLauncherToPanel("404");
-		addLauncherToPanel("404");	
-		addLauncherToPanel("404");
-		addLauncherToPanel("404");
+
 		}
-	public void addLauncherToPanel(String id){
+	public void addIronDomeToPanel(String id){
 		
 		JButton dome = new JButton(id,new ImageIcon(LaunchersPanel.class.getResource(LAUNCHER_IMAGE_PATH)));
 		dome.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -33,6 +28,11 @@ public class IronDomesPanel extends JPanel {
 		this.add(dome);
 		domeQueue.add(dome);
 		repaint();
+		validate();
 		
+	}
+	public void addMissileDestructorToUI(String destructorId, String type) {
+		// type could be used for future functions if there are other Missile Destructors
+		addIronDomeToPanel(destructorId);
 	}
 }

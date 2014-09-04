@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import launcher.Destructor;
 import launcher.Launcher;
 import logger.LogFormatter;
+import missile.AbstractMissile;
 
 import org.xml.sax.SAXException;
 
@@ -85,12 +86,28 @@ public class War extends Thread {
 
 	public void addLauncherDestructor(Destructor desctructor) {
 		this.missileLauncherDestructors.add(desctructor);	
+		fireAddLauncherDestructorEvent(desctructor);
 		desctructor.start();
+	}
+
+	public void fireAddLauncherDestructorEvent(Destructor desctructor) {
+		for (WarEventListener l : listeners) {
+			l.addedLuncherDestructorToModelEvent(desctructor.getDestructorId(),desctructor.getType());
+		}
+		
 	}
 
 	public void addMissileDestructor(Destructor desctructor) {
 		this.missileDestructors.add(desctructor);	
+		fireAddMissileDestructorEvent(desctructor);
 		desctructor.start();
+	}
+
+	public void fireAddMissileDestructorEvent(Destructor desctructor) {
+		for (WarEventListener l : listeners) {
+			l.addedMissileDestructorToModelEvent(desctructor.getDestructorId(),desctructor.getType());
+		}
+		
 	}
 
 	public void addLauncher(Launcher launcher) {
@@ -99,7 +116,7 @@ public class War extends Thread {
 		launcher.start();
 	}
 
-	private void fireAddLauncherEvent(Launcher launcher) {
+	public void fireAddLauncherEvent(Launcher launcher) {
 		for (WarEventListener l : listeners) {
 			l.addedLauncherToModelEvent(launcher.getLauncherId());
 		}
@@ -145,6 +162,24 @@ public class War extends Thread {
 		}
 		boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
 		addLauncher(new Launcher(id, is_hidden));
+	}
+	
+	
+
+	public void addDestructor(String id, String type) throws SecurityException, IOException {
+
+		if (WarUtility.getDestructorById(id, this, type) != null) {
+			// tell controller the id already exists
+		}
+		if (type.equals("Plane") || type.equals("Ship")) {
+			Destructor desctructor = new Destructor(
+					id, type, new Vector<AbstractMissile>());
+			addLauncherDestructor(desctructor);
+		} else if (type.equals("Iron Dome")) {
+			Destructor desctructor = new Destructor(
+					id, type, new Vector<AbstractMissile>());
+			addMissileDestructor(desctructor);
+		} 
 	}
 		
 	

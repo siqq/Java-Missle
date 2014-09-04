@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+
 import launcher.Destructor;
 import launcher.Launcher;
 import war.War;
@@ -21,12 +23,14 @@ public class WarGui extends JFrame implements AbstractWarView {
 	IronDomesPanel ironDomesPanel;
 	LaunchersPanel launchersPanel;
 	ProgressPanel progressPanel;
+	DestroyersPanel destroyersPanel;
 	public WarGui() {
 		allListeners = new LinkedList<WarUIEventsListener>();
 		controlPanel = new ControlPanel(allListeners);
 		ironDomesPanel = new IronDomesPanel();
 		launchersPanel = new LaunchersPanel();
 		progressPanel = new ProgressPanel();
+		destroyersPanel = new DestroyersPanel();
 
 		setBackground(Color.DARK_GRAY);
 
@@ -36,7 +40,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, controlPanel, -10,
 				SpringLayout.EAST, getContentPane());
-		DestroyersPanel destroyersPanel = new DestroyersPanel();
+		
 		springLayout.putConstraint(SpringLayout.WEST, destroyersPanel, 10,
 				SpringLayout.WEST, getContentPane());
 		
@@ -145,6 +149,19 @@ public class WarGui extends JFrame implements AbstractWarView {
 	@Override
 	public void addMissileProgressBarToUI(Launcher launcher) {
 
+	}
+
+	@Override
+	public void addLauncherDestructorToUI(String destructorId, String type) {
+		destroyersPanel.addLauncherDestructorToUI(destructorId,type);
+		
+	}
+
+	@Override
+	public void addMissileDestructorToModelEvenet(String destructorId,
+			String type) {
+		ironDomesPanel.addMissileDestructorToUI(destructorId,type);
+		
 	}
 
 }
