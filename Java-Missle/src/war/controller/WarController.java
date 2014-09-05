@@ -131,6 +131,14 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 
 
 
+	@Override
+	public void UpdatedMissileProgressToModelEvent(int time) {
+	    // TODO Auto-generated method stub
+	    warView.updateMissileProgress(time);
+	}
+
+
+
 
 
     

@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -17,19 +19,22 @@ public class MissilePopUpFrame extends JFrame{
 	JTextField txtId, txtDamage,txtDest,txtFlyTime;
 	JButton addButton;
 	private List<WarUIEventsListener> allListeners;
-//ff
 	public MissilePopUpFrame(List<WarUIEventsListener> allListeners)
 			throws HeadlessException {
 		this.allListeners = allListeners;
 		setLayout(new FlowLayout());
-		txtId = new JTextField(10);
+		txtId = new JTextField(15);
 		txtId.setText("Enter missile id");
-		txtDest = new JTextField(10);
+		mouseListener(txtId);
+		txtDest = new JTextField(15);
 		txtDest.setText("Enter missile destination");
-		txtDamage = new JTextField(10);
+		mouseListener(txtDest);
+		txtDamage = new JTextField(15);
 		txtDamage.setText("Enter missile damage");
-		txtFlyTime = new JTextField(10);
+		mouseListener(txtDamage);
+		txtFlyTime = new JTextField(15);
 		txtFlyTime.setText("Enter missile fly time");
+		mouseListener(txtFlyTime);
 
 		addButton = new JButton("Select The launcher");
 		add(txtId);
@@ -41,14 +46,35 @@ public class MissilePopUpFrame extends JFrame{
 		setLocationRelativeTo(null);
 		setVisible(true);
 
+//		addButton.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//
+//				fireSelectPressed();
+//
+//			}
+//
+//		});
 		addButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+			//				for (WarUIEventsListener l : allListeners) {
+			//					l.addMissileToProgress(name, dest,damage, flyTime,id);
+			//
+			//				}
+			new Thread(new Runnable() {
+			    @Override
+			    public void run() {
 
 				fireSelectPressed();
 
-			}
+			    }
+			}).start();
+
+		    }
 
 		});
 	}
@@ -70,6 +96,14 @@ public class MissilePopUpFrame extends JFrame{
 
 		dispose();
 
+	}
+	public void mouseListener(final JTextField txtBox){
+		txtBox.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+			txtBox.setText("");
+		    }
+		  });
 	}
 
 

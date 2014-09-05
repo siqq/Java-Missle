@@ -12,5 +12,6 @@ public interface AbstractWarView {
 	void addMissileToProgress(String missileId, String destination,
 		int damage, int flyTime);
 	void addMissileFatherToModelEvenet(String id, String dest, String damage, String flytime);
+	void updateMissileProgress(int time);
 	
 }

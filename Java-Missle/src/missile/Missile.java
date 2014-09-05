@@ -107,7 +107,7 @@ public class Missile extends AbstractMissile {
 			sleep(getLaunchTime() * War.TIME_INTERVAL);
 			
 			synchronized (launcher) {
-				
+
 				if (launcher.isRunning()) {
 					this.setStatus(Status.Launched);
 					
@@ -122,15 +122,19 @@ public class Missile extends AbstractMissile {
 					for (WarEventListener l : allListeners) {
 						l.addedMissileToModelEvent(missileId,destination,damage,flyTime);
 					}
-					logger.log(Level.INFO, print_log, this);
 
-					    sleep(flyTime*War.TIME_INTERVAL);
-//				
+					logger.log(Level.INFO, print_log, this);
+					for(int time = 0 ; time < flyTime ; time++){
+					    sleep(War.TIME_INTERVAL);
+						for (WarEventListener l : allListeners) {
+							l.UpdatedMissileProgressToModelEvent(time);
+						}
+					}
 					
 //					sleep(flyTime * War.TIME_INTERVAL);	
 					destroyTarget();
 					if (reveal_status == true) {
-						launcher.hideYourSelf(); // make launcher hide again
+					launcher.hideYourSelf(); // make launcher hide again
 					}
 				}
 			}	

@@ -128,6 +128,7 @@ public class Launcher extends Thread {
 		Missile missile = new Missile(id, destination, launchtime, 
 				flytime, damage, this.fileHandler, this ,allListeners);
 		this.missiles.add(missile);
+		
 		synchronized (this) {
 			this.notify();
 		}

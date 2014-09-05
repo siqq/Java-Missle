@@ -193,10 +193,9 @@ public class War extends Thread {
 	    int flyTimeInt = Integer.parseInt(flyTime);
 	    for(Launcher launcher : missileLaunchers){
 		if(launcherId.equalsIgnoreCase(launcher.getLauncherId())){
-		    launcher.addMissile(name, dest, 1, flyTimeInt, damageInt);
+		    launcher.addMissile(name, dest, 0, flyTimeInt, damageInt);
 		}
-	    }
-	    
+	    }   
 	}
 		
 	

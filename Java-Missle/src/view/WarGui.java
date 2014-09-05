@@ -173,6 +173,12 @@ public class WarGui extends JFrame implements AbstractWarView {
 	    
 	}
 
+	@Override
+	public void updateMissileProgress(int time) {
+	    progressPanel.updateMissileTime(time);
+	    
+	}
+
 
 
 
