@@ -6,5 +6,6 @@ public interface WarUIEventsListener {
 		void addMissileToUI(String id, String dest, String damage, String flyTime, String launcherId);
 		void addMissileToProgress(String name, String dest,
 			String damage, String flyTime, String launcherId);
+		void destroyLauncherInUI(String destroyerId, String launcherIdToDestroy);
 
 }

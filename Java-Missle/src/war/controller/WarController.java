@@ -133,6 +133,27 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 
 
 
+	@Override
+	public void destroyLauncherInUI(String destroyerId,
+			String launcherIdToDestroy) {
+		warModel.destroyLauncher(destroyerId,launcherIdToDestroy);
+		
+	}
+
+
+
+	@Override
+	public void addedLauncherToDestroy(String destructor_id, String target_id, int destruct_time) {
+		// here you need to pass the information to the progress panel to add the destructor bar and when
+		// destruct time is over need to check with model if the destructor was hidden or not
+		// or you can do same as with missile to add listeners to destructor and check every second
+		// to fill the progress bar...
+		
+		
+	}
+
+
+
 
 
     

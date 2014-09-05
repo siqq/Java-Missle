@@ -28,7 +28,7 @@ public class ControlPanel extends JPanel {
 	public static final String WAR_STATISTICS_IMAGE_PATH ="/drawable/warStatistics.png";	
 	public static final String BACKGROUND_IMAGE_PATH = "/drawable/desert.png";
 	
-	private JButton exitButton, startButton,fireMissileButton,addNewLauncherButton,
+	private JButton exitButton, startButton,fireMissileButton,addNewLauncherButton,destoryLauncherButton,
 					interceptMissileButton,addNewDestructorButton,statisticsButton;
 	private List<WarUIEventsListener> allListeners;
 	private WarGui warGui;
@@ -47,15 +47,31 @@ public class ControlPanel extends JPanel {
 
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
 		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.WEST, statisticsButton, 0, SpringLayout.WEST, exitButton);
+		springLayout.putConstraint(SpringLayout.EAST, statisticsButton, 0, SpringLayout.EAST, addNewLauncherButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, addNewDestructorButton, -204, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.NORTH, interceptMissileButton, 141, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.NORTH, addNewDestructorButton, 37, SpringLayout.SOUTH, addNewLauncherButton);
+		springLayout.putConstraint(SpringLayout.EAST, exitButton, -25, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, fireMissileButton, 24, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, fireMissileButton, -37, SpringLayout.NORTH, interceptMissileButton);
+		springLayout.putConstraint(SpringLayout.WEST, interceptMissileButton, 0, SpringLayout.WEST, startButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, interceptMissileButton, -143, SpringLayout.NORTH, startButton);
+		springLayout.putConstraint(SpringLayout.EAST, interceptMissileButton, 0, SpringLayout.EAST, fireMissileButton);
+		springLayout.putConstraint(SpringLayout.NORTH, addNewLauncherButton, 24, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, addNewLauncherButton, 122, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, addNewLauncherButton, -325, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, addNewLauncherButton, 0, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.WEST, addNewDestructorButton, 0, SpringLayout.WEST, addNewLauncherButton);
+		springLayout.putConstraint(SpringLayout.EAST, addNewDestructorButton, 0, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.WEST, fireMissileButton, 0, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.EAST, fireMissileButton, -21, SpringLayout.WEST, addNewLauncherButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, exitButton, 0, SpringLayout.SOUTH, startButton);
 		springLayout.putConstraint(SpringLayout.SOUTH, startButton, 0, SpringLayout.SOUTH, this);
 		
 
 		
 		setLayout(springLayout);
-
-		///////// EXIT BUTTON CREATION  /////////
-		springLayout.putConstraint(SpringLayout.SOUTH, exitButton, 0, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, exitButton, 0, SpringLayout.EAST, this);
 		exitButton.setIcon(new ImageIcon(ControlPanel.class.getResource(EXIT_IMAGE_PATH)));
 		exitButton.setOpaque(false);
 		exitButton.setFocusPainted(false);
@@ -81,8 +97,6 @@ public class ControlPanel extends JPanel {
 		
 		
 		fireMissileButton.setIcon(new ImageIcon(ControlPanel.class.getResource(FIRE_MISSILE_IMAGE_PATH)));
-		springLayout.putConstraint(SpringLayout.NORTH, fireMissileButton, 24, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, fireMissileButton, 0, SpringLayout.WEST, this);
 		fireMissileButton.setOpaque(false);
 		fireMissileButton.setFocusPainted(false);
 		fireMissileButton.setBorderPainted(false);
@@ -91,10 +105,6 @@ public class ControlPanel extends JPanel {
 		add(fireMissileButton);
 		
 		addNewLauncherButton.setIcon(new ImageIcon(ControlPanel.class.getResource(ADD_LAUNCHER_IMAGE_PATH)));
-		springLayout.putConstraint(SpringLayout.SOUTH, fireMissileButton, 0, SpringLayout.SOUTH, addNewLauncherButton);
-		springLayout.putConstraint(SpringLayout.NORTH, addNewLauncherButton, 24, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, addNewLauncherButton, 122, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, addNewLauncherButton, 0, SpringLayout.EAST, exitButton);
 		addNewLauncherButton.setOpaque(false);
 		addNewLauncherButton.setFocusPainted(false);
 		addNewLauncherButton.setBorderPainted(false);
@@ -103,10 +113,6 @@ public class ControlPanel extends JPanel {
 		add(addNewLauncherButton);				
 		
 		interceptMissileButton.setIcon(new ImageIcon(ControlPanel.class.getResource(INTERCEPT_MISSILE_IMAGE_PATH)));
-		springLayout.putConstraint(SpringLayout.EAST, fireMissileButton, 0, SpringLayout.EAST, interceptMissileButton);
-		springLayout.putConstraint(SpringLayout.WEST, interceptMissileButton, 0, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.NORTH, interceptMissileButton, 161, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, interceptMissileButton, -123, SpringLayout.NORTH, startButton);
 		interceptMissileButton.setOpaque(false);
 		interceptMissileButton.setFocusPainted(false);
 		interceptMissileButton.setBorderPainted(false);
@@ -115,12 +121,6 @@ public class ControlPanel extends JPanel {
 		add(interceptMissileButton);
 		
 		addNewDestructorButton.setIcon(new ImageIcon(ControlPanel.class.getResource(ADD_DESTRUCTOR_IMAGE_PATH)));
-		springLayout.putConstraint(SpringLayout.NORTH, addNewDestructorButton, 157, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, addNewDestructorButton, -128, SpringLayout.NORTH, exitButton);
-		springLayout.putConstraint(SpringLayout.EAST, interceptMissileButton, -21, SpringLayout.WEST, addNewDestructorButton);
-		springLayout.putConstraint(SpringLayout.WEST, addNewDestructorButton, 122, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, addNewDestructorButton, 0, SpringLayout.EAST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, addNewLauncherButton, -53, SpringLayout.NORTH, addNewDestructorButton);
 		
 		addNewDestructorButton.setOpaque(false);
 		addNewDestructorButton.setFocusPainted(false);
@@ -130,10 +130,6 @@ public class ControlPanel extends JPanel {
 		add(addNewDestructorButton);
 		
 		statisticsButton.setIcon(new ImageIcon(ControlPanel.class.getResource(WAR_STATISTICS_IMAGE_PATH)));
-		springLayout.putConstraint(SpringLayout.NORTH, statisticsButton, 273, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, statisticsButton, 59, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, statisticsButton, -11, SpringLayout.NORTH, startButton);
-		springLayout.putConstraint(SpringLayout.EAST, statisticsButton, 59, SpringLayout.EAST, fireMissileButton);
 		statisticsButton.setOpaque(false);
 		statisticsButton.setFocusPainted(false);
 		statisticsButton.setBorderPainted(false);
@@ -141,35 +137,64 @@ public class ControlPanel extends JPanel {
 		validate();
 		add(statisticsButton);
 		
+		destoryLauncherButton = new JButton();
+		springLayout.putConstraint(SpringLayout.NORTH, statisticsButton, 0, SpringLayout.NORTH, destoryLauncherButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, statisticsButton, 0, SpringLayout.SOUTH, destoryLauncherButton);
+		springLayout.putConstraint(SpringLayout.NORTH, destoryLauncherButton, 268, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, destoryLauncherButton, 0, SpringLayout.WEST, startButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, destoryLauncherButton, -16, SpringLayout.NORTH, startButton);
+		springLayout.putConstraint(SpringLayout.EAST, destoryLauncherButton, 0, SpringLayout.EAST, fireMissileButton);
+		destoryLauncherButton.setIcon(new ImageIcon(ControlPanel.class.getResource("/drawable/DestroyLauncher.png")));
+		destoryLauncherButton.setOpaque(false);
+		destoryLauncherButton.setFocusPainted(false);
+		destoryLauncherButton.setContentAreaFilled(false);
+		destoryLauncherButton.setBorderPainted(false);
+		add(destoryLauncherButton);
+		
 		///////////////////////////////////////////		
 		
 		
 		// ACTION LISTENERS //
 		
-		addNewLauncherButton.addActionListener(new ActionListener() {
-			
+		
+		// ADD NEW LAUNCHER BUTTON ACTION LISTENER
+		addNewLauncherButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg) {
 				addNewLauncherPopUpFrame();				
 			}
 		});
 		
-		addNewDestructorButton.addActionListener(new ActionListener() {
-			
+		// ADD NEW DESTRUCTOR BUTTON ACTION LISTENER
+		addNewDestructorButton.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addNewDestroyerPopUpFrame();
 			}
 		});
-		fireMissileButton.addActionListener(new ActionListener() {
-			
+		
+		// FIRE MISSILE BUTTON ACTION LISTENER
+		fireMissileButton.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Select Launcher to shoot from");
 				selectLauncherToFireFrom();
 			}
 		});
+		
+		// DESTROY LAUNCHER BUTTON ACTION LISTENER
+		destoryLauncherButton.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Select Launcher to Destroy");
+				selectLauncherToDestroy();
+			}
+		});
+	}
 
+	public void selectLauncherToDestroy() {
+		warGui.selectLauncherToDestroy();
+		
 	}
 
 	public void selectLauncherToFireFrom() {

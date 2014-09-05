@@ -10,5 +10,6 @@ public interface WarEventListener {
 	void addedMissileToModelEvent(String missileId, String destination,
 		int damage, int flyTime);
 	void UpdatedMissileProgressToModelEvent(int time);
+	void addedLauncherToDestroy(String destructor_id, String target_id, int destruct_time);
 
 }

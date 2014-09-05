@@ -11,6 +11,7 @@ import launcher.Destructor;
 import launcher.Launcher;
 import logger.LogFormatter;
 import missile.AbstractMissile;
+import missile.DestructedLanucher;
 
 import org.xml.sax.SAXException;
 
@@ -30,6 +31,10 @@ public class War extends Thread {
 
 	public static final int 	TIME_INTERVAL = 1000; 	//sleep time for threads
 	public static final double 	SUCCESS_RATE = 0.2;	//success rate for destructors
+	public static final String LAUNCHER = "launcher";
+	public static final String MISSILE = "missile";
+	public static final int TAKES_TIME_MIN = 1;
+	public static final int TAKES_TIME_MAX = 10;
 
 	private static Logger 		logger;
 
@@ -120,6 +125,8 @@ public class War extends Thread {
 		fireAddLauncherEvent(launcher);
 		launcher.start();
 	}
+	
+	
 
 	public void fireAddLauncherEvent(Launcher launcher) {
 		for (WarEventListener l : listeners) {
@@ -197,8 +204,35 @@ public class War extends Thread {
 		}
 	    }   
 	}
-		
-	
 
+	
+	
+	public void destroyLauncher(String destructor_id, String target_id) {		
+		
+				Destructor selected_destructor = 
+						WarUtility.getDestructorById(destructor_id, this, LAUNCHER);
+				if (selected_destructor == null) {
+			//		throw new Exception("Destructor does not exist");
+				}
+				Launcher target =  WarUtility.getLauncherById(target_id,this);
+				if (target == null) {
+			//		throw new Exception("Target does not exist");
+				}
+				int destruct_time = (int) (TAKES_TIME_MIN + (Math.random() * 
+						(TAKES_TIME_MAX - TAKES_TIME_MIN + 1)));				
+				// assign destructor to destruct the launcher
+				
+				DestructedLanucher assigned_destructor = new DestructedLanucher(target, destruct_time, 
+						selected_destructor, selected_destructor.getFileHandler());
+
+				selected_destructor.addDestructMissile(assigned_destructor);
+				for (WarEventListener l : listeners) {
+					l.addedLauncherToDestroy(destructor_id,target_id,destruct_time);
+				}
+				
+				
+			}
+	
+		
 
 }

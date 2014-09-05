@@ -41,13 +41,6 @@ public class Program {
 						
 			WarController controller = new WarController(warModel,viewGui);
 			XMLparser xml = new XMLparser(controller);
-
-			
-//			new WarGui(warModel);									
-//			menu(warModel);			
-//			Bus model = new Bus();			
-//			AbstractWarView warView = new WarGui(war);			
-//			WarController warController = new WarController(war, warView);
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();

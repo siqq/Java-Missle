@@ -30,9 +30,9 @@ public class WarGui extends JFrame implements AbstractWarView {
 		allListeners = new LinkedList<WarUIEventsListener>();
 		controlPanel = new ControlPanel(allListeners, this);
 		ironDomesPanel = new IronDomesPanel();
-		launchersPanel = new LaunchersPanel(allListeners);
+		launchersPanel = new LaunchersPanel(allListeners,this);
 		progressPanel = new ProgressPanel();
-		destroyersPanel = new DestroyersPanel();
+		destroyersPanel = new DestroyersPanel(allListeners);
 		orefPanel = new OrefPanel();
 
 		setBackground(Color.DARK_GRAY);
@@ -178,6 +178,14 @@ public class WarGui extends JFrame implements AbstractWarView {
 
 	public void selectLauncherToFireFrom() {
 		launchersPanel.selectLauncherTofireFrom();
+	}
+
+	public void selectLauncherToDestroy() {
+		launchersPanel.selectLauncherToDestroy();
+	}
+
+	public void getLauncherDestroyer(String launcherId) {
+	destroyersPanel.getLauncherDestroyer(launcherId);
 	}
 
 }

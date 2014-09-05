@@ -7,12 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import com.sun.glass.events.WindowEvent;
 
 import war.controller.WarUIEventsListener;
 
@@ -22,7 +26,7 @@ public class MissilePopUpFrame extends JFrame {
 	private JButton addButton;
 	private List<WarUIEventsListener> allListeners;
 	private LaunchersPanel launchersPanel;
-	
+
 	public MissilePopUpFrame(List<WarUIEventsListener> allListeners,
 			String launcherId, LaunchersPanel launchersPanel)
 			throws HeadlessException {
@@ -53,12 +57,19 @@ public class MissilePopUpFrame extends JFrame {
 		setSize(200, 200);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
-		
+
+		// WINDOW LISTENER to reset border and boolean values
+		// when user press the X button to close the window
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				closeFrame();
+			}
+		});
+
 		addButton.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {				
-				fireAddNewMissilePressed();				
+			public void actionPerformed(ActionEvent e) {
+				fireAddNewMissilePressed();
 
 			}
 
@@ -76,14 +87,10 @@ public class MissilePopUpFrame extends JFrame {
 		}
 		for (WarUIEventsListener l : allListeners) {
 			// sending missile details to the relevant GUI launcher
-			l.addMissileToUI(id, dest, damage, flyTime,launcherId);
+			l.addMissileToUI(id, dest, damage, flyTime, launcherId);
 
 		}
-		// change launcherPanel view back to normal
-		launchersPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		launchersPanel.setFireMissileButtonPressed(false);
-		
-		dispose();
+		closeFrame();
 
 	}
 
@@ -96,4 +103,10 @@ public class MissilePopUpFrame extends JFrame {
 		});
 	}
 
+	public void closeFrame() {
+		launchersPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		launchersPanel.setFireMissileButtonPressed(false);
+		dispose();
+
+	}
 }
