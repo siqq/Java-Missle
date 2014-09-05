@@ -17,7 +17,10 @@ import war.War;
 import war.controller.AbstractWarView;
 import war.controller.WarUIEventsListener;
 
+import javax.swing.ImageIcon;
+
 public class WarGui extends JFrame implements AbstractWarView {
+	public static final String PROGRESS_LABLE_IMAGE_PATH = "/drawable/615x40.png";
 	private List<WarUIEventsListener> allListeners;
 	private ControlPanel controlPanel;
 	private IronDomesPanel ironDomesPanel;
@@ -38,6 +41,8 @@ public class WarGui extends JFrame implements AbstractWarView {
 		setBackground(Color.DARK_GRAY);
 
 		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.NORTH, progressPanel, 56, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, progressPanel, -10, SpringLayout.SOUTH, getContentPane());
 
 		springLayout.putConstraint(SpringLayout.NORTH, controlPanel, 233,
 				SpringLayout.NORTH, getContentPane());
@@ -53,8 +58,6 @@ public class WarGui extends JFrame implements AbstractWarView {
 				SpringLayout.EAST, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, launchersPanel, 10,
 				SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, progressPanel, -10,
-				SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, launchersPanel, -6,
 				SpringLayout.WEST, progressPanel);
 		springLayout.putConstraint(SpringLayout.EAST, destroyersPanel, -6,
@@ -104,16 +107,17 @@ public class WarGui extends JFrame implements AbstractWarView {
 		getContentPane().setLayout(springLayout);
 
 		// Jlabel for the progressbar
-		JLabel lblEnemyMissileInterception = new JLabel(
-				"ENEMY MISSILE INTERCEPTION STATUS");
+		JLabel lblEnemyMissileInterception = new JLabel();
+		springLayout.putConstraint(SpringLayout.SOUTH,
+				lblEnemyMissileInterception, 0, SpringLayout.NORTH,
+				progressPanel);
+		lblEnemyMissileInterception.setIcon(new ImageIcon(WarGui.class.getResource(PROGRESS_LABLE_IMAGE_PATH)));
+		springLayout.putConstraint(SpringLayout.EAST,
+				lblEnemyMissileInterception, 0, SpringLayout.EAST,
+				progressPanel);
 		springLayout.putConstraint(SpringLayout.NORTH,
 				lblEnemyMissileInterception, 10, SpringLayout.NORTH,
 				getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH,
-				lblEnemyMissileInterception, -618, SpringLayout.SOUTH,
-				getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, progressPanel, 6,
-				SpringLayout.SOUTH, lblEnemyMissileInterception);
 		lblEnemyMissileInterception.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblEnemyMissileInterception
 				.setHorizontalAlignment(SwingConstants.CENTER);
@@ -122,9 +126,6 @@ public class WarGui extends JFrame implements AbstractWarView {
 		springLayout.putConstraint(SpringLayout.WEST,
 				lblEnemyMissileInterception, 6, SpringLayout.EAST,
 				launchersPanel);
-		springLayout.putConstraint(SpringLayout.EAST,
-				lblEnemyMissileInterception, 0, SpringLayout.EAST,
-				progressPanel);
 
 		getContentPane().add(lblEnemyMissileInterception);
 		setSize(1180, 693);
