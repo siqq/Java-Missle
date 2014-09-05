@@ -36,7 +36,7 @@ public class Missile extends AbstractMissile {
 	 * @param launcher
 	 */
 	public Missile(String id, String destination, int launchTime, int flyTime,
-			int damage, FileHandler fileHandler, Launcher launcher , List<WarEventListener> allListeners) {
+		int damage, FileHandler fileHandler, Launcher launcher , List<WarEventListener> allListeners) {
 		super(launchTime, fileHandler);
 		this.missileId = id;
 		this.destination = destination;

@@ -104,20 +104,16 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 		
 	}
 
-
-
 	@Override
 	public void addedMissileToModelEvent(String missileId,String destination, int damage,
 		int flyTime) {
-	    // TODO Auto-generated method stub
-	    warView.addMissileToProgress(missileId,destination,damage,flyTime);
+	    warView.addMissileToUI(missileId,destination,damage,flyTime);
 	    
 	}
 
 	@Override
-	public void addMissileToUI(String id, String dest, String damage , String flytime) {
-	    warView.addMissileFatherToModelEvenet(id,dest,damage, flytime);
-	    
+	public void addMissileToUI(String missileId, String destination, String damage , String flyTime, String launcherId) {
+	    warModel.addMissile(missileId,destination,damage,flyTime,launcherId);
 	}
 
 
@@ -125,10 +121,8 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 	@Override
 	public void addMissileToProgress(String name, String dest,
 		String damage,String flyTime, String id) {
-	    warModel.addMissile(name,dest,damage,flyTime,id);
-	    
+	    	    
 	}
-
 
 
 	@Override

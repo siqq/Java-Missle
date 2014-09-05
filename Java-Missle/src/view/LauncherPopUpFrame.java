@@ -14,8 +14,8 @@ import javax.swing.JTextField;
 import war.controller.WarUIEventsListener;
 
 public class LauncherPopUpFrame extends JFrame {
-	JTextField txtId;
-	JButton addButton;
+	private JTextField txtId;
+	private JButton addButton;
 	private List<WarUIEventsListener> allListeners;
 
 	public LauncherPopUpFrame(List<WarUIEventsListener> allListeners)
@@ -31,12 +31,9 @@ public class LauncherPopUpFrame extends JFrame {
 		setVisible(true);
 
 		addButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				fireAddNewLauncherPressed();
-
 			}
 
 		});
@@ -48,7 +45,6 @@ public class LauncherPopUpFrame extends JFrame {
 			JOptionPane.showMessageDialog(null, "You must fill a name first!");
 			return;
 		}
-
 		for (WarUIEventsListener l : allListeners) {
 			l.addLauncherToUI(id);
 		}

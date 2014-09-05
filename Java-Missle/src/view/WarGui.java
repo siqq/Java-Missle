@@ -20,30 +20,32 @@ import war.controller.WarUIEventsListener;
 public class WarGui extends JFrame implements AbstractWarView {
 	private List<WarUIEventsListener> allListeners;
 	private ControlPanel controlPanel;
-	IronDomesPanel ironDomesPanel;
-	LaunchersPanel launchersPanel;
-	ProgressPanel progressPanel;
-	DestroyersPanel destroyersPanel;
+	private IronDomesPanel ironDomesPanel;
+	private LaunchersPanel launchersPanel;
+	private ProgressPanel progressPanel;
+	private DestroyersPanel destroyersPanel;
+	private OrefPanel orefPanel;
+
 	public WarGui() {
 		allListeners = new LinkedList<WarUIEventsListener>();
-		controlPanel = new ControlPanel(allListeners);
+		controlPanel = new ControlPanel(allListeners, this);
 		ironDomesPanel = new IronDomesPanel();
 		launchersPanel = new LaunchersPanel(allListeners);
 		progressPanel = new ProgressPanel();
 		destroyersPanel = new DestroyersPanel();
+		orefPanel = new OrefPanel();
 
 		setBackground(Color.DARK_GRAY);
 
 		SpringLayout springLayout = new SpringLayout();
-		
+
 		springLayout.putConstraint(SpringLayout.NORTH, controlPanel, 233,
 				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, controlPanel, -10,
 				SpringLayout.EAST, getContentPane());
-		
+
 		springLayout.putConstraint(SpringLayout.WEST, destroyersPanel, 10,
 				SpringLayout.WEST, getContentPane());
-		
 
 		springLayout.putConstraint(SpringLayout.WEST, ironDomesPanel, 10,
 				SpringLayout.WEST, getContentPane());
@@ -65,7 +67,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 		// SpringLayout for Progress Panel
 		springLayout.putConstraint(SpringLayout.EAST, progressPanel, -241,
 				SpringLayout.EAST, getContentPane());
-		OrefPanel orefPanel = new OrefPanel();
+
 		springLayout.putConstraint(SpringLayout.NORTH, orefPanel, 10,
 				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, orefPanel, 6,
@@ -148,39 +150,34 @@ public class WarGui extends JFrame implements AbstractWarView {
 
 	@Override
 	public void addLauncherDestructorToUI(String destructorId, String type) {
-		destroyersPanel.addLauncherDestructorToUI(destructorId,type);
-		
+		destroyersPanel.addLauncherDestructorToUI(destructorId, type);
+
 	}
 
 	@Override
 	public void addMissileDestructorToModelEvenet(String destructorId,
 			String type) {
-		ironDomesPanel.addMissileDestructorToUI(destructorId,type);
-		
+		ironDomesPanel.addMissileDestructorToUI(destructorId, type);
+
 	}
 
 	@Override
-	public void addMissileToProgress(String missileId, String destination, int damage,
+	public void addMissileToUI(String missileId, String destination, int damage,
 		int flyTime) {
 	    progressPanel.addMissileToProgressBar(missileId,destination,damage,flyTime);
+	    orefPanel.addMissileToOrefPanel(destination);
 	    
 	}
 
-	@Override
-	public void addMissileFatherToModelEvenet(String id, String dest,
-		String damage , String flyTime) {
-	    launchersPanel.setMissileElements(id,dest,damage , flyTime);
-	    
-	}
 
 	@Override
 	public void updateMissileProgress(int time) {
-	    progressPanel.updateMissileTime(time);
-	    
+		progressPanel.updateMissileTime(time);
+
 	}
 
-
-
-
+	public void selectLauncherToFireFrom() {
+		launchersPanel.selectLauncherTofireFrom();
+	}
 
 }

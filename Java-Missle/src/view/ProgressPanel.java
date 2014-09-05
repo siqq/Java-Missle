@@ -28,7 +28,7 @@ public class ProgressPanel extends JPanel {
     private JProgressBar progressBar;
     private int flyTime;
     private Vector<String> 	missiles = new Vector<>();
-    Font myFont = new Font("Tahoma",Font.BOLD,14);
+    private Font myFont = new Font("Tahoma",Font.BOLD,14);
     public ProgressPanel() {
 	this.setBorder(new LineBorder(new Color(0, 0, 0)));
 	setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));

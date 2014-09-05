@@ -28,12 +28,14 @@ public class ControlPanel extends JPanel {
 	public static final String WAR_STATISTICS_IMAGE_PATH ="/drawable/warStatistics.png";	
 	public static final String BACKGROUND_IMAGE_PATH = "/drawable/desert.png";
 	
-	JButton exitButton, startButton,fireMissileButton,addNewLauncherButton,interceptMissileButton,addNewDestructorButton,statisticsButton;
+	private JButton exitButton, startButton,fireMissileButton,addNewLauncherButton,
+					interceptMissileButton,addNewDestructorButton,statisticsButton;
 	private List<WarUIEventsListener> allListeners;
-
-	public ControlPanel(List<WarUIEventsListener> allListeners) {
+	private WarGui warGui;
+	public ControlPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
 		setBackground(Color.DARK_GRAY);
 		this.allListeners = allListeners;
+		this.warGui = warGui;
 		
 		exitButton = new JButton();
 		startButton = new JButton();
@@ -163,28 +165,23 @@ public class ControlPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addNewMissilePopUpFrame();
+				JOptionPane.showMessageDialog(null, "Select Launcher to shoot from");
+				selectLauncherToFireFrom();
 			}
 		});
-		
-		
-		
-		
-		
-		
+
+	}
+
+	public void selectLauncherToFireFrom() {
+		warGui.selectLauncherToFireFrom();
 		
 	}
 
-	protected void addNewMissilePopUpFrame() {
-	    new MissilePopUpFrame(allListeners);
-	    
-	}
-
-	protected void addNewDestroyerPopUpFrame() {
+	public void addNewDestroyerPopUpFrame() {
 			new DestroyerPopUpFrame(allListeners);
 	}
 
-	protected void addNewLauncherPopUpFrame() {
+	public void addNewLauncherPopUpFrame() {
 		new LauncherPopUpFrame(allListeners);		
 	}
 

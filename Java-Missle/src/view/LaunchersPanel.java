@@ -20,88 +20,60 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class LaunchersPanel extends JPanel {
-    public static final String LAUNCHER_IMAGE_PATH = "/drawable/launcher87x70.png";
-    private ImageIcon launcherIcon = new ImageIcon(LAUNCHER_IMAGE_PATH);
-    private Queue<JButton> launchersQueue = new LinkedList<JButton>();
-    private List<WarUIEventsListener> allListeners;
-    private String dest,name,damage, flyTime;
+	public static final String LAUNCHER_IMAGE_PATH = "/drawable/launcher87x70.png";
+	
+	private Queue<JButton> launchersQueue = new LinkedList<JButton>();
+	private List<WarUIEventsListener> allListeners;
+	private boolean fireMissileButtonPressed;
 
-    public LaunchersPanel(List<WarUIEventsListener> allListeners) {
-	setLayout(new GridLayout(2, 3,3,3));
-	this.allListeners = allListeners;
+	public LaunchersPanel(List<WarUIEventsListener> allListeners) {
+		setLayout(new GridLayout(2, 3, 3, 3));
+		setBorder(new LineBorder(new Color(0, 0, 0)));
+		this.allListeners = allListeners;
+		this.fireMissileButtonPressed = false;
+	}
 
-    }
+	public boolean isFireMissileButtonPressed() {
+		return fireMissileButtonPressed;
+	}
 
-    public void addLauncherToPanel(final String id){
+	public void setFireMissileButtonPressed(boolean fireMissileButtonPressed) {
+		this.fireMissileButtonPressed = fireMissileButtonPressed;
+	}
 
-	JButton launcher = new JButton(id,new ImageIcon(LaunchersPanel.class.getResource(LAUNCHER_IMAGE_PATH)));
-	launcher.setVerticalTextPosition(SwingConstants.BOTTOM);
-	launcher.setHorizontalTextPosition(SwingConstants.CENTER);
-	this.add(launcher);
-	launchersQueue.add(launcher);
-	repaint();
-	validate();
-	launcher.addActionListener(new ActionListener() {
+	public void addLauncherToPanel(final String id) {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+		JButton launcher = new JButton(id, new ImageIcon(
+		LaunchersPanel.class.getResource(LAUNCHER_IMAGE_PATH)));
+		launcher.setVerticalTextPosition(SwingConstants.BOTTOM);
+		launcher.setHorizontalTextPosition(SwingConstants.CENTER);
+		this.add(launcher);
+		launchersQueue.add(launcher);
+		repaint();
+		validate();
+		launcher.addActionListener(new ActionListener() {
 
-		//				for (WarUIEventsListener l : allListeners) {
-		//					l.addMissileToProgress(name, dest,damage, flyTime,id);
-		//
-		//				}
-		new Thread(new Runnable() {
-		    @Override
-		    public void run() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (fireMissileButtonPressed) {
+					String launcherId = ((JButton) e.getSource()).getText();
 
-			for (WarUIEventsListener l : allListeners) {
-			    l.addMissileToProgress(name, dest,damage, flyTime,id);
-
+					addNewMissilePopUp(launcherId);
+				}
 			}
 
-		    }
-		}).start();
+		});
 
-	    }
+	}
+	public void addNewMissilePopUp(String launcherId) {
+		new MissilePopUpFrame(allListeners, launcherId, this);
 
-	});
+	}
 
-    }
-    //	public void actionPerformed(ActionEvent arg) {
-    //		int result = JOptionPane.showConfirmDialog(theSurvivorPanel,
-    //				"Are you sure you want to move to the other tribe?", "Move?",
-    //				JOptionPane.YES_NO_OPTION);
-    //		if (result == JOptionPane.YES_OPTION) {
-    //			setEnabled(false); // here still in the EDT
-    //			new Thread(new Runnable() {
-    //				@Override
-    //				public void run() {
-    //					try {
-    //						Thread.currentThread().sleep(5000);
-    //					} catch (InterruptedException e) {
-    //						e.printStackTrace();
-    //					}
-    //					
-    //					// switch back to the EDT (swing thread)
-    //					SwingUtilities.invokeLater(new Runnable() {
-    //						@Override
-    //						public void run() {
-    //							theSurvivorPanel.getTribePanel().moveSurvivorToOtherTribe(
-    //							theSurvivorPanel);
-    //							setEnabled(true);
-    //						}
-    //					});
-    //				}
-    //			}).start();
-    //		}
-    //	} 
 
-    public void setMissileElements(String id, String dest, String damage, String flyTime) {
-	this.name = id;
-	this.dest=dest;
-	this.damage=damage;
-	this.flyTime=flyTime;
-
-    }
+	public void selectLauncherTofireFrom() {
+		this.setBorder(new LineBorder(new Color(255, 0, 0), 2));
+		fireMissileButtonPressed = true;
+	}
 
 }

@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -7,22 +8,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
 
-public class MissilePopUpFrame extends JFrame{
-	JTextField txtId, txtDamage,txtDest,txtFlyTime;
-	JButton addButton;
+public class MissilePopUpFrame extends JFrame {
+	private JTextField txtId, txtDamage, txtDest, txtFlyTime;
+	private String launcherId;
+	private JButton addButton;
 	private List<WarUIEventsListener> allListeners;
-	public MissilePopUpFrame(List<WarUIEventsListener> allListeners)
+	private LaunchersPanel launchersPanel;
+	
+	public MissilePopUpFrame(List<WarUIEventsListener> allListeners,
+			String launcherId, LaunchersPanel launchersPanel)
 			throws HeadlessException {
+		this.launchersPanel = launchersPanel;
 		this.allListeners = allListeners;
+		this.launcherId = launcherId;
 		setLayout(new FlowLayout());
+
 		txtId = new JTextField(15);
 		txtId.setText("Enter missile id");
 		mouseListener(txtId);
@@ -45,41 +53,19 @@ public class MissilePopUpFrame extends JFrame{
 		setSize(200, 200);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
-//		addButton.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//
-//				fireSelectPressed();
-//
-//			}
-//
-//		});
+		
+		
 		addButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {				
+				fireAddNewMissilePressed();				
 
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-
-			//				for (WarUIEventsListener l : allListeners) {
-			//					l.addMissileToProgress(name, dest,damage, flyTime,id);
-			//
-			//				}
-			new Thread(new Runnable() {
-			    @Override
-			    public void run() {
-
-				fireSelectPressed();
-
-			    }
-			}).start();
-
-		    }
+			}
 
 		});
 	}
 
-	public void fireSelectPressed() {
+	public void fireAddNewMissilePressed() {
 		String id = txtId.getText();
 		String dest = txtDest.getText();
 		String damage = txtDamage.getText();
@@ -89,22 +75,25 @@ public class MissilePopUpFrame extends JFrame{
 			return;
 		}
 		for (WarUIEventsListener l : allListeners) {
-		    //sending missile details to the rlevant gui launcher
-			l.addMissileToUI(id , dest , damage , flyTime);
+			// sending missile details to the relevant GUI launcher
+			l.addMissileToUI(id, dest, damage, flyTime,launcherId);
 
 		}
-
+		// change launcherPanel view back to normal
+		launchersPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		launchersPanel.setFireMissileButtonPressed(false);
+		
 		dispose();
 
 	}
-	public void mouseListener(final JTextField txtBox){
-		txtBox.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {
-			txtBox.setText("");
-		    }
-		  });
-	}
 
+	public void mouseListener(final JTextField txtBox) {
+		txtBox.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtBox.setText("");
+			}
+		});
+	}
 
 }

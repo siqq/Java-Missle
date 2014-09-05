@@ -13,8 +13,7 @@ import javax.swing.border.LineBorder;
 
 public class DestroyersPanel extends JPanel {
 	public static final String F16_IMAGE_PATH = "/drawable/f16-100x80.png";
-	public static final String SHIP_IMAGE_PATH = "/drawable/ship.png";
-	
+	public static final String SHIP_IMAGE_PATH = "/drawable/ship.png";	
     private Queue<JButton> domeQueue = new LinkedList<JButton>();
     
 	public DestroyersPanel() {
