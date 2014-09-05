@@ -7,5 +7,7 @@ public interface WarEventListener {
 	void addedLauncherToModelEvent(String launcherId);
 	void addedLuncherDestructorToModelEvent(String destructorId, String type);
 	void addedMissileDestructorToModelEvent(String destructorId, String type);
+	void addedMissileToModelEvent(String missileId, String destination,
+		int damage, int flyTime);
 
 }

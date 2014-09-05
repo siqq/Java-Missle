@@ -28,7 +28,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 		allListeners = new LinkedList<WarUIEventsListener>();
 		controlPanel = new ControlPanel(allListeners);
 		ironDomesPanel = new IronDomesPanel();
-		launchersPanel = new LaunchersPanel();
+		launchersPanel = new LaunchersPanel(allListeners);
 		progressPanel = new ProgressPanel();
 		destroyersPanel = new DestroyersPanel();
 
@@ -147,11 +147,6 @@ public class WarGui extends JFrame implements AbstractWarView {
 	}
 
 	@Override
-	public void addMissileProgressBarToUI(Launcher launcher) {
-
-	}
-
-	@Override
 	public void addLauncherDestructorToUI(String destructorId, String type) {
 		destroyersPanel.addLauncherDestructorToUI(destructorId,type);
 		
@@ -163,5 +158,23 @@ public class WarGui extends JFrame implements AbstractWarView {
 		ironDomesPanel.addMissileDestructorToUI(destructorId,type);
 		
 	}
+
+	@Override
+	public void addMissileToProgress(String missileId, String destination, int damage,
+		int flyTime) {
+	    progressPanel.addMissileToProgressBar(missileId,destination,damage,flyTime);
+	    
+	}
+
+	@Override
+	public void addMissileFatherToModelEvenet(String id, String dest,
+		String damage , String flyTime) {
+	    launchersPanel.setMissileElements(id,dest,damage , flyTime);
+	    
+	}
+
+
+
+
 
 }

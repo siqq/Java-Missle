@@ -7,8 +7,10 @@ public interface AbstractWarView {
 	void registerListener(WarUIEventsListener listener);
 	void addLauncherToUI(String id);
 	void addDestructorToUI(Destructor destructor);
-	void addMissileProgressBarToUI(Launcher launcher);
 	void addLauncherDestructorToUI(String destructorId, String type);
 	void addMissileDestructorToModelEvenet(String destructorId, String type);
+	void addMissileToProgress(String missileId, String destination,
+		int damage, int flyTime);
+	void addMissileFatherToModelEvenet(String id, String dest, String damage, String flytime);
 	
 }

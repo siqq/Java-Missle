@@ -109,6 +109,11 @@ public class War extends Thread {
 		}
 		
 	}
+	
+
+	public Vector<WarEventListener> getListeners() {
+	    return listeners;
+	}
 
 	public void addLauncher(Launcher launcher) {
 		this.missileLaunchers.add(launcher);
@@ -161,7 +166,7 @@ public class War extends Thread {
 			throw new Exception("This Id is empty or already exist");
 		}
 		boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
-		addLauncher(new Launcher(id, is_hidden));
+		addLauncher(new Launcher(id, is_hidden , listeners));
 	}
 	
 	
@@ -180,6 +185,18 @@ public class War extends Thread {
 					id, type, new Vector<AbstractMissile>());
 			addMissileDestructor(desctructor);
 		} 
+	}
+
+	public void addMissile(String name, String dest, String damage,
+		String flyTime,String launcherId) {
+	    int damageInt = Integer.parseInt(damage);
+	    int flyTimeInt = Integer.parseInt(flyTime);
+	    for(Launcher launcher : missileLaunchers){
+		if(launcherId.equalsIgnoreCase(launcher.getLauncherId())){
+		    launcher.addMissile(name, dest, 0, flyTimeInt, damageInt);
+		}
+	    }
+	    
 	}
 		
 	

@@ -1,9 +1,11 @@
 package launcher;
 import java.io.IOException;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
+import war.controller.WarEventListener;
 import logger.LogFormatter;
 import logger.ObjectFilter;
 import missile.Missile;
@@ -20,6 +22,7 @@ public class Launcher extends Thread {
 	private boolean 			isRunning;
 	private Vector<Missile> 	missiles;
 	private FileHandler 		fileHandler;
+	private List<WarEventListener> allListeners;
 
 	/**
 	 * Constructor 
@@ -51,14 +54,14 @@ public class Launcher extends Thread {
 	 * @throws SecurityException
 	 * @throws IOException
 	 */
-	public Launcher(String id, boolean isHidden) throws SecurityException,
+	public Launcher(String id, boolean isHidden ,List<WarEventListener> allListeners ) throws SecurityException,
 	IOException {
 		super();
 		this.id = id;
 		this.isHidden = isHidden;
 		this.missiles = new Vector<Missile>();
 		this.isRunning = true;
-
+		this.allListeners = allListeners;
 		fileHandler = new FileHandler("Launcher_" + this.id + ".txt", false);
 		fileHandler.setFilter(new ObjectFilter(this));
 		fileHandler.setFormatter(new LogFormatter());
@@ -123,7 +126,7 @@ public class Launcher extends Thread {
 	public void addMissile(String id, String destination, int launchtime,
 			int flytime, int damage) {
 		Missile missile = new Missile(id, destination, launchtime, 
-				flytime, damage, this.fileHandler, this);
+				flytime, damage, this.fileHandler, this ,allListeners);
 		this.missiles.add(missile);
 		synchronized (this) {
 			this.notify();

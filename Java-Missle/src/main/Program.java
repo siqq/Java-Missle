@@ -206,7 +206,7 @@ public class Program {
 			throw new Exception("This Id is empty or already exist");
 		}
 		boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
-		war.addLauncher(new Launcher(id, is_hidden));
+		war.addLauncher(new Launcher(id, is_hidden , war.getListeners()));
 	}
 
 	/**

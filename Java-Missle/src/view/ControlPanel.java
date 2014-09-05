@@ -159,6 +159,13 @@ public class ControlPanel extends JPanel {
 				addNewDestroyerPopUpFrame();
 			}
 		});
+		fireMissileButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addNewMissilePopUpFrame();
+			}
+		});
 		
 		
 		
@@ -166,6 +173,11 @@ public class ControlPanel extends JPanel {
 		
 		
 		
+	}
+
+	protected void addNewMissilePopUpFrame() {
+	    new MissilePopUpFrame(allListeners);
+	    
 	}
 
 	protected void addNewDestroyerPopUpFrame() {

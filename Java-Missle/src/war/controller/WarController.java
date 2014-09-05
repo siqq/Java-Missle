@@ -2,6 +2,7 @@ package war.controller;
 
 
 import java.io.IOException;
+import java.util.Vector;
 
 import launcher.Destructor;
 import launcher.Launcher;
@@ -36,6 +37,9 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 
 	public AbstractWarView getWarView() {
 		return warView;
+	}
+	public Vector<WarEventListener> getWarListeners() {
+		return warModel.getListeners();
 	}
 
 
@@ -99,6 +103,35 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 		warView.addMissileDestructorToModelEvenet(destructorId,type);
 		
 	}
-    
+
+
+
+	@Override
+	public void addedMissileToModelEvent(String missileId,String destination, int damage,
+		int flyTime) {
+	    // TODO Auto-generated method stub
+	    warView.addMissileToProgress(missileId,destination,damage,flyTime);
+	    
+	}
+
+	@Override
+	public void addMissileToUI(String id, String dest, String damage , String flytime) {
+	    warView.addMissileFatherToModelEvenet(id,dest,damage, flytime);
+	    
+	}
+
+
+
+	@Override
+	public void addMissileToProgress(String name, String dest,
+		String damage,String flyTime, String id) {
+	    warModel.addMissile(name,dest,damage,flyTime,id);
+	    
+	}
+
+
+
+
+
     
 }

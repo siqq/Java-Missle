@@ -1,4 +1,5 @@
 package missile;
+import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -7,11 +8,13 @@ import javax.swing.JProgressBar;
 
 import launcher.Launcher;
 import war.War;
+import war.controller.WarEventListener;
+import war.controller.WarUIEventsListener;
 
 public class Missile extends AbstractMissile {
 
 	public enum Status {Waiting, Launched, Destroyed, Hit};
-	
+	private List<WarEventListener> allListeners;
 	private static Logger 	logger;
 
 	private String 			missileId;
@@ -20,8 +23,6 @@ public class Missile extends AbstractMissile {
 	private int 			damage;
 	private Launcher 		launcher;
 	private Status			status;
-	private JProgressBar		progressBar;
-	private int			counter;
 	
 
 	/**
@@ -35,7 +36,7 @@ public class Missile extends AbstractMissile {
 	 * @param launcher
 	 */
 	public Missile(String id, String destination, int launchTime, int flyTime,
-			int damage, FileHandler fileHandler, Launcher launcher) {
+			int damage, FileHandler fileHandler, Launcher launcher , List<WarEventListener> allListeners) {
 		super(launchTime, fileHandler);
 		this.missileId = id;
 		this.destination = destination;
@@ -43,8 +44,7 @@ public class Missile extends AbstractMissile {
 		this.damage = damage;
 		this.launcher = launcher;
 		this.setStatus(Status.Waiting);
-		progressBar = new JProgressBar(0 , flyTime-1);
-		counter=0;
+		this.allListeners = allListeners;
 		
 		logger = Logger.getLogger("warLogger");
 	}
@@ -90,10 +90,6 @@ public class Missile extends AbstractMissile {
 	}
 	
 
-	public JProgressBar getProgressBar() {
-	    return progressBar;
-	}
-
 	/**
 	 * set status
 	 * @param status
@@ -109,12 +105,12 @@ public class Missile extends AbstractMissile {
 		boolean reveal_status = false;
 		try {
 			sleep(getLaunchTime() * War.TIME_INTERVAL);
-//			progressBar.setValue(counter+1);
 			
 			synchronized (launcher) {
 				
 				if (launcher.isRunning()) {
 					this.setStatus(Status.Launched);
+					
 					// make launcher not hidden for X amount of time
 					if (launcher.isHidden()) {
 						launcher.revealYourSelf(); 
@@ -123,15 +119,14 @@ public class Missile extends AbstractMissile {
 					String print_log = "Missle "+ this.missileId 
 									 + " was launched from launcher: "
 									 + this.launcher.getLauncherId();
-					logger.log(Level.INFO, print_log, this);
-					while(counter < flyTime){// for updating the progressbars every second
-						
-					    sleep(War.TIME_INTERVAL);
-					    progressBar.setValue(counter);
-					    counter += 1;
-//					    progressBar.setVisible(false);
-
+					for (WarEventListener l : allListeners) {
+						l.addedMissileToModelEvent(missileId,destination,damage,flyTime);
 					}
+					logger.log(Level.INFO, print_log, this);
+
+					    sleep(flyTime*War.TIME_INTERVAL);
+//				
+					
 //					sleep(flyTime * War.TIME_INTERVAL);	
 					destroyTarget();
 					if (reveal_status == true) {
@@ -160,7 +155,6 @@ public class Missile extends AbstractMissile {
 				  + this.damage + " damage";
 		logger.log(Level.INFO, print_log, this);
 		this.setStatus(Status.Hit);
-		progressBar.setVisible(false);
 	}
 	
 }

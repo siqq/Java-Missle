@@ -90,7 +90,7 @@ public class XMLparser {
 				boolean isHidden = Boolean.parseBoolean(launcher
 						.getAttributes().getNamedItem("isHidden")
 						.getNodeValue());
-				missileLaunchers.add(new Launcher(id, isHidden));
+				missileLaunchers.add(new Launcher(id, isHidden , controller.getWarListeners()));
 			} else {
 				String type = launcher.getAttributes().getNamedItem("type")
 						.getNodeValue();
