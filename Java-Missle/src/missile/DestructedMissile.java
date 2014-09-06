@@ -1,16 +1,20 @@
 package missile;
+import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import launcher.Destructor;
 import war.War;
+import war.controller.WarEventListener;
 
 public class DestructedMissile extends AbstractMissile {
 	private static Logger   logger;
 	
 	private Missile 		target;
 	private Destructor destructor;
+	private List<WarEventListener> allListeners;
+
 
 	/**
 	 * Constructor 
@@ -18,11 +22,12 @@ public class DestructedMissile extends AbstractMissile {
 	 * @param destructAfterLaunch
 	 */
 	public DestructedMissile(Missile target, int destructAfterLaunch, 
-			Destructor destructor, FileHandler fileHandler) {
+			Destructor destructor, FileHandler fileHandler , List<WarEventListener> allListeners) {
 		super (destructAfterLaunch, fileHandler);
 		this.target = target;
 		this.destructor = destructor;
 		logger = Logger.getLogger("warLogger");
+		this.allListeners = allListeners;
 	}
 
 	/**

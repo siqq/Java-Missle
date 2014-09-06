@@ -223,7 +223,7 @@ public class War extends Thread {
 				// assign destructor to destruct the launcher
 				
 				DestructedLanucher assigned_destructor = new DestructedLanucher(target, destruct_time, 
-						selected_destructor, selected_destructor.getFileHandler());
+						selected_destructor, selected_destructor.getFileHandler(),listeners);
 
 				selected_destructor.addDestructMissile(assigned_destructor);
 				for (WarEventListener l : listeners) {

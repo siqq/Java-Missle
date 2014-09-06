@@ -18,6 +18,8 @@ import javax.swing.border.LineBorder;
 
 import com.sun.glass.events.WindowEvent;
 
+import war.War;
+import war.controller.WarEventListener;
 import war.controller.WarUIEventsListener;
 
 public class MissilePopUpFrame extends JFrame {
@@ -77,20 +79,45 @@ public class MissilePopUpFrame extends JFrame {
 	}
 
 	public void fireAddNewMissilePressed() {
-		String id = txtId.getText();
-		String dest = txtDest.getText();
-		String damage = txtDamage.getText();
-		String flyTime = txtFlyTime.getText();
-		if (id.isEmpty() || dest.isEmpty() || damage.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "You must fill all details!");
-			return;
-		}
-		for (WarUIEventsListener l : allListeners) {
-			// sending missile details to the relevant GUI launcher
-			l.addMissileToUI(id, dest, damage, flyTime, launcherId);
+		new Thread(new Runnable() {
+		@Override
+		public void run() {
+//			while (true) {
+			    								
+				String id = txtId.getText();
+				String dest = txtDest.getText();
+				String damage = txtDamage.getText();
+				String flyTime = txtFlyTime.getText();
+				if (id.isEmpty() || dest.isEmpty() || damage.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "You must fill all details!");
+					return;
+				}
+				for (WarUIEventsListener l : allListeners) {
+					// sending missile details to the relevant GUI launcher
+					l.addMissileToUI(id, dest, damage, flyTime, launcherId);
 
+				}
+				
+				closeFrame();
+//			}	
 		}
-		closeFrame();
+	}).start();
+		setVisible(false);
+//		String id = txtId.getText();
+//		String dest = txtDest.getText();
+//		String damage = txtDamage.getText();
+//		String flyTime = txtFlyTime.getText();
+//		if (id.isEmpty() || dest.isEmpty() || damage.isEmpty()) {
+//			JOptionPane.showMessageDialog(null, "You must fill all details!");
+//			return;
+//		}
+//		for (WarUIEventsListener l : allListeners) {
+//			// sending missile details to the relevant GUI launcher
+//			l.addMissileToUI(id, dest, damage, flyTime, launcherId);
+//
+//		}
+//		setVisible(false);
+//		closeFrame();
 
 	}
 

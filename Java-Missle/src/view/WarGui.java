@@ -171,11 +171,11 @@ public class WarGui extends JFrame implements AbstractWarView {
 	}
 
 
-	@Override
-	public void updateMissileProgress(int time) {
-		progressPanel.updateMissileTime(time);
-
-	}
+//	@Override
+//	public void updateMissileProgress(int time, String missileId , String type) {
+//		progressPanel.updateMissileTime(time , missileId , type);
+//
+//	}
 
 	public void selectLauncherToFireFrom() {
 		launchersPanel.selectLauncherTofireFrom();
@@ -187,6 +187,32 @@ public class WarGui extends JFrame implements AbstractWarView {
 
 	public void getLauncherDestroyer(String launcherId) {
 	destroyersPanel.getLauncherDestroyer(launcherId);
+	}
+
+	@Override
+	public void destroyMissileProgress(String missileId , String type) {
+	   progressPanel.destroyProgress(missileId , type);
+	    
+	}
+
+	@Override
+	public void addDestroyerProgress(String destructor_id,
+		String target_id, int destruct_time) {
+	    progressPanel.addDestryoerToProgressBar(destructor_id ,target_id, destruct_time);
+	    
+	}
+
+	@Override
+	public void updateMissileProgress(int time, String missileId,
+		String type) {
+	    progressPanel.updateMissileTime(time, missileId, type);
+	    
+	}
+
+	@Override
+	public void removeLauncherFromView(String launcherId) {
+	   launchersPanel.removeLauncher(launcherId);
+	    
 	}
 
 }

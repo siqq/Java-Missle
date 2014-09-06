@@ -278,7 +278,7 @@ public class Program {
 				(TAKES_TIME_MAX - TAKES_TIME_MIN + 1)));
 		// assign destructor to destruct the launcher
 		DestructedLanucher assigned_destructor = new DestructedLanucher(target, destruct_time, 
-				selected_destructor, selected_destructor.getFileHandler());
+				selected_destructor, selected_destructor.getFileHandler() , war.getListeners());
 
 		selected_destructor.addDestructMissile(assigned_destructor);
 	}
@@ -318,7 +318,7 @@ public class Program {
 		int destruct_time = (int) (TAKES_TIME_MIN + (Math.random() * 
 				(TAKES_TIME_MAX - TAKES_TIME_MIN + 1)));
 		DestructedMissile assigned_destructor = new DestructedMissile(target, destruct_time, 
-				selected_destructor, selected_destructor.getFileHandler());
+				selected_destructor, selected_destructor.getFileHandler(), war.getListeners());
 		selected_destructor.addDestructMissile(assigned_destructor);
 	}
 

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -30,7 +31,8 @@ public class LaunchersPanel extends JPanel {
 
 	public LaunchersPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
 		this.warGui = warGui;
-		setLayout(new GridLayout(2, 3, 3, 3));
+//		setLayout(new GridLayout(2, 3, 3, 3));
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.allListeners = allListeners;
 		this.fireMissileButtonPressed = false;
@@ -97,6 +99,16 @@ public class LaunchersPanel extends JPanel {
 	public void selectLauncherToDestroy() {
 		this.setBorder(new LineBorder(new Color(255, 0, 0), 2));
 		destroyLauncherButtonPressed = true;
+	}
+
+	public void removeLauncher(String launcherId) {
+	   for(JButton launcher : launchersQueue){
+	       if(launcherId.equalsIgnoreCase(launcher.getText())){
+		   launcher.setVisible(false);
+//		   launcher.setEnabled(false);
+	       }
+	   }
+	    
 	}
 
 }

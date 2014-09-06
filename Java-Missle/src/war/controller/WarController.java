@@ -126,9 +126,9 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 
 
 	@Override
-	public void UpdatedMissileProgressToModelEvent(int time) {
+	public void UpdatedMissileProgressToModelEvent(int time , String missileId , String type) {
 	    // TODO Auto-generated method stub
-	    warView.updateMissileProgress(time);
+	    warView.updateMissileProgress(time , missileId , type);
 	}
 
 
@@ -148,9 +148,34 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 		// destruct time is over need to check with model if the destructor was hidden or not
 		// or you can do same as with missile to add listeners to destructor and check every second
 		// to fill the progress bar...
+	    warView.addDestroyerProgress( destructor_id,
+			 target_id,  destruct_time);
 		
 		
 	}
+
+
+
+	@Override
+	public void DestroyMissileProgressBar(String missileId , String type) {
+	    warView.destroyMissileProgress(missileId , type);
+	    
+	}
+
+
+
+	@Override
+	public void RemovedLauncherFromUI(String launcherId) {
+	    warView.removeLauncherFromView(launcherId);
+	}
+
+
+
+
+
+
+
+
 
 
 

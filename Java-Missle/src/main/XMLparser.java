@@ -145,7 +145,7 @@ public class XMLparser {
 						.get(index / 2);
 				Missile target_m = WarUtility.getMissileById(id, controller.getWarModel());
 				DestructedMissile destructedM = new DestructedMissile(target_m, 
-						destructAfterLaunch, destructor_m, destructor_m.getFileHandler());
+						destructAfterLaunch, destructor_m, destructor_m.getFileHandler(), controller.getWarListeners());
 				destructor_m.addDestructMissile(destructedM);
 				break;
 			case "destructedLanucher":
@@ -159,7 +159,7 @@ public class XMLparser {
 						.get(index / 2);
 				Launcher target_l = WarUtility.getLauncherById(id, controller.getWarModel());
 				DestructedLanucher destructedL = new DestructedLanucher(target_l, 
-						destructTime, destructor_l, destructor_l.getFileHandler());
+						destructTime, destructor_l, destructor_l.getFileHandler() , controller.getWarListeners());
 				destructor_l.addDestructMissile(destructedL);
 				break;
 			}
