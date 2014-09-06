@@ -168,7 +168,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 	public void addMissileToUI(String missileId, String destination, int damage,
 		int flyTime) {
 	    progressPanel.addMissileToProgressBar(missileId,destination,damage,flyTime);
-	    orefPanel.addMissileToOrefPanel(destination);
+	    
 	    
 	}
 
@@ -215,6 +215,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 			String destination, int damage, int flyTime) {
 		progressPanel.updateMissileTime(time, missileId, type,destination,damage,flyTime);
 		
+		orefPanel.addMissileToOrefPanel(destination, time);
 	}
 
 	public void selectIronDomeToFireFrom(String missileId) {
