@@ -1,4 +1,0 @@
-02/09/2014 01:34:05 Trying to destroy launcher :L102
-02/09/2014 01:34:05 Destruction of launcher L102 was failed - Launcher is hidden!
-02/09/2014 01:34:09 Trying to destroy launcher :L102
-02/09/2014 01:34:09 Launcher L102 was destroyed
