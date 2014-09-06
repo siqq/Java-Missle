@@ -9,7 +9,7 @@ import launcher.Launcher;
 import war.War;
 
 public class WarController implements WarUIEventsListener,WarEventListener {
-	private War warModel;
+	private War 			 warModel;
 	private AbstractWarView  warView;
 	
     public WarController(War model, AbstractWarView view) {

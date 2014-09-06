@@ -133,7 +133,7 @@ public class ProgressPanel extends JPanel {
 			    progressBar.setValue(time);
 			    System.out.println(time);
 			    JLabel temp = (JLabel)progressBar.getComponent(0);
-				  temp.setText(destination +" Will Hit Launcher #"+ missileId + " in " + (flyTime - time) +"s");
+				temp.setText(destination +" Will Hit Launcher #"+ missileId + " in " + (flyTime - time) +"s");
 			    
 			}
 

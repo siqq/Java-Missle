@@ -9,12 +9,10 @@ import war.War;
 import war.controller.WarEventListener;
 
 public class DestructedMissile extends AbstractMissile {
-	private static Logger   logger;
+	private static Logger  			 logger;
 	
-	private Missile 		target;
-	private Destructor destructor;
-	private List<WarEventListener> allListeners;
-
+	private Missile 				target;
+	private Destructor 				destructor;
 
 	/**
 	 * Constructor 
@@ -27,7 +25,6 @@ public class DestructedMissile extends AbstractMissile {
 		this.target = target;
 		this.destructor = destructor;
 		logger = Logger.getLogger("warLogger");
-		this.allListeners = allListeners;
 	}
 
 	/**

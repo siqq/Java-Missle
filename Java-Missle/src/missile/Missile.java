@@ -14,16 +14,16 @@ import war.controller.WarUIEventsListener;
 
 public class Missile extends AbstractMissile {
 
-    public enum Status {Waiting, Launched, Destroyed, Hit};
-    private List<WarEventListener> allListeners;
-    private static Logger 	logger;
+    public enum Status {Waiting, Launched, Destroyed, Hit};   
+    private static Logger 			logger;
 
-    private String 			missileId;
-    private String 			destination;
-    private int 			flyTime;
-    private int 			damage;
-    private Launcher 		launcher;
-    private Status			status;
+    private List<WarEventListener>  allListeners;
+    private String 					missileId;
+    private String 					destination;
+    private int 					flyTime;
+    private int 					damage;
+    private Launcher 				launcher;
+    private Status					status;
 
 
     /**

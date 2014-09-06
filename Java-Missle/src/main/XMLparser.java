@@ -30,7 +30,7 @@ public class XMLparser {
 	private Vector<Launcher> 	missileLaunchers = new Vector<>();
 	private Vector<Destructor> 	missileDestructors = new Vector<>();
 	private Vector<Destructor> 	missileLauncherDestructors = new Vector<>();
-	WarController controller;
+	private WarController 		controller;
 
 	public XMLparser(WarController controller) throws ParserConfigurationException, SAXException,
 			IOException {

@@ -28,19 +28,18 @@ import war.controller.WarEventListener;
  */
 
 public class War extends Thread {
+	public static final int 		 TIME_INTERVAL = 1000; 	//sleep time for threads
+	public static final double 	   	 SUCCESS_RATE = 0.2;	//success rate for destructors
+	public static final String 		 LAUNCHER = "launcher";
+	public static final String 		 MISSILE = "missile";
+	public static final int 		 TAKES_TIME_MIN = 1;
+	public static final int 		 TAKES_TIME_MAX = 10;
 
-	public static final int 	TIME_INTERVAL = 1000; 	//sleep time for threads
-	public static final double 	SUCCESS_RATE = 0.2;	//success rate for destructors
-	public static final String LAUNCHER = "launcher";
-	public static final String MISSILE = "missile";
-	public static final int TAKES_TIME_MIN = 1;
-	public static final int TAKES_TIME_MAX = 10;
+	private static Logger 			 logger;
 
-	private static Logger 		logger;
-
-	private Vector<Launcher> 	missileLaunchers = new Vector<>();
-	private Vector<Destructor> 	missileDestructors = new Vector<>();
-	private Vector<Destructor> 	missileLauncherDestructors = new Vector<>();
+	private Vector<Launcher> 		 missileLaunchers = new Vector<>();
+	private Vector<Destructor>	 	 missileDestructors = new Vector<>();
+	private Vector<Destructor> 		 missileLauncherDestructors = new Vector<>();
 	private Vector<WarEventListener> listeners;
 
 	/**

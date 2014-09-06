@@ -11,11 +11,11 @@ import war.controller.WarEventListener;
 
 public class DestructedLanucher extends AbstractMissile {
 
-	private static Logger 	logger;
+	private static Logger 			logger;
 
-	private Launcher 		target;
-	private Destructor 		destructor;
-	private List<WarEventListener> allListeners;
+	private Launcher 				target;
+	private Destructor 				destructor;
+	private List<WarEventListener>  allListeners;
 
 	/**
 	 * Constructor

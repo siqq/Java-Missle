@@ -12,18 +12,18 @@ import missile.Missile;
 
 public class Launcher extends Thread {
 
-	public static final int 	MIN_REVEAL = 1;
-	public static final int 	MAX_REVEAL = 5;
+	public static final int 		MIN_REVEAL = 1;
+	public static final int 		MAX_REVEAL = 5;
 
-	private static Logger 		logger;
+	private static Logger 			logger;
 
-	private String 				id;
-	private boolean 			isHidden;
-	private boolean 			isRunning;
-	private Vector<Missile> 	missiles;
-	private FileHandler 		fileHandler;
-	private List<WarEventListener> allListeners;
-
+	private String 					id;
+	private boolean 				isHidden;
+	private boolean 				isRunning;
+	private Vector<Missile> 		missiles;
+	private FileHandler 			fileHandler;
+	private List<WarEventListener>  allListeners;
+	
 	/**
 	 * Constructor 
 	 * @param id

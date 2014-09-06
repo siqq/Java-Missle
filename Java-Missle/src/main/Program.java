@@ -22,14 +22,13 @@ import war.controller.AbstractWarView;
 import war.controller.WarController;
 
 public class Program {
-	public static final String LAUNCHER = "launcher";
-	public static final String MISSILE = "missile";
-	public static final int TAKES_TIME_MIN = 1;
-	public static final int TAKES_TIME_MAX = 10;
+	public static final String 	LAUNCHER = "launcher";
+	public static final String 	MISSILE = "missile";
+	public static final int 	TAKES_TIME_MIN = 1;
+	public static final int 	TAKES_TIME_MAX = 10;
 			
-
-	private static Logger logger = Logger.getLogger("warLogger");
-	private static Scanner input = new Scanner(System.in);
+	private static Logger 		logger = Logger.getLogger("warLogger");
+	private static Scanner 		input = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		
@@ -88,19 +87,7 @@ public class Program {
 				option = input.nextInt();
 				input.nextLine();
 				System.out.println();
-				switch (option) {
-				case 1:
-					addNewDestructor(war);
-					break;
-				case 2:
-					addNewLauncher(war);
-					break;
-				case 3:
-					launchMissile(war);
-					break;
-				case 4:
-					destructLauncher(war);
-					break;
+				switch (option) {				
 				case 5:
 					destructMissile(war);
 					break;
@@ -151,136 +138,6 @@ public class Program {
     			System.exit(0);
     		}
     	}	
-	}
-
-	/**
-	 * Add new Destructor (Iron Dome/Plane/Ship)
-	 * 
-	 * @param war
-	 * @throws InputMismatchException
-	 * @throws SecurityException
-	 * @throws IOException
-	 */
-	private static void addNewDestructor(War war) throws InputMismatchException,
-	SecurityException, IOException, Exception {
-		System.out.print("Please Insert Id: ");
-		String id = input.nextLine();
-		if (id.isEmpty()) {
-			throw new Exception("Id cant be empty");
-		}
-		System.out.print("Please Insert Type(Plane/Ship/Iron Dome) : ");
-		String type = input.nextLine();
-		if (WarUtility.getDestructorById(id, war, type) != null) {
-			throw new Exception("Id already exist!");
-		}
-		if (type.equals("Plane") || type.equals("Ship")) {
-			Destructor desctructor = new Destructor(
-					id, type, new Vector<AbstractMissile>());
-			war.addLauncherDestructor(desctructor);
-		} else if (type.equals("Iron Dome")) {
-			Destructor desctructor = new Destructor(
-					id, type, new Vector<AbstractMissile>());
-			war.addMissileDestructor(desctructor);
-		} else {
-			throw new Exception("Type must be Plane/Ship/Iron Dome\n");
-		}
-	}
-
-	/**
-	 * add new launcher to war
-	 * 
-	 * @param war
-	 * @throws Exception 
-	 */
-	private static void addNewLauncher(War war) throws Exception {
-		System.out.print("Please Insert Id: ");
-		String id = input.nextLine();
-		if ((id.isEmpty()) || (WarUtility.getLauncherById(id, war) != null)) {
-			throw new Exception("This Id is empty or already exist");
-		}
-		boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
-		war.addLauncher(new Launcher(id, is_hidden , war.getListeners()));
-	}
-
-	/**
-	 * search for launcher and add missile to it from user's input
-	 * 
-	 * @param war
-	 * @throws Exception 
-	 */
-	private static void launchMissile(War war) throws Exception {
-		// choose a launcher from launcher list
-		System.out.println("Choose launcher "
-				+ "from the following Launchers list:");
-		Vector<Launcher> launchers = war.getMissileLaunchers();
-		if (launchers.size() == 0) {
-			throw new Exception("no launchers...first insert launcher");
-		}
-		printLaunchers(launchers);
-		
-		System.out.print("\nEnter your Choise: ");
-		String launcher_id = input.nextLine();
-		// find selected launcher so we can add missile to it
-		Launcher selected_launcher = WarUtility.getLauncherById(launcher_id,
-				war);
-		if (selected_launcher == null) {
-			throw new Exception("Launcher does not exist");
-		}
-		// now create new missile from user input
-		System.out.print("Please insert Missile id: ");
-		String missile_id = input.nextLine();
-		if ((missile_id.isEmpty()) || (WarUtility.getMissileById(missile_id, war) != null)) {
-			throw new Exception("This Id is empty or already exist");
-		}
-		System.out.print("Please insert your destination: ");
-		String destination = input.nextLine();
-		System.out.print("Please insert potential damage: ");
-		int damage = input.nextInt();
-		int fly_time = (int) (TAKES_TIME_MIN + (Math.random() * 
-				(TAKES_TIME_MAX - TAKES_TIME_MIN + 1))) * 10;
-		selected_launcher.addMissile(missile_id, destination, 0, fly_time, damage);
-	}
-
-	/**
-	 * choose a destructor and select a launcher to destruct
-	 * 
-	 * @param war
-	 * @throws Exception 
-	 */
-	private static void destructLauncher(War war) throws Exception {
-		// first pick a destructor
-		System.out.println("Choose destructor "
-				+ "from the following Destructors list:");
-
-		Vector<Destructor> destructors = war.getMissileLauncherDestructors();
-		printDestructors(destructors);
-
-		System.out.print("\nEnter your Choise: ");
-		String destructor_id = input.nextLine();
-		Destructor selected_destructor = 
-				WarUtility.getDestructorById(destructor_id, war, LAUNCHER);
-		if (selected_destructor == null) {
-			throw new Exception("Destructor does not exist");
-		}
-		// now choose it's target
-		System.out.println("Choose a launcher to destruct "
-				+ "from the following launchers list:");
-		Vector<Launcher> launchers = war.getMissileLaunchers();
-		printLaunchers(launchers);
-
-		System.out.print("\nEnter your Choise: ");
-		String target_id = input.nextLine();
-		Launcher target =  WarUtility.getLauncherById(target_id, war);
-		if (target == null) {
-			throw new Exception("Target does not exist");
-		}
-		int destruct_time = (int) (TAKES_TIME_MIN + (Math.random() * 
-				(TAKES_TIME_MAX - TAKES_TIME_MIN + 1)));
-		// assign destructor to destruct the launcher
-		DestructedLanucher assigned_destructor = new DestructedLanucher(target, destruct_time, 
-				selected_destructor, selected_destructor.getFileHandler() , war.getListeners());
-
-		selected_destructor.addDestructMissile(assigned_destructor);
 	}
 
 	/**
