@@ -55,52 +55,19 @@ public class ProgressPanel extends JPanel {
 	button.setOpaque(false);
 	button.setContentAreaFilled(false);
 	button.setBorderPainted(false);
-	
-	
-	
-	
+			
 	label.setHorizontalTextPosition(JLabel.CENTER);
 	label.setVerticalTextPosition(JLabel.CENTER);
 	label.setBorder(new EmptyBorder(15, 15, 15, 15));
 	label.setFont(myFont);
-	label.setText(missileId +" "+ destination + " " + damage);
 	progressBar.add(label, BorderLayout.CENTER);
 	progressBar.add(button, BorderLayout.EAST);
+	
 	add(progressBar);
 	//	setVisible(true);
 	map.put(missileId, progressBar);
 	validate();	
     }   
-    public void updateMissileTime(int time , String missileId, String type ) {
-	Iterator<String> keySetIterator = map.keySet().iterator();
-	Iterator<String> destuctorsSetIterator = destructors.keySet().iterator();
-	if(type == "missile"){
-	    while(keySetIterator.hasNext()){ //for missiles
-		String key = keySetIterator.next();
-		if(key.equalsIgnoreCase(missileId)){
-		    progressBar = map.get(key);
-		    progressBar.setForeground(Color.RED);
-		    progressBar.setValue(time);
-		    System.out.println(time);
-		}
-
-	    }
-	}
-	else if (type == "destructor"){
-	    while(destuctorsSetIterator.hasNext()){ //for desturctors
-		String key = destuctorsSetIterator.next();
-		if(key.equalsIgnoreCase(missileId)){
-		    progressBar = destructors.get(key);
-		    progressBar.setForeground(Color.BLUE);
-		    progressBar.setValue(time);
-		    System.out.println(time);
-		}
-
-	    }
-	}
-
-
-    }
 
     public void destroyProgress(String missileId, String type) {
 	Iterator<String> keySetIterator = map.keySet().iterator();
@@ -133,12 +100,49 @@ public class ProgressPanel extends JPanel {
 	label.setVerticalTextPosition(JLabel.CENTER);
 	label.setBorder(new EmptyBorder(15, 15, 15, 15));
 	label.setFont(myFont);
-	label.setText(destructor_id +" Targeting "+ target_id + " ");
 	progressBar.add(label, BorderLayout.CENTER);
 	add(progressBar);
 	destructors.put(target_id, progressBar);
 	validate();	
-    }   
+    }
+	public void updateMissileTime(int time, String missileId, String type,
+			String destination, int damage, int flyTime) {
+		Iterator<String> keySetIterator = map.keySet().iterator();
+		Iterator<String> destuctorsSetIterator = destructors.keySet().iterator();
+		if(type == "missile"){
+		    while(keySetIterator.hasNext()){ //for missiles
+			String key = keySetIterator.next();
+			if(key.equalsIgnoreCase(missileId)){
+			    progressBar = map.get(key);
+			    progressBar.setForeground(Color.RED);
+			    progressBar.setValue(time);
+			    System.out.println(time);
+			  JLabel temp = (JLabel)progressBar.getComponent(0);
+			  temp.setText("Missile id#" + missileId +" Will Hit "+ destination + " for " + damage + " damage in " + (flyTime - time) +"s");
+
+			}
+
+		    }
+		}
+		else if (type == "destructor"){
+		    while(destuctorsSetIterator.hasNext()){ //for desturctors
+			String key = destuctorsSetIterator.next();
+			if(key.equalsIgnoreCase(missileId)){
+			    progressBar = destructors.get(key);
+			    progressBar.setForeground(Color.BLUE);
+			    progressBar.setValue(time);
+			    System.out.println(time);
+			    JLabel temp = (JLabel)progressBar.getComponent(0);
+				  temp.setText(destination +" Will Hit Launcher #"+ missileId + " in " + (flyTime - time) +"s");
+			    
+			}
+
+		    }
+		}
+
+
+		
+	}   
 
 
 
