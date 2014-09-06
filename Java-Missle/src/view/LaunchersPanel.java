@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
@@ -28,7 +29,7 @@ public class LaunchersPanel extends JPanel {
 	private boolean fireMissileButtonPressed;
 	private boolean destroyLauncherButtonPressed;
 	private WarGui warGui;
-
+	
 	public LaunchersPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
 		this.warGui = warGui;
 //		setLayout(new GridLayout(2, 3, 3, 3));

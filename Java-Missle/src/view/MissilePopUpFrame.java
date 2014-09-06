@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowListener;
@@ -21,6 +23,7 @@ import com.sun.glass.events.WindowEvent;
 import war.War;
 import war.controller.WarEventListener;
 import war.controller.WarUIEventsListener;
+import javax.swing.JLabel;
 
 public class MissilePopUpFrame extends JFrame {
 	private JTextField txtId, txtDamage, txtDest, txtFlyTime;
@@ -28,6 +31,11 @@ public class MissilePopUpFrame extends JFrame {
 	private JButton addButton;
 	private List<WarUIEventsListener> allListeners;
 	private LaunchersPanel launchersPanel;
+	private JLabel idLable;
+	private JLabel destinationLable;
+	private JLabel damageLable;
+	private JLabel lblNewLabel_3;
+	private JLabel blankLable;
 
 	public MissilePopUpFrame(List<WarUIEventsListener> allListeners,
 			String launcherId, LaunchersPanel launchersPanel)
@@ -35,31 +43,54 @@ public class MissilePopUpFrame extends JFrame {
 		this.launchersPanel = launchersPanel;
 		this.allListeners = allListeners;
 		this.launcherId = launcherId;
-		setLayout(new FlowLayout());
+		getContentPane().setLayout(new FlowLayout(10));
 
 		txtId = new JTextField(15);
 		txtId.setText("Enter missile id");
 		mouseListener(txtId);
+		focusListener(txtId);
 		txtDest = new JTextField(15);
 		txtDest.setText("Enter missile destination");
 		mouseListener(txtDest);
+		focusListener(txtDest);
 		txtDamage = new JTextField(15);
 		txtDamage.setText("Enter missile damage");
 		mouseListener(txtDamage);
+		focusListener(txtDamage);
 		txtFlyTime = new JTextField(15);
 		txtFlyTime.setText("Enter missile fly time");
 		mouseListener(txtFlyTime);
+		focusListener(txtFlyTime);
 
-		addButton = new JButton("Select The launcher");
-		add(txtId);
-		add(txtDest);
-		add(txtDamage);
-		add(txtFlyTime);
-		add(addButton);
-		setSize(200, 200);
+		addButton = new JButton("FIRE");
+		addButton.setForeground(Color.RED);
+		
+		idLable = new JLabel("Id                  ");
+		getContentPane().add(idLable);
+		getContentPane().add(txtId);
+		
+		destinationLable = new JLabel("Destination");
+		getContentPane().add(destinationLable);
+		getContentPane().add(txtDest);
+		
+		damageLable = new JLabel("Damage      ");
+		getContentPane().add(damageLable);
+		getContentPane().add(txtDamage);
+		
+		lblNewLabel_3 = new JLabel("Fly time       ");
+		getContentPane().add(lblNewLabel_3);
+		getContentPane().add(txtFlyTime);
+		
+		blankLable = new JLabel("                           ");
+		getContentPane().add(blankLable);
+		getContentPane().add(addButton);
+		
+		setSize(270, 200);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
+		getRootPane().setDefaultButton(addButton);
+		requestFocus();
+		
 		// WINDOW LISTENER to reset border and boolean values
 		// when user press the X button to close the window
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -80,16 +111,17 @@ public class MissilePopUpFrame extends JFrame {
 
 	public void fireAddNewMissilePressed() {
 		new Thread(new Runnable() {
-		@Override
-		public void run() {
-//			while (true) {
-			    								
+			@Override
+			public void run() {
+				// while (true) {
+
 				String id = txtId.getText();
 				String dest = txtDest.getText();
 				String damage = txtDamage.getText();
 				String flyTime = txtFlyTime.getText();
 				if (id.isEmpty() || dest.isEmpty() || damage.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "You must fill all details!");
+					JOptionPane.showMessageDialog(null,
+							"You must fill all details!");
 					return;
 				}
 				for (WarUIEventsListener l : allListeners) {
@@ -97,27 +129,27 @@ public class MissilePopUpFrame extends JFrame {
 					l.addMissileToUI(id, dest, damage, flyTime, launcherId);
 
 				}
-				
+
 				closeFrame();
-//			}	
-		}
-	}).start();
+				// }
+			}
+		}).start();
 		setVisible(false);
-//		String id = txtId.getText();
-//		String dest = txtDest.getText();
-//		String damage = txtDamage.getText();
-//		String flyTime = txtFlyTime.getText();
-//		if (id.isEmpty() || dest.isEmpty() || damage.isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "You must fill all details!");
-//			return;
-//		}
-//		for (WarUIEventsListener l : allListeners) {
-//			// sending missile details to the relevant GUI launcher
-//			l.addMissileToUI(id, dest, damage, flyTime, launcherId);
-//
-//		}
-//		setVisible(false);
-//		closeFrame();
+		// String id = txtId.getText();
+		// String dest = txtDest.getText();
+		// String damage = txtDamage.getText();
+		// String flyTime = txtFlyTime.getText();
+		// if (id.isEmpty() || dest.isEmpty() || damage.isEmpty()) {
+		// JOptionPane.showMessageDialog(null, "You must fill all details!");
+		// return;
+		// }
+		// for (WarUIEventsListener l : allListeners) {
+		// // sending missile details to the relevant GUI launcher
+		// l.addMissileToUI(id, dest, damage, flyTime, launcherId);
+		//
+		// }
+		// setVisible(false);
+		// closeFrame();
 
 	}
 
@@ -126,6 +158,22 @@ public class MissilePopUpFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				txtBox.setText("");
+			}
+		});
+	}
+
+	public void focusListener(final JTextField txtBox) {
+		txtBox.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtBox.setText("");
+
 			}
 		});
 	}

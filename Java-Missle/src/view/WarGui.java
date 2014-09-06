@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
@@ -28,7 +29,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 	private ProgressPanel progressPanel;
 	private DestroyersPanel destroyersPanel;
 	private OrefPanel orefPanel;
-
+	
 	public WarGui() {
 		allListeners = new LinkedList<WarUIEventsListener>();
 		controlPanel = new ControlPanel(allListeners, this);
@@ -37,7 +38,6 @@ public class WarGui extends JFrame implements AbstractWarView {
 		progressPanel = new ProgressPanel();
 		destroyersPanel = new DestroyersPanel(allListeners);
 		orefPanel = new OrefPanel();
-
 		setBackground(Color.DARK_GRAY);
 
 		SpringLayout springLayout = new SpringLayout();
