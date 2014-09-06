@@ -124,15 +124,6 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 	    	    
 	}
 
-
-	@Override
-	public void UpdatedMissileProgressToModelEvent(int time , String missileId , String type) {
-	    // TODO Auto-generated method stub
-	    warView.updateMissileProgress(time , missileId , type);
-	}
-
-
-
 	@Override
 	public void destroyLauncherInUI(String destroyerId,
 			String launcherIdToDestroy) {
@@ -168,6 +159,17 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 	public void RemovedLauncherFromUI(String launcherId) {
 	    warView.removeLauncherFromView(launcherId);
 	}
+
+
+
+	@Override
+	public void UpdatedMissileProgressToModelEvent(int time, String missileId,
+			String type, String destination, int damage, int flyTime) {
+		warView.updateMissileProgress(time , missileId , type,destination,damage,flyTime);
+		
+	}
+
+
 
 
 

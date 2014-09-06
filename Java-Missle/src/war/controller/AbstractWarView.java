@@ -12,9 +12,10 @@ public interface AbstractWarView {
 	void addMissileToUI(String missileId, String destination, int damage,
 			int flyTime);
 	void destroyMissileProgress(String missileId, String type);
-	void updateMissileProgress(int time, String missileId, String type);
 	void addDestroyerProgress(String destructor_id, String target_id,
 		int destruct_time);
 	void removeLauncherFromView(String launcherId);
+	void updateMissileProgress(int time, String missileId, String type,
+			String destination, int damage, int flyTime);
 	
 }

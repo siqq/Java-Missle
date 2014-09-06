@@ -130,7 +130,7 @@ public class Missile extends AbstractMissile {
 			for(int time = 0 ; time <= flyTime ; time++){
 			    Thread.sleep(War.TIME_INTERVAL);
 			    for (WarEventListener l : allListeners) {
-				l.UpdatedMissileProgressToModelEvent(time, missileId , "missile");
+				l.UpdatedMissileProgressToModelEvent(time, missileId , "missile",destination,damage,flyTime);
 			    }
 			}
 			for (WarEventListener l : allListeners) {
