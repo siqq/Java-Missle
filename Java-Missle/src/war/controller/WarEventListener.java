@@ -25,4 +25,9 @@ public interface WarEventListener {
 	void UpdatedMissileProgressToModelEvent(int time, String missileId,
 			String string, String destination, int damage, int flyTime);
 
+	void addedMissileToDestroy(String ironDome, String missileId,
+		int destruct_time);
+
+	void RemoveCurrentElement(String destructorId);
+
 }

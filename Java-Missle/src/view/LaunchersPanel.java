@@ -1,25 +1,24 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
-
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class LaunchersPanel extends JPanel {
 	public static final String LAUNCHER_IMAGE_PATH = "/drawable/launcher87x70.png";
@@ -29,15 +28,26 @@ public class LaunchersPanel extends JPanel {
 	private boolean fireMissileButtonPressed;
 	private boolean destroyLauncherButtonPressed;
 	private WarGui warGui;
+	private JPanel panel;
 	
 	public LaunchersPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
 		this.warGui = warGui;
-//		setLayout(new GridLayout(2, 3, 3, 3));
-		setLayout(new FlowLayout(FlowLayout.LEFT));
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.allListeners = allListeners;
 		this.fireMissileButtonPressed = false;
 		this.destroyLauncherButtonPressed = false;
+		setLayout(new BorderLayout(0, 0));
+		
+
+		panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		add(panel, BorderLayout.CENTER);
+		
+		JScrollPane scrollPane = new JScrollPane(panel);
+
+		scrollPane.setPreferredSize(new Dimension(305, 100));
+		
+		add(scrollPane, BorderLayout.EAST);
 	}
 
 	public boolean isFireMissileButtonPressed() {
@@ -54,7 +64,7 @@ public class LaunchersPanel extends JPanel {
 		LaunchersPanel.class.getResource(LAUNCHER_IMAGE_PATH)));
 		launcher.setVerticalTextPosition(SwingConstants.BOTTOM);
 		launcher.setHorizontalTextPosition(SwingConstants.CENTER);
-		this.add(launcher);
+		panel.add(launcher);
 		launchersQueue.add(launcher);
 		repaint();
 		validate();

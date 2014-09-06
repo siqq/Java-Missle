@@ -171,6 +171,33 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 
 
 
+	@Override
+	public void addInterceptionToUI(String missileId , String ironDome) {
+	    warModel.startMissileInterception(missileId , ironDome);
+	    
+	}
+
+
+
+	@Override
+	public void addedMissileToDestroy(String ironDome, String missileId,
+		int destruct_time) {
+	    warView.addDestroyerProgress( ironDome,
+		    missileId,  destruct_time);
+	    
+	}
+
+
+
+	@Override
+	public void RemoveCurrentElement(String destructorId) {
+	    warView.RemoveCurrentElement( destructorId);	    
+	}
+
+
+
+
+
 
 
 

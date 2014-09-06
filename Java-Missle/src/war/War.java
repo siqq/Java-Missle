@@ -12,6 +12,8 @@ import launcher.Launcher;
 import logger.LogFormatter;
 import missile.AbstractMissile;
 import missile.DestructedLanucher;
+import missile.DestructedMissile;
+import missile.Missile;
 
 import org.xml.sax.SAXException;
 
@@ -231,6 +233,21 @@ public class War extends Thread {
 				
 				
 			}
+
+	public void startMissileInterception(String missileId , String ironDome) {
+		Destructor selected_destructor = WarUtility.getDestructorById(
+			ironDome, this, MISSILE);
+		int destruct_time = (int) (TAKES_TIME_MIN + (Math.random() * 
+			(TAKES_TIME_MAX - TAKES_TIME_MIN + 1)));
+		Missile target = WarUtility.getMissileById(missileId, this);
+		DestructedMissile assigned_destructor = new DestructedMissile(target, destruct_time, 
+			selected_destructor, selected_destructor.getFileHandler(), this.getListeners());
+	selected_destructor.addDestructMissile(assigned_destructor);
+	for (WarEventListener l : listeners) {
+		l.addedMissileToDestroy(ironDome,missileId,destruct_time);
+	}
+	    
+	}
 	
 		
 

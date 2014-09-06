@@ -27,4 +27,6 @@ public interface AbstractWarView {
 	void updateMissileProgress(int time, String missileId, String type,
 			String destination, int damage, int flyTime);
 
+	void RemoveCurrentElement(String destructorId);
+
 }

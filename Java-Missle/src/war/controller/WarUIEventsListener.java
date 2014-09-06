@@ -13,4 +13,7 @@ public interface WarUIEventsListener {
 
 	void destroyLauncherInUI(String destroyerId, String launcherIdToDestroy);
 
+
+	void addInterceptionToUI(String missileId, String ironDomeId);
+
 }

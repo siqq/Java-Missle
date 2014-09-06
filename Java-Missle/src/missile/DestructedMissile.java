@@ -13,6 +13,7 @@ public class DestructedMissile extends AbstractMissile {
 	
 	private Missile 				target;
 	private Destructor 				destructor;
+	private  List<WarEventListener> allListeners;
 
 	/**
 	 * Constructor 
@@ -24,6 +25,7 @@ public class DestructedMissile extends AbstractMissile {
 		super (destructAfterLaunch, fileHandler);
 		this.target = target;
 		this.destructor = destructor;
+		this.allListeners =allListeners;
 		logger = Logger.getLogger("warLogger");
 	}
 
@@ -34,7 +36,22 @@ public class DestructedMissile extends AbstractMissile {
 		Object arr[] = { this, target };
 		try {
 			// wait untill destroy after war launch
-			sleep(super.getDelayBeforeLaunch() * War.TIME_INTERVAL); 
+//			sleep(super.getDelayBeforeLaunch() * War.TIME_INTERVAL); 
+
+				for(int time = 0 ; time <= super.getDelayBeforeLaunch() ; time++){
+				    Thread.sleep(War.TIME_INTERVAL);
+				    for (WarEventListener l : allListeners) {
+					l.UpdatedMissileProgressToModelEvent(time, target.getMissileId() , "IronDome",(destructor.getType()+" #" + destructor.getDestructorId()),0,super.getDelayBeforeLaunch());
+				    }
+				}
+				    for (WarEventListener l : allListeners) {
+					l.RemoveCurrentElement(target.getMissileId());
+				    }
+				for (WarEventListener l : allListeners) {
+				    l.DestroyMissileProgressBar(target.getMissileId() , "missile");
+				}
+
+	
 
 			synchronized (destructor) {
 				logger.log(Level.INFO, "Trying to destroy missile :"

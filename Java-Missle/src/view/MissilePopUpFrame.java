@@ -9,21 +9,16 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowListener;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import com.sun.glass.events.WindowEvent;
-
-import war.War;
-import war.controller.WarEventListener;
 import war.controller.WarUIEventsListener;
-import javax.swing.JLabel;
 
 public class MissilePopUpFrame extends JFrame {
 	private JTextField txtId, txtDamage, txtDest, txtFlyTime;

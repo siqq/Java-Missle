@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
@@ -33,9 +35,9 @@ public class WarGui extends JFrame implements AbstractWarView {
 	public WarGui() {
 		allListeners = new LinkedList<WarUIEventsListener>();
 		controlPanel = new ControlPanel(allListeners, this);
-		ironDomesPanel = new IronDomesPanel();
+		ironDomesPanel = new IronDomesPanel(allListeners,this);
 		launchersPanel = new LaunchersPanel(allListeners,this);
-		progressPanel = new ProgressPanel();
+		progressPanel = new ProgressPanel(allListeners, this);
 		destroyersPanel = new DestroyersPanel(allListeners);
 		orefPanel = new OrefPanel();
 		setBackground(Color.DARK_GRAY);
@@ -213,6 +215,22 @@ public class WarGui extends JFrame implements AbstractWarView {
 			String destination, int damage, int flyTime) {
 		progressPanel.updateMissileTime(time, missileId, type,destination,damage,flyTime);
 		
+	}
+
+	public void selectIronDomeToFireFrom(String missileId) {
+	    ironDomesPanel.selectLauncherTofireFrom(missileId);
+	    
+	}
+
+	public void getIronDome(String ironDomeId) {
+	    progressPanel.getIronDome(ironDomeId);
+	    
+	}
+
+	@Override
+	public void RemoveCurrentElement(String destructorId) {
+	   progressPanel.RemoveCurrentElement(destructorId);
+	    
 	}
 
 }

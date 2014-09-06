@@ -43,11 +43,14 @@ public class DestructedLanucher extends AbstractMissile {
 				for(int time = 0 ; time <= super.getDelayBeforeLaunch() ; time++){
 				    Thread.sleep(War.TIME_INTERVAL);
 				    for (WarEventListener l : allListeners) {
-					l.UpdatedMissileProgressToModelEvent(time, target.getLauncherId() , "destructor",(destructor.getType()+" #" + destructor.getDestructorId()),0,super.getDelayBeforeLaunch());
+					l.UpdatedMissileProgressToModelEvent(time, target.getLauncherId() , "launcherDestroyer",(destructor.getType()+" #" + destructor.getDestructorId()),0,super.getDelayBeforeLaunch());
 				    }
 				}
+				    for (WarEventListener l : allListeners) {
+					l.RemoveCurrentElement(target.getLauncherId());
+				    }
 				for (WarEventListener l : allListeners) {
-				    l.DestroyMissileProgressBar(target.getLauncherId() , "destructor");
+				    l.RemovedLauncherFromUI(target.getLauncherId());
 				}
 
 			    } catch (InterruptedException e) {
