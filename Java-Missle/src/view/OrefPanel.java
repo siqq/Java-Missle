@@ -36,42 +36,42 @@ public class OrefPanel extends JPanel {
 				.getResource(OREF_IMAGE_PATH)));
 		add(orefImageLable);
 
-		topAlert = new JTextField(" ");
-		topAlert.setBackground(new Color(255, 127, 80));
+		topAlert = createNewAlert();
+		middleAlert = createNewAlert();
+		buttomAlert = createNewAlert();
+
 		add(topAlert);
-		topAlert.setColumns(10);
-
-		middleAlert = new JTextField(" ");
-		middleAlert.setBackground(new Color(255, 127, 80));
 		add(middleAlert);
-		middleAlert.setColumns(10);
-
-		buttomAlert = new JTextField(" ");
-		buttomAlert.setBackground(new Color(255, 127, 80));
 		add(buttomAlert);
-		buttomAlert.setColumns(10);
 
-		topAlert.setFont(font);
-		middleAlert.setFont(font);
-		buttomAlert.setFont(font);
-
-		topAlert.setForeground(Color.WHITE);
-		;
-
-		topAlert.setEditable(false);
-		middleAlert.setEditable(false);
-		buttomAlert.setEditable(false);
 	}
 
-	public void addMissileToOrefPanel(String destination, int time) {
+	public JTextField createNewAlert() {
+		JTextField textBox = new JTextField("");
+		textBox.setBackground(new Color(255, 127, 80));
+		textBox.setColumns(10);
+		textBox.setFont(font);
+		textBox.setForeground(Color.WHITE);
+		textBox.setHorizontalAlignment(JTextField.CENTER);
+		textBox.setEditable(false);
+		return textBox;
+	}
+
+	public void addMissileToOrefPanel(String destination, int time, int flyTime) {
 		if (time < ALERT_DISPLAY_TIME && time % 2 == 0) {
-			topAlert.setText("     Alert in " + destination);
+			topAlert.setText("Alert in " + destination);
 			validate();
 		} else if (time < ALERT_DISPLAY_TIME) {
 			topAlert.setText("");
 
 		} else {
+			topAlert.setText("");
 			// the alert is finished, free the topAlert Label
+		}
+		if (time == flyTime) {
+			// if missile flyTime is less then ALERT_DISPLAY_TIME
+			topAlert.setText("");
+
 		}
 	}
 
