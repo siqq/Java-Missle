@@ -21,6 +21,7 @@ import war.controller.WarUIEventsListener;
 
 public class OrefPanel extends JPanel {
 	public static final String OREF_IMAGE_PATH = "/drawable/orefImage225x70.png";
+	public static final String OREF_ALERT_IMAGE_PATH = "/drawable/orefImage225x70Alert.png";
 	public static final int ALERT_DISPLAY_TIME = 8;
 	private JTextField topAlert, middleAlert, buttomAlert;
 	private JLabel orefImageLable;
@@ -58,21 +59,34 @@ public class OrefPanel extends JPanel {
 	}
 
 	public void addMissileToOrefPanel(String destination, int time, int flyTime) {
+
+		// time % 2 - to make the alert blink every second
 		if (time < ALERT_DISPLAY_TIME && time % 2 == 0) {
 			topAlert.setText("Alert in " + destination);
 			validate();
+			setOrefImage(OREF_ALERT_IMAGE_PATH);
 		} else if (time < ALERT_DISPLAY_TIME) {
+			setOrefImage(OREF_ALERT_IMAGE_PATH);
 			topAlert.setText("");
 
 		} else {
-			topAlert.setText("");
 			// the alert is finished, free the topAlert Label
+			setOrefImage(OREF_IMAGE_PATH);
+			topAlert.setText("");
+
 		}
 		if (time == flyTime) {
 			// if missile flyTime is less then ALERT_DISPLAY_TIME
 			topAlert.setText("");
+			setOrefImage(OREF_IMAGE_PATH);
 
 		}
+	}
+
+	private void setOrefImage(String orefImagePath) {
+		orefImageLable.setIcon(new ImageIcon(OrefPanel.class
+				.getResource(orefImagePath)));
+
 	}
 
 }
