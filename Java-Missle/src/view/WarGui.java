@@ -31,6 +31,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 	private ProgressPanel progressPanel;
 	private DestroyersPanel destroyersPanel;
 	private OrefPanel orefPanel;
+	private MessagePanel MessagePanel;
 	
 	public WarGui() {
 		allListeners = new LinkedList<WarUIEventsListener>();
@@ -39,10 +40,15 @@ public class WarGui extends JFrame implements AbstractWarView {
 		launchersPanel = new LaunchersPanel(allListeners,this);
 		progressPanel = new ProgressPanel(allListeners, this);
 		destroyersPanel = new DestroyersPanel(allListeners);
+		MessagePanel = new MessagePanel(allListeners, this);
 		orefPanel = new OrefPanel();
 		setBackground(Color.DARK_GRAY);
 
 		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.NORTH, ironDomesPanel, 6, SpringLayout.SOUTH, launchersPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, ironDomesPanel, -6, SpringLayout.NORTH, destroyersPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, launchersPanel, 124,
+				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, progressPanel, 56, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, progressPanel, -10, SpringLayout.SOUTH, getContentPane());
 
@@ -87,12 +93,6 @@ public class WarGui extends JFrame implements AbstractWarView {
 				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, destroyersPanel, -10,
 				SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, ironDomesPanel, 6,
-				SpringLayout.SOUTH, launchersPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, ironDomesPanel, -6,
-				SpringLayout.NORTH, destroyersPanel);
-		springLayout.putConstraint(SpringLayout.NORTH, launchersPanel, 10,
-				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, launchersPanel, -410,
 				SpringLayout.SOUTH, getContentPane());
 
@@ -110,13 +110,12 @@ public class WarGui extends JFrame implements AbstractWarView {
 
 		// Jlabel for the progressbar
 		JLabel lblEnemyMissileInterception = new JLabel();
+		springLayout.putConstraint(SpringLayout.WEST, lblEnemyMissileInterception, 324, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH,
 				lblEnemyMissileInterception, 0, SpringLayout.NORTH,
 				progressPanel);
+		springLayout.putConstraint(SpringLayout.EAST, lblEnemyMissileInterception, -6, SpringLayout.WEST, orefPanel);
 		lblEnemyMissileInterception.setIcon(new ImageIcon(WarGui.class.getResource(PROGRESS_LABLE_IMAGE_PATH)));
-		springLayout.putConstraint(SpringLayout.EAST,
-				lblEnemyMissileInterception, 0, SpringLayout.EAST,
-				progressPanel);
 		springLayout.putConstraint(SpringLayout.NORTH,
 				lblEnemyMissileInterception, 10, SpringLayout.NORTH,
 				getContentPane());
@@ -125,11 +124,13 @@ public class WarGui extends JFrame implements AbstractWarView {
 				.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEnemyMissileInterception.setBackground(Color.WHITE);
 		lblEnemyMissileInterception.setForeground(Color.BLACK);
-		springLayout.putConstraint(SpringLayout.WEST,
-				lblEnemyMissileInterception, 6, SpringLayout.EAST,
-				launchersPanel);
 
 		getContentPane().add(lblEnemyMissileInterception);
+		
+		
+		springLayout.putConstraint(SpringLayout.WEST, MessagePanel, 0, SpringLayout.WEST, ironDomesPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, MessagePanel, -6, SpringLayout.NORTH, launchersPanel);
+		getContentPane().add(MessagePanel);
 		setSize(1180, 693);
 		setResizable(false);
 		setVisible(true);
@@ -231,6 +232,12 @@ public class WarGui extends JFrame implements AbstractWarView {
 	@Override
 	public void RemoveCurrentElement(String destructorId) {
 	   progressPanel.RemoveCurrentElement(destructorId);
+	    
+	}
+
+	@Override
+	public void addMessageToGui(String string) {
+	    MessagePanel.addMessageToPanel(string);
 	    
 	}
 

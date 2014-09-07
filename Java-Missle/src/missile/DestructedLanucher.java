@@ -49,9 +49,9 @@ public class DestructedLanucher extends AbstractMissile {
 				    for (WarEventListener l : allListeners) {
 					l.RemoveCurrentElement(target.getLauncherId());
 				    }
-				for (WarEventListener l : allListeners) {
-				    l.RemovedLauncherFromUI(target.getLauncherId());
-				}
+//				for (WarEventListener l : allListeners) {
+//				    l.RemovedLauncherFromUI(target.getLauncherId());
+//				}
 
 			    } catch (InterruptedException e) {
 			    }	
@@ -75,7 +75,7 @@ public class DestructedLanucher extends AbstractMissile {
 	@Override
 	public void destroyTarget() throws Exception {
 		Object arr[] = {this, target};
-		double rate = 2; //Math.random();	// generate random success
+		double rate = 0 ;//Math.random();	// generate random success
 		
 		if (target.isRunning()) {
 			if (!target.isHidden()) {
@@ -90,18 +90,35 @@ public class DestructedLanucher extends AbstractMissile {
 					logger.log(Level.INFO, print_log, arr);
 				} 
 				else {
+				    for (WarEventListener l : allListeners) {
+					l.AddMessageToGui("Destruction of launcher "
+						   + target.getLauncherId() 
+						   + " was failed");
+				    }
 					throw new Exception("Destruction of launcher "
 									   + target.getLauncherId() 
 									   + " was failed");
+					
 				}
 			}
 			else {
+			    
+			    for (WarEventListener l : allListeners) {
+				l.AddMessageToGui("Destruction of launcher "
+					   + target.getLauncherId() 
+					   + " was failed - Launcher is hidden!");
+			    }
 				throw new Exception("Destruction of launcher "
 								   + target.getLauncherId() 
 								   + " was failed - Launcher is hidden!");
 			}
 		} 
 		else {
+		    for (WarEventListener l : allListeners) {
+			l.AddMessageToGui("Destruction of launcher "
+				   + target.getLauncherId() 
+				   + " was failed - Launcher is not running!");
+		    }
 			throw new Exception("Destruction of launcher "
 							   + target.getLauncherId() 
 							   + " was failed - Launcher is not running!");

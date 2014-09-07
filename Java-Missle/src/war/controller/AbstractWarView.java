@@ -29,4 +29,6 @@ public interface AbstractWarView {
 
 	void RemoveCurrentElement(String destructorId);
 
+	void addMessageToGui(String string);
+
 }

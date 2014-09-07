@@ -210,6 +210,11 @@ public class ControlPanel extends JPanel {
 		new LauncherPopUpFrame(allListeners);		
 	}
 
+	public void addMessageToGui(String string) {
+	    JOptionPane.showMessageDialog(null, string);
+	    
+	}
+
 
 
 

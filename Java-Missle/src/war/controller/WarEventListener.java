@@ -30,4 +30,6 @@ public interface WarEventListener {
 
 	void RemoveCurrentElement(String destructorId);
 
+	void AddMessageToGui(String string);
+
 }

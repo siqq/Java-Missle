@@ -47,9 +47,9 @@ public class DestructedMissile extends AbstractMissile {
 				    for (WarEventListener l : allListeners) {
 					l.RemoveCurrentElement(target.getMissileId());
 				    }
-				for (WarEventListener l : allListeners) {
-				    l.DestroyMissileProgressBar(target.getMissileId() , "missile");
-				}
+//				for (WarEventListener l : allListeners) {
+//				    l.DestroyMissileProgressBar(target.getMissileId() , "missile");
+//				}
 
 	
 
@@ -81,15 +81,28 @@ public class DestructedMissile extends AbstractMissile {
 				synchronized (target) {
 					target.interrupt();
 				}
+				for (WarEventListener l : allListeners) {
+				    l.DestroyMissileProgressBar(target.getMissileId() , "missile");
+				}
 				String print_log = "Missle " + target.getMissileId()
 						+ " was destroyed";
 				logger.log(Level.INFO, print_log, arr);
 			} else {
+			    for (WarEventListener l : allListeners) {
+				l.AddMessageToGui("Destruction of missile "
+					+ target.getMissileId() 
+					+ " was failed");
+			    }
 				throw new Exception("Destruction of missile "
 						+ target.getMissileId() 
 						+ " was failed");
 			}
 		} else {
+		    for (WarEventListener l : allListeners) {
+			l.AddMessageToGui("Destruction of missile "
+				+ target.getMissileId() 
+				+ " was failed - Missile is not running");
+		    }
 			throw new Exception("Destruction of missile "
 					+ target.getMissileId() 
 					+ " was failed - Missile is not running");

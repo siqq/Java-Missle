@@ -196,6 +196,14 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 
 
 
+	@Override
+	public void AddMessageToGui(String string) {
+	    warView.addMessageToGui(string);
+	    
+	}
+
+
+
 
 
 

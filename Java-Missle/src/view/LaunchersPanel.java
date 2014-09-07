@@ -64,6 +64,7 @@ public class LaunchersPanel extends JPanel {
 		LaunchersPanel.class.getResource(LAUNCHER_IMAGE_PATH)));
 		launcher.setVerticalTextPosition(SwingConstants.BOTTOM);
 		launcher.setHorizontalTextPosition(SwingConstants.CENTER);
+		launcher.setPreferredSize(new Dimension(100, 100));
 		panel.add(launcher);
 		launchersQueue.add(launcher);
 		repaint();
