@@ -40,11 +40,10 @@ public class WarDBConnection {
 		}
 	}
 
-	public static int addNewMissile(String id,String destination,int damage,int flyTime,String status) {
-		int res = 0;
+	public static void addNewMissile(String id,String destination,int damage,int flyTime,String status) {
 		try {
 		//	connection.createStatement();
-			statement = (PreparedStatement) connection.prepareStatement("INSERT INTO War.missile (id, date,destination,damage,flyTime,status) VALUES (?, now(), ?, ?, ?, ?)");
+			statement = (PreparedStatement) connection.prepareStatement("INSERT INTO war.missile (id, date,destination,damage,flyTime,status) VALUES (?, now(), ?, ?, ?, ?)");
 			statement.setString(1, id);
 			// statement.setString(1, "now()");
 			statement.setString(2, destination);
@@ -52,14 +51,39 @@ public class WarDBConnection {
 			statement.setInt(4, flyTime);
 			statement.setString(5, status);
 			
-			res = statement.executeUpdate();
+			// statement.executeUpdate(); - IMPORTANTE! This is a must to update the database
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			while (e != null) {
 				System.out.println(e.getMessage());
 				e = e.getNextException();
 			}
 		}
-		return res;
+	}
+	
+	public static void updateMissileStatus(String id, String status) {
+		try {
+			statement = (PreparedStatement) connection.prepareStatement("UPDATE war.missile SET `status` = ? WHERE missile.id = ?; ");
+			statement.setString(1, status);
+			statement.setString(2, id);
+			
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void addNewLauncher(){
+		// TO DO
+	}
+	
+	public static void addNewDestructor(){
+		// TO DO
+	}
+	
+	public static void updateLauncherStatus(){
+		// TO DO
 	}
 	
 	public static List<String> getAllTablesNames()  {
