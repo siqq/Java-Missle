@@ -2,13 +2,11 @@ package war.db;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -26,6 +24,10 @@ public class WarDBConnection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(dbUrl, "root", "");
+			
+			// Empty all tables when the program starts
+
+			
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -74,8 +76,13 @@ public class WarDBConnection {
 		}
 	}
 	
-	public static void addNewLauncher(){
-		// TO DO
+	public static void addNewLauncher(String launcherId){
+		try {
+			statement = (PreparedStatement) connection.prepareStatement("INSERT INTO war.launchers (id, date) VALUES (?, now(), ?, ?, ?, ?)");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void addNewDestructor(){
@@ -84,6 +91,20 @@ public class WarDBConnection {
 	
 	public static void updateLauncherStatus(){
 		// TO DO
+	}
+	
+	public static void clearWarDataBase(){
+		try {
+			statement = (PreparedStatement) connection.prepareStatement("TRUNCATE TABLE `launchers`");
+			statement.execute();
+			statement = (PreparedStatement) connection.prepareStatement("TRUNCATE TABLE `missile`");
+			statement.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 	public static List<String> getAllTablesNames()  {

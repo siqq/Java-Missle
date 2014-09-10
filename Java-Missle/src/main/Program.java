@@ -14,12 +14,15 @@ import missile.AbstractMissile;
 import missile.DestructedLanucher;
 import missile.DestructedMissile;
 import missile.Missile;
+
 import org.xml.sax.SAXException;
+
 import view.WarGui;
 import war.War;
 import war.WarUtility;
 import war.controller.AbstractWarView;
 import war.controller.WarController;
+import war.db.WarDBConnection;
 
 public class Program {
 	public static final String 	LAUNCHER = "launcher";
@@ -34,7 +37,7 @@ public class Program {
 		
 		try {
 //			War warModel = xml.readXML();
-			
+			WarDBConnection.clearWarDataBase();
 			War warModel = new War();
 			AbstractWarView viewGui = new WarGui();	
 						
