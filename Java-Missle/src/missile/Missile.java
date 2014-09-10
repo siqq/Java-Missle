@@ -3,14 +3,10 @@ import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.JProgressBar;
-
 import launcher.Launcher;
-import view.MissilePopUpFrame;
 import war.War;
 import war.controller.WarEventListener;
-import war.controller.WarUIEventsListener;
+import war.db.WarDBConnection;
 
 public class Missile extends AbstractMissile {
 
@@ -120,6 +116,8 @@ public class Missile extends AbstractMissile {
 		    String print_log = "Missle "+ this.missileId 
 			    + " was launched from launcher: "
 			    + this.launcher.getLauncherId();
+	//	    java.sql.Date sqlDate = Utils.utilDateToSqlDate(birthdate);
+		    int res = WarDBConnection.addNewMissile(missileId,destination,damage,flyTime,status.toString());
 		    for (WarEventListener l : allListeners) {
 			l.addedMissileToModelEvent(missileId,destination,damage,flyTime);
 		    }
