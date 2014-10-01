@@ -1,25 +1,17 @@
 package main;
 import java.io.IOException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.Vector;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import launcher.Destructor;
 import launcher.Launcher;
-import missile.AbstractMissile;
-import missile.DestructedLanucher;
-import missile.DestructedMissile;
 import missile.Missile;
 
 import org.xml.sax.SAXException;
 
 import view.WarGui;
 import war.War;
-import war.WarUtility;
 import war.controller.AbstractWarView;
 import war.controller.WarController;
 import war.db.WarDBConnection;
@@ -37,7 +29,8 @@ public class Program {
 		
 		try {
 //			War warModel = xml.readXML();
-			WarDBConnection.clearWarDataBase();
+		    new WarDBConnection();
+//			WarDBConnection.clearWarDataBase();
 			War warModel = new War();
 			AbstractWarView viewGui = new WarGui();	
 						

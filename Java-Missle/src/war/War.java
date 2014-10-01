@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 
 import war.controller.WarController;
 import war.controller.WarEventListener;
+import war.db.WarDBConnection;
 
 
 /**
@@ -175,6 +176,8 @@ public class War extends Thread {
 		}
 		boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
 		addLauncher(new Launcher(id, is_hidden , listeners));
+		int stat = (is_hidden == true) ? 1 : 0; 
+		WarDBConnection.addNewLauncher(id, stat);
 	}
 	
 	
@@ -202,6 +205,7 @@ public class War extends Thread {
 	    for(Launcher launcher : missileLaunchers){
 		if(launcherId.equalsIgnoreCase(launcher.getLauncherId())){
 		    launcher.addMissile(name, dest, 0, flyTimeInt, damageInt);
+		    WarDBConnection.addNewMissile(name, dest, damageInt, flyTimeInt, "wait");
 		}
 	    }   
 	}
