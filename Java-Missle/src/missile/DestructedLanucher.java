@@ -8,6 +8,7 @@ import launcher.Destructor;
 import launcher.Launcher;
 import war.War;
 import war.controller.WarEventListener;
+import war.db.WarDBConnection;
 
 public class DestructedLanucher extends AbstractMissile {
 
@@ -75,10 +76,10 @@ public class DestructedLanucher extends AbstractMissile {
 	@Override
 	public void destroyTarget() throws Exception {
 		Object arr[] = {this, target};
-		double rate = 0 ;//Math.random();	// generate random success
+		double rate = 3 ;//Math.random();	// generate random success
 		
 		if (target.isRunning()) {
-			if (!target.isHidden()) {
+			if (true){//!target.isHidden()) {
 				// if rate bigger than success rate it will destroy
 				if (rate > War.SUCCESS_RATE) {
 					for (WarEventListener l : allListeners) {
@@ -88,6 +89,7 @@ public class DestructedLanucher extends AbstractMissile {
 					String print_log = "Launcher " + target.getLauncherId()
 									 + " was destroyed";
 					logger.log(Level.INFO, print_log, arr);
+					WarDBConnection.updateLauncherStatus(target.getLauncherId().toString(), "Destroy");
 				} 
 				else {
 				    for (WarEventListener l : allListeners) {

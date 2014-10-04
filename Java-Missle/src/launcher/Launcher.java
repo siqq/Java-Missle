@@ -37,6 +37,7 @@ public class Launcher extends Thread {
 		super();
 		this.id = id;
 		this.isHidden = true;
+		this.isHidden = true;
 		this.missiles = missiles;
 		this.isRunning = true;
 
@@ -133,6 +134,17 @@ public class Launcher extends Thread {
 			this.notify();
 		}
 	}
+	public Missile CreatWithoutAddMissile(String id, String destination, int launchtime,
+		String flytime, String damage) {
+	   int flyTime = Integer.parseInt(flytime);
+	   int daMage = Integer.parseInt(damage);
+	Missile missile = new Missile(id, destination, launchtime, 
+		flyTime, daMage, this.fileHandler, this ,allListeners);
+	return missile;
+//	synchronized (this) {
+//		this.notify();
+//	}
+}
 
 	/**
 	 * Reveals the launcher and makes it not hidden

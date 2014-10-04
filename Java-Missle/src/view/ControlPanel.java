@@ -29,7 +29,7 @@ public class ControlPanel extends JPanel {
 	public static final String BACKGROUND_IMAGE_PATH = "/drawable/desert.png";
 	
 	private JButton exitButton, startButton,fireMissileButton,addNewLauncherButton,destoryLauncherButton,
-					interceptMissileButton,addNewDestructorButton,statisticsButton;
+	openClient,addNewDestructorButton,statisticsButton;
 	private List<WarUIEventsListener> allListeners;
 	private WarGui warGui;
 	public ControlPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
@@ -41,7 +41,7 @@ public class ControlPanel extends JPanel {
 		startButton = new JButton();
 		fireMissileButton = new JButton();
 		addNewLauncherButton = new JButton();
-		interceptMissileButton = new JButton();
+		openClient = new JButton();
 		addNewDestructorButton = new JButton();
 		statisticsButton = new JButton();
 
@@ -50,14 +50,14 @@ public class ControlPanel extends JPanel {
 		springLayout.putConstraint(SpringLayout.WEST, statisticsButton, 0, SpringLayout.WEST, exitButton);
 		springLayout.putConstraint(SpringLayout.EAST, statisticsButton, 0, SpringLayout.EAST, addNewLauncherButton);
 		springLayout.putConstraint(SpringLayout.SOUTH, addNewDestructorButton, -204, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.NORTH, interceptMissileButton, 141, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.NORTH, openClient, 141, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.NORTH, addNewDestructorButton, 37, SpringLayout.SOUTH, addNewLauncherButton);
 		springLayout.putConstraint(SpringLayout.EAST, exitButton, -25, SpringLayout.EAST, this);
 		springLayout.putConstraint(SpringLayout.NORTH, fireMissileButton, 24, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, fireMissileButton, -37, SpringLayout.NORTH, interceptMissileButton);
-		springLayout.putConstraint(SpringLayout.WEST, interceptMissileButton, 0, SpringLayout.WEST, startButton);
-		springLayout.putConstraint(SpringLayout.SOUTH, interceptMissileButton, -143, SpringLayout.NORTH, startButton);
-		springLayout.putConstraint(SpringLayout.EAST, interceptMissileButton, 0, SpringLayout.EAST, fireMissileButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, fireMissileButton, -37, SpringLayout.NORTH, openClient);
+		springLayout.putConstraint(SpringLayout.WEST, openClient, 0, SpringLayout.WEST, startButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, openClient, -143, SpringLayout.NORTH, startButton);
+		springLayout.putConstraint(SpringLayout.EAST, openClient, 0, SpringLayout.EAST, fireMissileButton);
 		springLayout.putConstraint(SpringLayout.NORTH, addNewLauncherButton, 24, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, addNewLauncherButton, 122, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, addNewLauncherButton, -325, SpringLayout.SOUTH, this);
@@ -112,13 +112,13 @@ public class ControlPanel extends JPanel {
 		validate();
 		add(addNewLauncherButton);				
 		
-		interceptMissileButton.setIcon(new ImageIcon(ControlPanel.class.getResource(INTERCEPT_MISSILE_IMAGE_PATH)));
-		interceptMissileButton.setOpaque(false);
-		interceptMissileButton.setFocusPainted(false);
-		interceptMissileButton.setBorderPainted(false);
-		interceptMissileButton.setContentAreaFilled(false);
+		openClient.setIcon(new ImageIcon(ControlPanel.class.getResource(INTERCEPT_MISSILE_IMAGE_PATH)));
+		openClient.setOpaque(false);
+		openClient.setFocusPainted(false);
+		openClient.setBorderPainted(false);
+		openClient.setContentAreaFilled(false);
 		validate();
-		add(interceptMissileButton);
+		add(openClient);
 		
 		addNewDestructorButton.setIcon(new ImageIcon(ControlPanel.class.getResource(ADD_DESTRUCTOR_IMAGE_PATH)));
 		
@@ -190,6 +190,17 @@ public class ControlPanel extends JPanel {
 				selectLauncherToDestroy();
 			}
 		});
+		openClient.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openConsoleApp();
+			}
+		});
+	}
+
+	protected void openConsoleApp() {
+	    // TODO Auto-generated method stub
+	    new ConsoleApp().main(null);;
 	}
 
 	public void selectLauncherToDestroy() {

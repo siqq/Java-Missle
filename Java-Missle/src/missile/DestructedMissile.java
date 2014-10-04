@@ -5,8 +5,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import launcher.Destructor;
+import missile.Missile.Status;
 import war.War;
 import war.controller.WarEventListener;
+import war.db.WarDBConnection;
 
 public class DestructedMissile extends AbstractMissile {
 	private static Logger  			 logger;
@@ -86,6 +88,9 @@ public class DestructedMissile extends AbstractMissile {
 				}
 				String print_log = "Missle " + target.getMissileId()
 						+ " was destroyed";
+				target.setStatus(Status.Destroyed);
+				WarDBConnection.updateMissileStatusAndDestructor(target.getMissileId().toString(), destructor.getDestructorId().toString());
+				WarDBConnection.updateMissileStatus(target.getMissileId().toString(), target.getStatus().toString());
 				logger.log(Level.INFO, print_log, arr);
 			} else {
 			    for (WarEventListener l : allListeners) {

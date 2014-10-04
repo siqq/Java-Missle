@@ -4,6 +4,7 @@ package war.controller;
 import java.io.IOException;
 import java.util.Vector;
 
+import javafx.scene.control.TextField;
 import launcher.Destructor;
 import launcher.Launcher;
 import war.War;
@@ -199,6 +200,16 @@ public class WarController implements WarUIEventsListener,WarEventListener {
 	@Override
 	public void AddMessageToGui(String string) {
 	    warView.addMessageToGui(string);
+	    
+	}
+
+
+
+	@Override
+	public void addMessageThroughClient(String id, String dest,
+		String damage, String flyTime , String launcherName) {
+	    warModel.addMessageToClient( id,  dest,
+			 damage,  flyTime , launcherName);
 	    
 	}
 

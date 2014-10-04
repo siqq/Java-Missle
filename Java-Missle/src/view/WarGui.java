@@ -32,6 +32,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 	private DestroyersPanel destroyersPanel;
 	private OrefPanel orefPanel;
 	private MessagePanel MessagePanel;
+	private ConsoleApp consoleApp;
 	
 	public WarGui() {
 		allListeners = new LinkedList<WarUIEventsListener>();
@@ -41,6 +42,7 @@ public class WarGui extends JFrame implements AbstractWarView {
 		progressPanel = new ProgressPanel(allListeners, this);
 		destroyersPanel = new DestroyersPanel(allListeners);
 		MessagePanel = new MessagePanel(allListeners, this);
+		consoleApp = new ConsoleApp();
 		orefPanel = new OrefPanel();
 		setBackground(Color.DARK_GRAY);
 

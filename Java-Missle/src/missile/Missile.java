@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import launcher.Launcher;
 import war.War;
 import war.controller.WarEventListener;
@@ -45,6 +46,7 @@ public class Missile extends AbstractMissile {
 
 	logger = Logger.getLogger("warLogger");
     }
+
 
     /**
      * @return id of missile 

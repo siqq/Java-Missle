@@ -52,19 +52,14 @@ public class WarDBConnection {
 			+ "`flytime` INT NOT NULL, "
 			+ "`status` VARCHAR(40) NOT NULL, "
 			+ "`destructors_id` VARCHAR(10) NULL, "
-			+ "`destructed` VARCHAR(10) NULL, "
-			+ " PRIMARY KEY (`id`), "
-			+ "INDEX `fk_missiles_destructors_idx` (`destructors_id` ASC), "
-			+ "CONSTRAINT `fk_missiles_destructors` "
-			+ "FOREIGN KEY (`destructors_id`) "
-			+ "REFERENCES `destructors` (`id`) "
-			+ "ON DELETE NO ACTION " + "ON UPDATE NO ACTION)";
+			+ " PRIMARY KEY (`id`)) ";
 		state = connection.createStatement();
 		state.executeUpdate(missileSQL);
 
 		String launcherSQL = "CREATE TABLE IF NOT EXISTS `launchers` "
 			+ "(`id` VARCHAR(30) NOT NULL, "
 			+ "`isHidden` TINYINT(1) NULL,"
+			+ "`status` VARCHAR(40) NULL, "
 			+ "PRIMARY KEY (`id`)) ";
 		state = connection.createStatement();
 		state.executeUpdate(launcherSQL);
@@ -129,6 +124,19 @@ public class WarDBConnection {
 	    e.printStackTrace();
 	}
     }
+    public static void updateMissileStatusAndDestructor(String id, String destructors_id) {
+	try {
+	    statement = (PreparedStatement) connection
+		    .prepareStatement("UPDATE war.missile SET `destructors_id` = ?  WHERE missile.id = ?; ");
+	    statement.setString(1, destructors_id);
+	    statement.setString(2, id);
+
+	    statement.executeUpdate();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+    }
 
     public static void addNewLauncher(String launcherId, int isHidden) {
 	try {
@@ -146,12 +154,34 @@ public class WarDBConnection {
 	}
     }
 
-    public static void addNewDestructor() {
-	// TO DO
+    public static void addNewDestructor(String launcherId, String type) {
+	try {
+	    // connection.createStatement();
+	    statement = (PreparedStatement) connection
+		    .prepareStatement("INSERT INTO war.destructors (id, type) VALUES (?, ?)");
+	    statement.setString(1, launcherId);
+	    statement.setString(2, type);
+	    statement.executeUpdate();
+	} catch (SQLException e) {
+	    while (e != null) {
+		System.out.println(e.getMessage());
+		e = e.getNextException();
+	    }
+	}
     }
 
-    public static void updateLauncherStatus() {
-	// TO DO
+    public static void updateLauncherStatus(String id, String status) {
+	try {
+	    statement = (PreparedStatement) connection
+		    .prepareStatement("UPDATE war.launchers SET `status` = ? WHERE launchers.id = ?; ");
+	    statement.setString(1, status);
+	    statement.setString(2, id);
+
+	    statement.executeUpdate();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 
     public static void clearWarDataBase() {

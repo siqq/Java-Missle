@@ -1,5 +1,7 @@
 package war.controller;
 
+import javafx.scene.control.TextField;
+
 public interface WarUIEventsListener {
 	void addLauncherToUI(String id);
 
@@ -15,5 +17,8 @@ public interface WarUIEventsListener {
 
 
 	void addInterceptionToUI(String missileId, String ironDomeId);
+
+	void addMessageThroughClient(String id, String dest, String damageT,
+		String flyTime, String launcherName);
 
 }
