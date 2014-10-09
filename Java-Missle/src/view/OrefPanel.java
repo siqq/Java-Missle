@@ -1,25 +1,19 @@
 package view;
 
 import java.awt.Color;
-
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
-import javax.swing.JOptionPane;
-import javax.swing.SpringLayout;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import war.controller.WarUIEventsListener;
-
-public class OrefPanel extends JPanel {
+public class OrefPanel extends JPanel   {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	public static final String OREF_IMAGE_PATH = "/drawable/orefImage225x70.png";
 	public static final String OREF_ALERT_IMAGE_PATH = "/drawable/orefImage225x70Alert.png";
 	public static final int ALERT_DISPLAY_TIME = 8;

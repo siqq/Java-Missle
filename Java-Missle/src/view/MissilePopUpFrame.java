@@ -20,7 +20,11 @@ import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
 
-public class MissilePopUpFrame extends JFrame {
+public class MissilePopUpFrame extends JFrame   {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	private JTextField txtId, txtDamage, txtDest, txtFlyTime;
 	private String launcherId;
 	private JButton addButton;

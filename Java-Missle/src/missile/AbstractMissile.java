@@ -1,13 +1,21 @@
 package missile;
+import java.io.Serializable;
 import java.util.logging.FileHandler;
 
 import logger.LogFormatter;
 import logger.ObjectFilter;
 
-public abstract class AbstractMissile extends Thread{
+public abstract class AbstractMissile extends Thread implements Serializable  {
 	
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+	/**
+     * 
+     */
 	private int 			delayBeforeLaunch;
-	private FileHandler 	fileHandler;
+	private transient FileHandler 	fileHandler;
 	
 	public AbstractMissile(int delayBeforeLaunch, 
 			FileHandler fileHandler) {

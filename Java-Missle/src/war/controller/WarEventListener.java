@@ -1,6 +1,8 @@
 package war.controller;
 
-public interface WarEventListener {
+import java.io.Serializable;
+
+public interface WarEventListener extends Serializable {
 
 	void addDestructorToModel(String id, String type);
 

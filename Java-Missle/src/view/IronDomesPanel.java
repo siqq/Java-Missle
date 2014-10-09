@@ -14,10 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import war.controller.WarEventListener;
 import war.controller.WarUIEventsListener;
 
-public class IronDomesPanel extends JPanel {
+public class IronDomesPanel extends JPanel   {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	public static final String LAUNCHER_IMAGE_PATH = "/drawable/dome60x89.png";
 	private ImageIcon domeIcon = new ImageIcon(LAUNCHER_IMAGE_PATH);
     private Queue<JButton> domeQueue = new LinkedList<JButton>();

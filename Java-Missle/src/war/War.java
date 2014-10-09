@@ -1,9 +1,5 @@
 package war;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.Date;
 import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -34,7 +30,11 @@ import war.db.WarDBConnection;
  * 
  */
 
-public class War extends Thread {
+public class War extends Thread   {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     public static final int 		 TIME_INTERVAL = 1000; 	//sleep time for threads
     public static final double 	   	 SUCCESS_RATE = 0.2;	//success rate for destructors
     public static final String 		 LAUNCHER = "launcher";
@@ -48,6 +48,8 @@ public class War extends Thread {
     private Vector<Destructor>	 	 missileDestructors = new Vector<>();
     private Vector<Destructor> 		 missileLauncherDestructors = new Vector<>();
     private Vector<WarEventListener> listeners;
+    private Client client;
+    private Server server;
 
     /**
      * Constructor for the war which take from XML the stats to begin
@@ -258,53 +260,78 @@ public class War extends Thread {
 
     }
 
-    public void addMessageToClient(String id, String dest, String damage,
-	    String flyTime , String launcherName) {
-	Socket socket = null;
-	ObjectInputStream fromNetInputStream;
-	ObjectOutputStream toNetOutputStream;
 
-	try {
-	    socket = new Socket("localhost", 7000);			
-	    toNetOutputStream = new ObjectOutputStream(socket.getOutputStream());
-	    fromNetInputStream = new ObjectInputStream(socket.getInputStream());
-
-	    boolean fContinue = true;
-	    String text = (String)fromNetInputStream.readObject();
-	    System.out.println("Recieved from server: " + text);
-	    do  {
-		if(id == null){ // request to add launcher from server
-
-		    Launcher launcher = new Launcher(launcherName, false, listeners);
-		    toNetOutputStream.writeObject(launcher);
-		}
-		else{
-		    for(Launcher launcher : missileLaunchers){
-			if(launcherName.equalsIgnoreCase(launcher.getLauncherId())){
-			    Missile missile = launcher.CreatWithoutAddMissile(id, dest, 0, flyTime, damage);
-			    toNetOutputStream.writeObject(launcher);
-			    toNetOutputStream.writeObject(missile);
-			}
-		    }  
-		    //			    Missile missile = launcher.addMissile(name, dest, 0, flyTimeInt, damageInt);
-		}
-
-//		Point readPoint = (Point)fromNetInputStream.readObject();
-
-//		if (readPoint == null)
-//		    fContinue = false;
-//		else
-//		    System.out.println(new Date() + " --> Recieved from server: "
-//			    + readPoint.toString());
-	    } while (fContinue);
-
-	} catch (Exception e) {	System.out.println("*** " + e.getMessage());
-	} finally {
+    public void addLauncherToClient(String id)  {
+	if ((id.isEmpty()) || (WarUtility.getLauncherById(id, this) != null)) {
 	    try {
-		socket.close();
-		System.out.println("Client said goodbye..");
-	    } catch (IOException e) {}
+		throw new Exception("This Id is empty or already exist");
+	    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 	}
+	boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
+	try {
+	    Launcher launcher = new Launcher(id, is_hidden , listeners);
+	    client.sendObjectToServer(launcher);
+	} catch (SecurityException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	
+    }
+
+
+    public void addMissileToClient(String id, String dest, String damage,
+	    String flyTime, String launcherName) {
+	// TODO Auto-generated method stub
+	for(Launcher launchers : missileLaunchers){
+	    if(launcherName.equalsIgnoreCase(launchers.getLauncherId())){
+		Missile missile = launchers.CreatWithoutAddMissile(id, dest, 0, flyTime, damage , listeners);
+		//Client client = new Client();
+		try {
+		    client.sendObjectToServer(launchers,missile); 
+		} catch (ClassNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+
+	    }
+	} 
+    }
+
+    public void connectToServer() {
+	try {
+	    server = new Server();
+	    server.start();
+	    server.setWar(this);
+	    client = new Client();
+	    client.start();
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	
+//	client.connectToServer();
+	
+    }
+    public void openServer() {
+	try {
+	    server = new Server();
+	    server.setWar(this);
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	
+//	client.connectToServer();
+	
     }
 
 

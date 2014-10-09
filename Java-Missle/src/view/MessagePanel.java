@@ -3,18 +3,12 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -22,11 +16,12 @@ import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
 
-import javax.swing.JTextPane;
-import javax.swing.JLabel;
-
-public class MessagePanel extends JPanel {
+public class MessagePanel extends JPanel   {
     
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	private JLabel label;
 	private List<WarUIEventsListener> allListeners;
 	private boolean fireMissileButtonPressed;

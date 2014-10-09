@@ -6,19 +6,20 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-import javax.swing.JButton;
 import javax.swing.SpringLayout;
+import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
 
 
-public class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel  {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	public static final String EXIT_IMAGE_PATH = "/drawable/exitButton.png";
 	public static final String START_IMAGE_PATH = "/drawable/startButton.png";
 	public static final String FIRE_MISSILE_IMAGE_PATH = "/drawable/fireMissile.png";
@@ -112,11 +113,12 @@ public class ControlPanel extends JPanel {
 		validate();
 		add(addNewLauncherButton);				
 		
-		openClient.setIcon(new ImageIcon(ControlPanel.class.getResource(INTERCEPT_MISSILE_IMAGE_PATH)));
-		openClient.setOpaque(false);
-		openClient.setFocusPainted(false);
-		openClient.setBorderPainted(false);
-		openClient.setContentAreaFilled(false);
+		//openClient.setIcon(new ImageIcon(ControlPanel.class.getResource(INTERCEPT_MISSILE_IMAGE_PATH)));
+		openClient.setOpaque(true);
+		openClient.setFocusPainted(true);
+		openClient.setBorderPainted(true);
+		openClient.setContentAreaFilled(true);
+		openClient.setText("Open Client");
 		validate();
 		add(openClient);
 		
@@ -193,14 +195,10 @@ public class ControlPanel extends JPanel {
 		openClient.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				openConsoleApp();
+				JOptionPane.showMessageDialog(null, "Select Launcher to shoot from");
+				selectLauncherToFireFromWithFX();
 			}
 		});
-	}
-
-	protected void openConsoleApp() {
-	    // TODO Auto-generated method stub
-	    new ConsoleApp().main(null);;
 	}
 
 	public void selectLauncherToDestroy() {
@@ -210,6 +208,10 @@ public class ControlPanel extends JPanel {
 
 	public void selectLauncherToFireFrom() {
 		warGui.selectLauncherToFireFrom();
+		
+	}
+	public void selectLauncherToFireFromWithFX() {
+		warGui.selectLauncherToFireFromWithFX();
 		
 	}
 

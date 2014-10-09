@@ -5,6 +5,9 @@ import java.util.logging.LogRecord;
 
 public class ObjectFilter implements Filter {
 
+	/**
+     * 
+     */
 	private Vector<Object> objects = new Vector<Object>();
 
 	public ObjectFilter(Object toFilter) {

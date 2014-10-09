@@ -1,17 +1,22 @@
 package launcher;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-import war.controller.WarEventListener;
 import logger.LogFormatter;
 import logger.ObjectFilter;
 import missile.Missile;
+import war.controller.WarEventListener;
 
-public class Launcher extends Thread {
+public class Launcher extends Thread  implements Serializable   {
 
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	public static final int 		MIN_REVEAL = 1;
 	public static final int 		MAX_REVEAL = 5;
 
@@ -21,8 +26,9 @@ public class Launcher extends Thread {
 	private boolean 				isHidden;
 	private boolean 				isRunning;
 	private Vector<Missile> 		missiles;
-	private FileHandler 			fileHandler;
-	private List<WarEventListener>  allListeners;
+	private transient FileHandler 			fileHandler;
+	private transient List<WarEventListener>  allListeners;
+	//why listeners in launcher?
 	
 	/**
 	 * Constructor 
@@ -62,7 +68,7 @@ public class Launcher extends Thread {
 		this.isHidden = isHidden;
 		this.missiles = new Vector<Missile>();
 		this.isRunning = true;
-		this.allListeners = allListeners;
+		this.allListeners = allListeners; //you never use this shit. delete it
 		fileHandler = new FileHandler("Launcher_" + this.id + ".txt", false);
 		fileHandler.setFilter(new ObjectFilter(this));
 		fileHandler.setFormatter(new LogFormatter());
@@ -135,15 +141,16 @@ public class Launcher extends Thread {
 		}
 	}
 	public Missile CreatWithoutAddMissile(String id, String destination, int launchtime,
-		String flytime, String damage) {
+		String flytime, String damage, Vector<WarEventListener> listeners) {
 	   int flyTime = Integer.parseInt(flytime);
 	   int daMage = Integer.parseInt(damage);
 	Missile missile = new Missile(id, destination, launchtime, 
 		flyTime, daMage, this.fileHandler, this ,allListeners);
+	synchronized (this) {
+		this.notify();
+	}
 	return missile;
-//	synchronized (this) {
-//		this.notify();
-//	}
+
 }
 
 	/**
@@ -183,5 +190,16 @@ public class Launcher extends Thread {
 		}
 		catch (InterruptedException e) {
 		}
+	}
+
+	public void addMissile(Missile missile) {
+		this.missiles.add(missile);
+		for (WarEventListener l : allListeners) {
+	//	    l.addedLauncherToDestroy(destructor_id,target_id,destruct_time);
+		}
+//		synchronized (this) {
+//			this.notify();
+//		}
+	    
 	}
 }

@@ -17,7 +17,11 @@ import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
 
-public class DestroyersPanel extends JPanel {
+public class DestroyersPanel extends JPanel  {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	public static final String F16_IMAGE_PATH = "/drawable/f16-100x80.png";
 	public static final String SHIP_IMAGE_PATH = "/drawable/ship.png";	
     private Queue<JButton> domeQueue = new LinkedList<JButton>();

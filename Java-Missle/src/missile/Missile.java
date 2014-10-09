@@ -1,4 +1,5 @@
 package missile;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -9,12 +10,18 @@ import war.War;
 import war.controller.WarEventListener;
 import war.db.WarDBConnection;
 
-public class Missile extends AbstractMissile {
+public class Missile extends AbstractMissile implements Serializable   {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
 
     public enum Status {Waiting, Launched, Destroyed, Hit};   
     private static Logger 			logger;
 
-    private List<WarEventListener>  allListeners;
+    private transient List<WarEventListener>  allListeners;
     private String 					missileId;
     private String 					destination;
     private int 					flyTime;
@@ -43,7 +50,11 @@ public class Missile extends AbstractMissile {
 	this.launcher = launcher;
 	this.setStatus(Status.Waiting);
 	this.allListeners = allListeners;
-
+      //  this is dumb implementation. // not mine , those things ha been taken from avishay and dvir
+        //still this is very problematic. try to add transient to every error. it tells the outputstream not to write that specific object
+        //Ok, ill try to eork on it, Thans Bro
+        //ill talk to you if there be anything else
+        //ok lets just launch last time
 	logger = Logger.getLogger("warLogger");
     }
 
@@ -125,7 +136,11 @@ public class Missile extends AbstractMissile {
 		    }
 		    //					notify();
 		    logger.log(Level.INFO, print_log, this);
-
+//each launcher had missile so every missile must have launcher
+		    //why listener though?
+		    //to add things to gui and backward -- mvc
+		    //your implementation is wrong. when you add a launcher or a missile you should call the function in the controller with the parameters
+		    //for example l.addedMissileToModelEvent(missileId,destination,damage,flyTime);
 		    try {
 			for(int time = 0 ; time <= flyTime ; time++){
 			    Thread.sleep(War.TIME_INTERVAL);

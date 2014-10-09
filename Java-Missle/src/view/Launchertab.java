@@ -1,20 +1,24 @@
 package view;
 
+import java.util.List;
 import java.util.Vector;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import war.controller.WarUIEventsListener;
 
-public class Launchertab extends AnchorPane {
+public class Launchertab extends AnchorPane   {
     private ConsoleApp theApplication;
-    private Vector<WarUIEventsListener> allListeners;
-    private Button connectLauncher, addLauncher;
+    private List<WarUIEventsListener> allListener;
+    private Button connectLauncher;
+    private Button addLauncher;
     private TextField launcherId;
-    public Launchertab(ConsoleApp theApplication) {
+    public Launchertab(ConsoleApp theApplication ,List<WarUIEventsListener> allListeners) {
 	this.theApplication = theApplication;
-	allListeners = new Vector<WarUIEventsListener>();
+	this.allListener = allListeners;
 
 	connectLauncher = new Button("Connect to server");
 	launcherId = new TextField();
@@ -32,8 +36,41 @@ public class Launchertab extends AnchorPane {
 	connectLauncher.setLayoutX(14.0);
 	connectLauncher.setLayoutY(5.0);
 
-	getChildren().addAll(connectLauncher, launcherId, addLauncher);
+	getChildren().addAll(connectLauncher,launcherId, addLauncher);
+	addLauncher.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// while (true) {
 
+				String id = launcherId.getText();
+				for (WarUIEventsListener l : allListener) {
+					// sending missile details to the relevant GUI launcher
+					l.addLauncherThroughClient(id);
+					System.out.println(id);
+
+				}
+			}
+		}).start();
+            }
+        });
+	connectLauncher.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+		new Thread(new Runnable() {
+		    @Override
+		    public void run() {
+			for (WarUIEventsListener l : allListener) {
+			    // sending missile details to the relevant GUI launcher
+			    l.connectToServer();
+			}
+		    }
+		}).start();
+            }
+        });
 
     }
 }

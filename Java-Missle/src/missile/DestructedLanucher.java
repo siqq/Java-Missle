@@ -10,7 +10,11 @@ import war.War;
 import war.controller.WarEventListener;
 import war.db.WarDBConnection;
 
-public class DestructedLanucher extends AbstractMissile {
+public class DestructedLanucher extends AbstractMissile  {
+
+	/**
+     * 
+     */
 
 	private static Logger 			logger;
 

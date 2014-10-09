@@ -2,10 +2,15 @@ package war;
 
 import java.util.Vector;
 
-import launcher.*;
+import launcher.Destructor;
+import launcher.Launcher;
 import missile.Missile;
 
-public class WarUtility {
+public class WarUtility     {
+
+	/**
+     * 
+     */
 
 	/**
 	 * get id and search for missile with that id in missileLaunchers vector

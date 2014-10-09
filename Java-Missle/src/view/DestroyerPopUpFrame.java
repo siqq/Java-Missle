@@ -2,25 +2,25 @@ package view;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import war.controller.WarUIEventsListener;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JLabel;
-
-public class DestroyerPopUpFrame extends JFrame {
+public class DestroyerPopUpFrame extends JFrame   {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	private List<WarUIEventsListener> allListeners;
 	private JRadioButton ironDomeRadioButton, shipRadioButton,
 			planeDomeRadioButton;

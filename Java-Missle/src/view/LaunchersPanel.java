@@ -4,12 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import javafx.event.EventHandler;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,22 +21,30 @@ import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
 
-public class LaunchersPanel extends JPanel {
+public class LaunchersPanel extends JPanel  {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
 	public static final String LAUNCHER_IMAGE_PATH = "/drawable/launcher87x70.png";
 	
 	private Queue<JButton> launchersQueue = new LinkedList<JButton>();
-	private List<WarUIEventsListener> allListeners;
+	private static List<WarUIEventsListener> allListeners;
 	private boolean fireMissileButtonPressed;
+	private boolean javaFX;
 	private boolean destroyLauncherButtonPressed;
 	private WarGui warGui;
 	private JPanel panel;
+	private static String LauncherID;
 	
 	public LaunchersPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
 		this.warGui = warGui;
 		setBorder(new LineBorder(new Color(0, 0, 0)));
-		this.allListeners = allListeners;
+		this.setAllListeners(allListeners);
 		this.fireMissileButtonPressed = false;
 		this.destroyLauncherButtonPressed = false;
+		this.javaFX = false;
 		setLayout(new BorderLayout(0, 0));
 		
 
@@ -74,10 +83,15 @@ public class LaunchersPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// If user clicked the FIRE MISSILE Button
-				if (fireMissileButtonPressed) {
+				if (fireMissileButtonPressed && javaFX == false) {
 					String launcherId = ((JButton) e.getSource()).getText();
 
 					addNewMissilePopUp(launcherId);
+				}
+				if (fireMissileButtonPressed && javaFX == true) {
+					String launcherId = ((JButton) e.getSource()).getText();
+					LauncherID = launcherId;
+					addNewClientPopUp(launcherId);
 				}
 				// If user clicked the DESTROY LAUNCHER Button
 				if(destroyLauncherButtonPressed){
@@ -98,7 +112,21 @@ public class LaunchersPanel extends JPanel {
 	}
 
 	public void addNewMissilePopUp(String launcherId) {
-		new MissilePopUpFrame(allListeners, launcherId, this);
+		new MissilePopUpFrame(getAllListeners(), launcherId, this);
+
+	}
+	public void addNewClientPopUp(final String launcherId) {
+
+	            
+			new Thread(new Runnable() {
+			    @Override
+			    public void run() {
+				    ConsoleApp app = new ConsoleApp();
+				    
+				    app.main(null);
+				            
+			    }
+			}).start();
 
 	}
 
@@ -107,6 +135,12 @@ public class LaunchersPanel extends JPanel {
 		this.setBorder(new LineBorder(new Color(255, 0, 0), 2));
 		fireMissileButtonPressed = true;
 	}
+	public void selectLauncherTofireFromWithFX() {
+		this.setBorder(new LineBorder(new Color(255, 0, 0), 2));
+		fireMissileButtonPressed = true;
+		javaFX = true;
+	}
+
 
 	public void selectLauncherToDestroy() {
 		this.setBorder(new LineBorder(new Color(255, 0, 0), 2));
@@ -122,5 +156,19 @@ public class LaunchersPanel extends JPanel {
 	   }
 	    
 	}
+
+	public static List<WarUIEventsListener> getAllListeners() {
+	    return allListeners;
+	}
+
+	public void setAllListeners(List<WarUIEventsListener> allListeners) {
+	    this.allListeners = allListeners;
+	}
+
+
+	public static String getLauncherID() {
+	    return LauncherID;
+	}
+	
 
 }

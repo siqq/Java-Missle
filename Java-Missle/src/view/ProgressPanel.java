@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,7 +25,11 @@ import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
 
-public class ProgressPanel extends JPanel {
+public class ProgressPanel extends JPanel  {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	public static final String Intercepting = "/drawable/stop-sign-round-sticker2.png";
 	private WarGui warGui;
 	private JLabel label;

@@ -1,28 +1,24 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
-
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 import launcher.Destructor;
-import launcher.Launcher;
-import war.War;
 import war.controller.AbstractWarView;
 import war.controller.WarUIEventsListener;
 
-import javax.swing.ImageIcon;
-
-public class WarGui extends JFrame implements AbstractWarView {
+public class WarGui extends JFrame implements AbstractWarView{
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	public static final String PROGRESS_LABLE_IMAGE_PATH = "/drawable/615x40.png";
 	private List<WarUIEventsListener> allListeners;
 	private ControlPanel controlPanel;
@@ -32,7 +28,6 @@ public class WarGui extends JFrame implements AbstractWarView {
 	private DestroyersPanel destroyersPanel;
 	private OrefPanel orefPanel;
 	private MessagePanel MessagePanel;
-	private ConsoleApp consoleApp;
 	
 	public WarGui() {
 		allListeners = new LinkedList<WarUIEventsListener>();
@@ -42,7 +37,6 @@ public class WarGui extends JFrame implements AbstractWarView {
 		progressPanel = new ProgressPanel(allListeners, this);
 		destroyersPanel = new DestroyersPanel(allListeners);
 		MessagePanel = new MessagePanel(allListeners, this);
-		consoleApp = new ConsoleApp();
 		orefPanel = new OrefPanel();
 		setBackground(Color.DARK_GRAY);
 
@@ -184,6 +178,9 @@ public class WarGui extends JFrame implements AbstractWarView {
 
 	public void selectLauncherToFireFrom() {
 		launchersPanel.selectLauncherTofireFrom();
+	}
+	public void selectLauncherToFireFromWithFX() {
+		launchersPanel.selectLauncherTofireFromWithFX();
 	}
 
 	public void selectLauncherToDestroy() {

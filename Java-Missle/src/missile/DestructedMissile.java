@@ -1,4 +1,5 @@
 package missile;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -10,7 +11,11 @@ import war.War;
 import war.controller.WarEventListener;
 import war.db.WarDBConnection;
 
-public class DestructedMissile extends AbstractMissile {
+public class DestructedMissile extends AbstractMissile implements Serializable  {
+	/**
+     * 
+     */
+
 	private static Logger  			 logger;
 	
 	private Missile 				target;

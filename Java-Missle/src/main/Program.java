@@ -14,9 +14,11 @@ import view.WarGui;
 import war.War;
 import war.controller.AbstractWarView;
 import war.controller.WarController;
-import war.db.WarDBConnection;
 
 public class Program {
+	/**
+     * 
+     */
 	public static final String 	LAUNCHER = "launcher";
 	public static final String 	MISSILE = "missile";
 	public static final int 	TAKES_TIME_MIN = 1;
@@ -29,11 +31,11 @@ public class Program {
 		
 		try {
 //			War warModel = xml.readXML();
-		    new WarDBConnection();
+	//	    new WarDBConnection();
 //			WarDBConnection.clearWarDataBase();
 			War warModel = new War();
 			AbstractWarView viewGui = new WarGui();	
-						
+		//	 new Server();
 			WarController controller = new WarController(warModel,viewGui);
 			XMLparser xml = new XMLparser(controller);
 			
@@ -70,6 +72,8 @@ public class Program {
     				}
     			}
     		}
+    		//ok thats better
+    		//you should really consider modifying the source. its fucking you up bigtime.
     		if (counter == size) {
     			/*String stats = displayStatistics(war);
     			logger.log(Level.INFO, "All launchers destroyed - end of war");

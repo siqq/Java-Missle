@@ -13,7 +13,11 @@ import javax.swing.JTextField;
 
 import war.controller.WarUIEventsListener;
 
-public class LauncherPopUpFrame extends JFrame {
+public class LauncherPopUpFrame extends JFrame  {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	private JTextField txtId;
 	private JButton addButton;
 	private List<WarUIEventsListener> allListeners;

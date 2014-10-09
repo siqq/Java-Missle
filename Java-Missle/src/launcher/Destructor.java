@@ -10,7 +10,11 @@ import missile.AbstractMissile;
 import missile.DestructedLanucher;
 import missile.DestructedMissile;
 
-public class Destructor extends Thread{
+public class Destructor extends Thread   {
+
+	/**
+     * 
+     */
 
 	private static Logger logger;
 

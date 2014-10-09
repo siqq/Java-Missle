@@ -1,23 +1,28 @@
 package view;
 
-import java.util.Vector;
+import java.util.List;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import war.controller.WarUIEventsListener;
 
-public class Missiletab extends AnchorPane{
+public class Missiletab extends AnchorPane  {
     private ConsoleApp theApplication;
-    private Vector<WarUIEventsListener> allListeners;
+    private String launcherID;
+    private TextField missileID, destination, damage, flytime;
+    private List<WarUIEventsListener> allListener;
 
-    public Missiletab(ConsoleApp theApplication) {
+    public Missiletab(ConsoleApp theApplication, String launcherId, List<WarUIEventsListener> allListeners) {
 	this.theApplication = theApplication;
-	allListeners = new Vector<WarUIEventsListener>();
-	TextField missileID = new TextField();
-	TextField destination = new TextField();
-	TextField damage = new TextField();
-	TextField flytime = new TextField();
+	this.allListener = allListeners;
+	this.launcherID=launcherId;
+	missileID = new TextField();
+	destination = new TextField();
+	damage = new TextField();
+	flytime = new TextField();
 	Button add = new Button("Resquest & Add missile from server");
 	Button connect = new Button("Connect to server");
 	this.setMaxSize(285.0, 371.0);
@@ -48,31 +53,45 @@ public class Missiletab extends AnchorPane{
 	connect.setLayoutX(14.0);
 	connect.setLayoutY(5.0);
 
-	//	add.setOnAction(new EventHandler<ActionEvent>() {
-	//            @Override
-	//            public void handle(ActionEvent event) {
-	//                System.out.println("Hello World!");
-	//		new Thread(new Runnable() {
-	//			@Override
-	//			public void run() {
-	//				// while (true) {
-	//
-	//				String id = missileID.getText();
-	//				String dest = destination.getText();
-	//				String damageT = damage.getText();
-	//				String flyTime = flytime.getText();
-	//				if (id.isEmpty() || dest.isEmpty() || damageT.isEmpty()) {
-	//					JOptionPane.showMessageDialog(null,
-	//							"You must fill all details!");
-	//					return;
-	//				}
-	//			}
-	//		}).start();
-	//            }
-	//        });
+	add.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent event) {
+			 new Thread (new Runnable() {
+			    @Override
+			    public void run() {
+				String id = missileID.getText();
+				String dest = destination.getText();
+				String damageT = damage.getText();
+				String flyTime = flytime.getText();
+				if (id.isEmpty() || dest.isEmpty() || damageT.isEmpty()) {
+				}				for (WarUIEventsListener l : allListener) {
+				    // sending missile details to the relevant GUI launcher
+				    l.addMissileThroughClient(id, dest, damageT, flyTime, launcherID);
+
+				}
+			    }
+			}).start();
+	    }
+	});
+	connect.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+		new Thread(new Runnable() {
+		    @Override
+		    public void run() {
+			for (WarUIEventsListener l : allListener) {
+			    // sending missile details to the relevant GUI launcher
+			    l.connectToServer();
+			}
+		    }
+		}).start();
+            }
+        });
 
 
 	getChildren().addAll(connect, missileID, destination, damage, flytime,add);
 
     }
+
 }

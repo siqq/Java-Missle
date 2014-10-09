@@ -1,15 +1,30 @@
 package view;
 
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import war.controller.WarUIEventsListener;
 
-public class ConsoleApp extends Application  {
+public class ConsoleApp extends Application     {
     private Stage primaryStage;
     private Missiletab missiletab;
     private Launchertab launcherTab;
+    private List<WarUIEventsListener> allListeners;
+    private String launcherId;
+    
+
+    public ConsoleApp(
+	     ) {
+	this.allListeners = LaunchersPanel.getAllListeners();
+	this.launcherId = LaunchersPanel.getLauncherID();
+//	main(null);
+
+    }
+
     public void start(Stage primaryStage) throws Exception {
 	
         final Tab tabMissile = new Tab();
@@ -19,8 +34,8 @@ public class ConsoleApp extends Application  {
 	TabPane tabPane = new TabPane();
 	tabPane.setId("mainPane");
 	
-	missiletab = new Missiletab(this);
-	launcherTab = new Launchertab(this);
+	missiletab = new Missiletab(this , launcherId , allListeners);
+	launcherTab = new Launchertab(this , allListeners);
 
 	tabMissile.setContent(missiletab);
 	tabLauncher.setContent(launcherTab);
@@ -39,5 +54,7 @@ public class ConsoleApp extends Application  {
 	public Stage getPrimaryStage() {
 	    return primaryStage;
 	}
+
+
     	
 }
