@@ -1,7 +1,6 @@
 package main;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,30 +23,29 @@ import org.xml.sax.SAXException;
 import war.War;
 import war.WarUtility;
 import war.controller.WarController;
-import war.controller.WarUIEventsListener;
 
 public class XMLparser {
-	private Vector<Launcher> 	missileLaunchers = new Vector<>();
-	private Vector<Destructor> 	missileDestructors = new Vector<>();
-	private Vector<Destructor> 	missileLauncherDestructors = new Vector<>();
+	private War war;
 	private WarController 		controller;
-
-	public XMLparser(WarController controller) throws ParserConfigurationException, SAXException,
+	
+	public XMLparser(WarController controller,War war) throws ParserConfigurationException, SAXException,
 			IOException {
 		this.controller = controller;
+		this.war = war;
 		readXML();
 	}
 
-	public void  readXML() throws ParserConfigurationException, SAXException,
+	public War readXML() throws ParserConfigurationException, SAXException,
 			IOException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		// Get the DOM Builder
 		DocumentBuilder builder;
 		builder = factory.newDocumentBuilder();
 		InputStream xml_file = ClassLoader
-				.getSystemResourceAsStream("war2.xml");
+				.getSystemResourceAsStream("war.xml");
 		//check if we have xml file
 		if (xml_file == null) {
+			return war;
 		}
 		Document document = builder.parse(xml_file);
 		// Load and Parse the XML document
@@ -72,6 +70,7 @@ public class XMLparser {
 				}
 			}
 		}
+		return war;
 	}
 
 	/**
@@ -90,17 +89,18 @@ public class XMLparser {
 				boolean isHidden = Boolean.parseBoolean(launcher
 						.getAttributes().getNamedItem("isHidden")
 						.getNodeValue());
-				missileLaunchers.add(new Launcher(id, isHidden , controller.getWarListeners()));
+//				missileLaunchers.add(new Launcher(id, isHidden,controller.getWarListeners()));
+				controller.addLauncherToUI(id);
 			} else {
 				String type = launcher.getAttributes().getNamedItem("type")
 						.getNodeValue();
 				if ((rootNode.getNodeName().equals("missileDestructors"))) {
-					missileDestructors.add(new Destructor(
-							id, type, new Vector<AbstractMissile>()));
+//					missileDestructors.add(new Destructor(id, type, new Vector<AbstractMissile>()));
+
+					controller.addDestructorToUI(id, type);
 				} else {
-					missileLauncherDestructors
-							.add(new Destructor(id, type,
-									new Vector<AbstractMissile>()));
+//					missileLauncherDestructors.add(new Destructor(id, type,new Vector<AbstractMissile>()));
+					controller.addDestructorToUI(id, type);
 				}
 			}
 		}
@@ -122,17 +122,18 @@ public class XMLparser {
 				// missile list
 				String destination = missile.getAttributes()
 						.getNamedItem("destination").getNodeValue();
-				int launchtime = Integer.parseInt(missile.getAttributes()
-						.getNamedItem("launchTime").getNodeValue());
-				int flytime = Integer.parseInt(missile.getAttributes()
-						.getNamedItem("flyTime").getNodeValue());
-				int damage = Integer.parseInt(missile.getAttributes()
-						.getNamedItem("damage").getNodeValue());
+				String launchtime = missile.getAttributes()
+						.getNamedItem("launchTime").getNodeValue();
+				String flytime =missile.getAttributes()
+						.getNamedItem("flyTime").getNodeValue();
+				String damage = missile.getAttributes()
+						.getNamedItem("damage").getNodeValue();
 
 				// get the launcher and add missile to it
-				Launcher launcher = missileLaunchers.get(index / 2);
-				launcher.addMissile(id, destination, launchtime, flytime,
-						damage);
+				Launcher launcher = war.getMissileLaunchers().get(index / 2);
+//						missileLaunchers.get(index / 2);
+				controller.addMissileToUI(id, destination, damage, flytime, launcher.getLauncherId());
+//				launcher.addMissile(id, destination, launchtime, flytime,damage);
 				break;
 			case "destructdMissile":
 				// case 2 it is a missle to destruct missles need
@@ -141,11 +142,11 @@ public class XMLparser {
 						.getAttributes().getNamedItem("destructAfterLaunch")
 						.getNodeValue());
 				// get the destructor and then add missile destructor to it
-				Destructor destructor_m = missileDestructors
-						.get(index / 2);
-				Missile target_m = WarUtility.getMissileById(id, controller.getWarModel());
-				DestructedMissile destructedM = new DestructedMissile(target_m, 
-						destructAfterLaunch, destructor_m, destructor_m.getFileHandler(), controller.getWarListeners());
+				Destructor destructor_m = war.getMissileDestructors().get(index / 2);
+//						missileDestructors.get(index / 2);
+				Missile target_m = WarUtility.getMissileById(id, war);
+				DestructedMissile destructedM = new DestructedMissile(target_m,destructAfterLaunch, destructor_m, destructor_m.getFileHandler(),controller.getWarListeners());
+				
 				destructor_m.addDestructMissile(destructedM);
 				break;
 			case "destructedLanucher":
@@ -155,20 +156,14 @@ public class XMLparser {
 						.getNamedItem("destructTime").getNodeValue());
 				// get the destructor and then add missile launcher destructor
 				// to it
-				Destructor destructor_l = missileLauncherDestructors
-						.get(index / 2);
-				Launcher target_l = WarUtility.getLauncherById(id, controller.getWarModel());
+				Destructor destructor_l = war.getMissileLauncherDestructors().get(index / 2);
+				Launcher target_l = WarUtility.getLauncherById(id, war);
 				DestructedLanucher destructedL = new DestructedLanucher(target_l, 
-						destructTime, destructor_l, destructor_l.getFileHandler() , controller.getWarListeners());
+						destructTime, destructor_l, destructor_l.getFileHandler(),controller.getWarListeners());
 				destructor_l.addDestructMissile(destructedL);
 				break;
 			}
 		}
 	}
-
-	public Vector<Launcher> getMissileLaunchers() {
-	    return missileLaunchers;
-	}
-	
 
 }

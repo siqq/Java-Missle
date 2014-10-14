@@ -98,7 +98,7 @@ public class War extends Thread   {
     }
 
     public void addLauncherDestructor(Destructor desctructor) {
-	this.missileLauncherDestructors.add(desctructor);	
+	missileLauncherDestructors.add(desctructor);	
 	fireAddLauncherDestructorEvent(desctructor);
 	desctructor.start();
     }
@@ -111,7 +111,7 @@ public class War extends Thread   {
     }
 
     public void addMissileDestructor(Destructor desctructor) {
-	this.missileDestructors.add(desctructor);	
+	missileDestructors.add(desctructor);	
 	fireAddMissileDestructorEvent(desctructor);
 	desctructor.start();
     }
@@ -188,18 +188,16 @@ public class War extends Thread   {
 
 
 
-    public void addDestructor(String id, String type) throws SecurityException, IOException {
+	public void addDestructor(String id, String type) throws SecurityException, IOException {
 
 	if (WarUtility.getDestructorById(id, this, type) != null) {
 	    // tell controller the id already exists
 	}
-	if (type.equals("Plane") || type.equals("Ship")) {
-	    Destructor desctructor = new Destructor(
-		    id, type, new Vector<AbstractMissile>());
+	if (type.equals("plane") || type.equals("ship")) {
+	    Destructor desctructor = new Destructor(id, type, new Vector<AbstractMissile>());
 	    addLauncherDestructor(desctructor);
 	} else if (type.equals("Iron Dome")) {
-	    Destructor desctructor = new Destructor(
-		    id, type, new Vector<AbstractMissile>());
+	    Destructor desctructor = new Destructor(id, type, new Vector<AbstractMissile>());
 	    addMissileDestructor(desctructor);
 	} 
 	WarDBConnection.addNewDestructor(id, type);

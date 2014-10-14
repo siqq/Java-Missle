@@ -10,12 +10,12 @@
 		</launcher>
 	</missileLaunchers>
 	<missileDestructors>
-		<destructor  id="D201" type="kipat barzel">
+		<destructor  id="D201" type="Iron Dome">
 			<destructdMissile  id="M1" destructAfterLaunch="4"></destructdMissile>
 			<destructdMissile id="M3" destructAfterLaunch="7"></destructdMissile>
 			<destructdMissile id="M4" destructAfterLaunch="2"></destructdMissile>
 		</destructor>
-		<destructor id="D202" type="kipat barzel">
+		<destructor id="D202" type="Iron Dome">
 			<destructdMissile id="M2" destructAfterLaunch="3"></destructdMissile>
 		</destructor>
 	</missileDestructors>

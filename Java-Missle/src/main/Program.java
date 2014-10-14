@@ -37,7 +37,7 @@ public class Program {
 			AbstractWarView viewGui = new WarGui();	
 		//	 new Server();
 			WarController controller = new WarController(warModel,viewGui);
-			XMLparser xml = new XMLparser(controller);
+			XMLparser xml = new XMLparser(controller, warModel);
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
