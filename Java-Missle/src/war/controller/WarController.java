@@ -192,4 +192,9 @@ public class WarController implements WarUIEventsListener, WarEventListener{
 
     }
 
+	@Override
+	public int[] getStatistics() {		
+		return warModel.displayStatistics();
+	}
+
 }

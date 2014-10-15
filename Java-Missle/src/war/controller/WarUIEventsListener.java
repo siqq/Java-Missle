@@ -26,4 +26,6 @@ public interface WarUIEventsListener extends Serializable{
 	void addMissileThroughClient(String id, String dest, String damageT,
 		String flyTime, String launcherId);
 
+	int[] getStatistics();
+
 }

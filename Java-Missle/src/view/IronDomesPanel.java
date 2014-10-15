@@ -55,8 +55,11 @@ public class IronDomesPanel extends JPanel   {
 					for (WarUIEventsListener l : allListeners) {
 						l.addInterceptionToUI(missileId, id);
 					}
+					fireMissileButtonPressed = false;
 					
 				}
+				setBorder(new LineBorder(new Color(0, 0, 0)));
+				validate();
 			}
 
 		});

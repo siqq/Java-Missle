@@ -192,6 +192,16 @@ public class ControlPanel extends JPanel  {
 				selectLauncherToDestroy();
 			}
 		});
+		
+		// STATISTICS BUTTON ACTION LISTENER
+		statisticsButton.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ShowStatistics();
+				
+			}
+		});
+		
 		openClient.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -226,6 +236,19 @@ public class ControlPanel extends JPanel  {
 	public void addMessageToGui(String string) {
 	    JOptionPane.showMessageDialog(null, string);
 	    
+	}
+	
+	public void ShowStatistics() {
+		int[] statistics = new int[5];
+		
+		
+		for (WarUIEventsListener l : allListeners) {
+			statistics = l.getStatistics();
+		}
+		
+		
+		new StatisticsPopUpFrame(statistics[0], statistics[1], statistics[2], statistics[3], statistics[4]);
+
 	}
 
 

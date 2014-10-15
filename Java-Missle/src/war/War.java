@@ -244,8 +244,7 @@ public class War extends Thread   {
     }
 
     public void startMissileInterception(String missileId , String ironDome) {
-	Destructor selected_destructor = WarUtility.getDestructorById(
-		ironDome, this, MISSILE);
+	Destructor selected_destructor = WarUtility.getDestructorById(ironDome, this, MISSILE);
 	int destruct_time = (int) (TAKES_TIME_MIN + (Math.random() * 
 		(TAKES_TIME_MAX - TAKES_TIME_MIN + 1)));
 	Missile target = WarUtility.getMissileById(missileId, this);
@@ -257,6 +256,47 @@ public class War extends Thread   {
 	}
 
     }
+    
+	public int[] displayStatistics() {
+		int statistics[] = new int[5];
+		int total_launched_missiles = 0;
+		int total_destroyed_missiles = 0;
+		int total_missiles_hit = 0;
+		int total_destroyed_launchers = 0;
+		int total_damage = 0;
+		int size_launcher = getMissileLaunchers().size();
+		int size_missiles;
+
+		Launcher l;
+		Missile m;
+		
+		for (int i = 0; i < size_launcher; i++) {
+			l = getMissileLaunchers().get(i);
+			if (l.isRunning() == false) {
+				total_destroyed_launchers++;
+			}
+			size_missiles = l.getMissiles().size();
+			for (int j = 0; j < size_missiles; j++) {
+				m = l.getMissiles().get(j);
+				if (m.getStatus() != Missile.Status.Waiting) {
+					total_launched_missiles++;
+					if(m.getStatus() == Missile.Status.Hit) {
+						total_missiles_hit++;
+						total_damage += m.getDamage();
+					} else if (m.getStatus() == Missile.Status.Destroyed){
+						total_destroyed_missiles++;
+					}
+				}
+			}
+		}
+		statistics[0] = total_launched_missiles;
+		statistics[1] = total_destroyed_missiles;
+		statistics[2] = total_missiles_hit;
+		statistics[3] = total_destroyed_launchers;
+		statistics[4] = total_damage;
+		
+		return statistics;
+	}
 
 
     public void addLauncherToClient(String id)  {
