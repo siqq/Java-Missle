@@ -17,8 +17,7 @@ public class ConsoleApp extends Application     {
     private String launcherId;
     
 
-    public ConsoleApp(
-	     ) {
+    public ConsoleApp() {
 	this.allListeners = LaunchersPanel.getAllListeners();
 	this.launcherId = LaunchersPanel.getLauncherID();
 //	main(null);

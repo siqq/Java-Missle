@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import launcher.Launcher;
 import missile.Missile;
@@ -16,6 +18,7 @@ public class Server extends Thread      {
 	ObjectInputStream inputStream;
 	ObjectOutputStream outputStream;
 	War war;
+	Queue<Object> vec;
 	ServerSocket server;
 	Launcher launcher = null;
 	Missile missile = null;
@@ -25,10 +28,6 @@ public class Server extends Thread      {
     }
 
 
-    private static void addLauncher(Launcher launcher) {
-	// TODO Auto-generated method stub
-
-    }
 
 
     public void setWar(War war) {
@@ -56,42 +55,62 @@ public class Server extends Thread      {
 	    socket = server.accept(); // blocking
 	    System.out.println(new Date() + " --> Client connected from "
 		    + socket.getInetAddress() + ":" + socket.getPort());
-
+	    vec = new LinkedList<>();
 	    outputStream = new ObjectOutputStream(socket.getOutputStream());
 	    inputStream = new ObjectInputStream(socket.getInputStream());
 
-	    do {
+//	    do {
+		vec = (Queue<Object>) inputStream.readObject();
+//		vec.add(obj);
+		
+		
+//		outputStream.writeObject(obj);
+//		launcher = (Launcher) inputStream.readObject();
+//		System.out.println("read launcher");
+//					    if (launcher!=null){
+//						System.out.println("launcher");
+//						
+//					    }  
+//
+//					    missile = (Missile) inputStream.readObject();
+//					    if (missile!=null ){
+//						System.out.println("missile");
+//						{
+		
+//					    }  
+//		if(launcher != null){
+//		    System.out.println("Server");
+//		    System.out.println(launcher.getLauncherId());
+//		    war.addLauncher(launcher);
+//		    System.out.println("sucess");
+//		}
+		 System.out.println("work");
 
-		launcher = (Launcher) inputStream.readObject();
-		System.out.println("read launcher");
-					    if (launcher!=null){
-						System.out.println("launcher");
-						
-					    }  
-
-					    missile = (Missile) inputStream.readObject();
-					    if (missile!=null ){
-						System.out.println("missile");
-						launcher.addMissile(missile);
-					    }  
-		if(launcher != null){
-		    System.out.println("Server");
-		    System.out.println(launcher.getLauncherId());
-		    war.addLauncher(launcher);
-		    System.out.println("sucess");
-		}
-
-	    } while (launcher != null);
+//	    } while (inputStream.readObject() != null);
 
 	} catch (Exception e) {
 	    System.out.println(e);
 	} finally {
-	    try {
-		socket.close();
-		server.close();
-		System.out
-		.println("Sever is closing after client is disconnected");
-	    } catch (IOException e) { }
+	    //		socket.close();
+	    //		server.close();
+	    		for(Object obj : vec){
+	    		   if(obj instanceof Missile){
+	    		       missile = (Missile)obj;
+	    		   }
+	    		   if ( obj instanceof Launcher){
+	    		       launcher = (Launcher)obj;
+	    		   }
+	    		}
+	    		   if( missile != null && launcher != null){
+//	    		       launcher.addMissile(missile);
+	    		       launcher = WarUtility.getLauncherById(launcher.getLauncherId(), war);
+	    		       missile = WarUtility.getMissileById(missile.getMissileId(), war);
+	    		       launcher.addMissile(missile);
+//	    		       war.addMissileFromServer(missile.getMissileId(), missile.getDestination(),missile.getDamage(), missile.getFlyTime(), launcher.getLauncherId());
+	    		   }
+	    		   else{
+	    		       war.addLauncher(launcher);
+	    		   }
 	}
     }
 }

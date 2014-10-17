@@ -131,7 +131,9 @@ public class War extends Thread   {
     public void addLauncher(Launcher launcher) {
 	this.missileLaunchers.add(launcher);
 	fireAddLauncherEvent(launcher);
-	launcher.start();
+	// These cause exception, you have any idea why?
+	
+//	launcher.start();
     }
 
 
@@ -188,7 +190,7 @@ public class War extends Thread   {
 
 
 
-	public void addDestructor(String id, String type) throws SecurityException, IOException {
+    public void addDestructor(String id, String type) throws SecurityException, IOException {
 
 	if (WarUtility.getDestructorById(id, this, type) != null) {
 	    // tell controller the id already exists
@@ -256,47 +258,47 @@ public class War extends Thread   {
 	}
 
     }
-    
-	public int[] displayStatistics() {
-		int statistics[] = new int[5];
-		int total_launched_missiles = 0;
-		int total_destroyed_missiles = 0;
-		int total_missiles_hit = 0;
-		int total_destroyed_launchers = 0;
-		int total_damage = 0;
-		int size_launcher = getMissileLaunchers().size();
-		int size_missiles;
 
-		Launcher l;
-		Missile m;
-		
-		for (int i = 0; i < size_launcher; i++) {
-			l = getMissileLaunchers().get(i);
-			if (l.isRunning() == false) {
-				total_destroyed_launchers++;
-			}
-			size_missiles = l.getMissiles().size();
-			for (int j = 0; j < size_missiles; j++) {
-				m = l.getMissiles().get(j);
-				if (m.getStatus() != Missile.Status.Waiting) {
-					total_launched_missiles++;
-					if(m.getStatus() == Missile.Status.Hit) {
-						total_missiles_hit++;
-						total_damage += m.getDamage();
-					} else if (m.getStatus() == Missile.Status.Destroyed){
-						total_destroyed_missiles++;
-					}
-				}
-			}
+    public int[] displayStatistics() {
+	int statistics[] = new int[5];
+	int total_launched_missiles = 0;
+	int total_destroyed_missiles = 0;
+	int total_missiles_hit = 0;
+	int total_destroyed_launchers = 0;
+	int total_damage = 0;
+	int size_launcher = getMissileLaunchers().size();
+	int size_missiles;
+
+	Launcher l;
+	Missile m;
+
+	for (int i = 0; i < size_launcher; i++) {
+	    l = getMissileLaunchers().get(i);
+	    if (l.isRunning() == false) {
+		total_destroyed_launchers++;
+	    }
+	    size_missiles = l.getMissiles().size();
+	    for (int j = 0; j < size_missiles; j++) {
+		m = l.getMissiles().get(j);
+		if (m.getStatus() != Missile.Status.Waiting) {
+		    total_launched_missiles++;
+		    if(m.getStatus() == Missile.Status.Hit) {
+			total_missiles_hit++;
+			total_damage += m.getDamage();
+		    } else if (m.getStatus() == Missile.Status.Destroyed){
+			total_destroyed_missiles++;
+		    }
 		}
-		statistics[0] = total_launched_missiles;
-		statistics[1] = total_destroyed_missiles;
-		statistics[2] = total_missiles_hit;
-		statistics[3] = total_destroyed_launchers;
-		statistics[4] = total_damage;
-		
-		return statistics;
+	    }
 	}
+	statistics[0] = total_launched_missiles;
+	statistics[1] = total_destroyed_missiles;
+	statistics[2] = total_missiles_hit;
+	statistics[3] = total_destroyed_launchers;
+	statistics[4] = total_damage;
+
+	return statistics;
+    }
 
 
     public void addLauncherToClient(String id)  {
@@ -319,7 +321,7 @@ public class War extends Thread   {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
-	
+
     }
 
 
@@ -332,9 +334,6 @@ public class War extends Thread   {
 		//Client client = new Client();
 		try {
 		    client.sendObjectToServer(launchers,missile); 
-		} catch (ClassNotFoundException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
 		} catch (IOException e) {
 		    // TODO Auto-generated catch block
 		    e.printStackTrace();
@@ -343,6 +342,7 @@ public class War extends Thread   {
 	    }
 	} 
     }
+
 
     public void connectToServer() {
 	try {
@@ -355,9 +355,9 @@ public class War extends Thread   {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
-	
-//	client.connectToServer();
-	
+
+	//		client.connectToServer();
+
     }
     public void openServer() {
 	try {
@@ -367,9 +367,6 @@ public class War extends Thread   {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
-	
-//	client.connectToServer();
-	
     }
 
 

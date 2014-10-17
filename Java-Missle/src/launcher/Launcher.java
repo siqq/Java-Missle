@@ -146,9 +146,7 @@ public class Launcher extends Thread  implements Serializable   {
 	   int daMage = Integer.parseInt(damage);
 	Missile missile = new Missile(id, destination, launchtime, 
 		flyTime, daMage, this.fileHandler, this ,allListeners);
-	synchronized (this) {
-		this.notify();
-	}
+	this.missiles.add(missile);
 	return missile;
 
 }
@@ -193,13 +191,9 @@ public class Launcher extends Thread  implements Serializable   {
 	}
 
 	public void addMissile(Missile missile) {
-		this.missiles.add(missile);
-		for (WarEventListener l : allListeners) {
-	//	    l.addedLauncherToDestroy(destructor_id,target_id,destruct_time);
+		synchronized (this) {
+			this.notify();
 		}
-//		synchronized (this) {
-//			this.notify();
-//		}
 	    
 	}
 }
