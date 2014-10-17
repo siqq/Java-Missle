@@ -94,7 +94,7 @@ public class DestructedMissile extends AbstractMissile implements Serializable  
 				String print_log = "Missle " + target.getMissileId()
 						+ " was destroyed";
 				target.setStatus(Status.Destroyed);
-				WarDBConnection.updateMissileStatusAndDestructor(target.getMissileId().toString(), destructor.getDestructorId().toString());
+				WarDBConnection.updateMissileStatusAndDestructor(target.getMissileId().toString(), destructor.getDestructorId() + "");
 				WarDBConnection.updateMissileStatus(target.getMissileId().toString(), target.getStatus().toString());
 				logger.log(Level.INFO, print_log, arr);
 			} else {

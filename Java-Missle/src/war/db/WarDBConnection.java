@@ -25,13 +25,11 @@ public class WarDBConnection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(dbUrl, "root", "");
-
 			// Empty all tables when the program starts
 			try {
 				String sql = "CREATE DATABASE IF NOT EXISTS war";
 				state = connection.createStatement();
 				state.executeUpdate(sql);
-				System.out.println("Database created!");
 				dbUrl = dbUrl + "war";
 				connection = DriverManager.getConnection(dbUrl, "root", "");
 				String destructorSQL =
@@ -45,7 +43,6 @@ public class WarDBConnection {
 
 				"CREATE TABLE IF NOT EXISTS `missile` "
 						+ "(`id` VARCHAR(10) NOT NULL, "
-
 						+ "`date` TIME NULL, "
 						+ "`destination` VARCHAR(40) NOT NULL, "
 						+ "`damage` INT NOT NULL, "
@@ -105,7 +102,7 @@ public class WarDBConnection {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			while (e != null) {
-				System.out.println(e.getMessage());
+//				System.out.println(e.getMessage());
 				e = e.getNextException();
 			}
 		}
@@ -113,14 +110,11 @@ public class WarDBConnection {
 
 	public static void updateMissileStatus(String id, String status) {
 		try {
-			statement = (PreparedStatement) connection
-					.prepareStatement("UPDATE war.missile SET `status` = ? WHERE missile.id = ?; ");
+			statement = (PreparedStatement) connection.prepareStatement("UPDATE war.missile SET `status` = ? WHERE missile.id = ?; ");
 			statement.setString(1, status);
 			statement.setString(2, id);
-
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -128,14 +122,11 @@ public class WarDBConnection {
 	public static void updateMissileStatusAndDestructor(String id,
 			String destructors_id) {
 		try {
-			statement = (PreparedStatement) connection
-					.prepareStatement("UPDATE war.missile SET `destructors_id` = ?  WHERE missile.id = ?; ");
+			statement = (PreparedStatement) connection.prepareStatement("UPDATE war.missile SET `destructors_id` = ?  WHERE missile.id = ?; ");
 			statement.setString(1, destructors_id);
 			statement.setString(2, id);
-
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -150,7 +141,6 @@ public class WarDBConnection {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			while (e != null) {
-				System.out.println(e.getMessage());
 				e = e.getNextException();
 			}
 		}
@@ -166,7 +156,6 @@ public class WarDBConnection {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			while (e != null) {
-				System.out.println(e.getMessage());
 				e = e.getNextException();
 			}
 		}
@@ -174,11 +163,9 @@ public class WarDBConnection {
 
 	public static void updateLauncherStatus(String id, String status) {
 		try {
-			statement = (PreparedStatement) connection
-					.prepareStatement("UPDATE war.launchers SET `status` = ? WHERE launchers.id = ?; ");
+			statement = (PreparedStatement) connection.prepareStatement("UPDATE war.launchers SET `status` = ? WHERE launchers.id = ?; ");
 			statement.setString(1, status);
 			statement.setString(2, id);
-
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -196,7 +183,6 @@ public class WarDBConnection {
 			statement.execute();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -264,7 +250,6 @@ public class WarDBConnection {
 				rs.close();
 			}
 		} catch (Exception e) {
-			System.out.println("Could not close the current connection.");
 			e.printStackTrace();
 		}
 	}

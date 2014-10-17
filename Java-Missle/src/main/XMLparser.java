@@ -124,16 +124,26 @@ public class XMLparser {
 						.getNamedItem("destination").getNodeValue();
 				String launchtime = missile.getAttributes()
 						.getNamedItem("launchTime").getNodeValue();
+				int lt = Integer.parseInt(launchtime);
 				String flytime =missile.getAttributes()
 						.getNamedItem("flyTime").getNodeValue();
+				int ft = Integer.parseInt(flytime);
 				String damage = missile.getAttributes()
 						.getNamedItem("damage").getNodeValue();
+				int dm = Integer.parseInt(damage);
 
 				// get the launcher and add missile to it
 				Launcher launcher = war.getMissileLaunchers().get(index / 2);
 //						missileLaunchers.get(index / 2);
-				controller.addMissileToUI(id, destination, damage, flytime, launcher.getLauncherId());
-//				launcher.addMissile(id, destination, launchtime, flytime,damage);
+//				controller.addMissileToUI(id, destination, damage, flytime, launcher.getLauncherId());
+//				controller.addMissileToProgress(id, destination, damage, flytime, launcher.getLauncherId());
+				
+				//###############################################################33
+				
+//				You should use the launcher.addMissile method
+				
+				
+				launcher.addMissile(id, destination , lt , ft ,dm );
 				break;
 			case "destructdMissile":
 				// case 2 it is a missle to destruct missles need
@@ -146,7 +156,7 @@ public class XMLparser {
 //						missileDestructors.get(index / 2);
 				Missile target_m = WarUtility.getMissileById(id, war);
 				DestructedMissile destructedM = new DestructedMissile(target_m,destructAfterLaunch, destructor_m, destructor_m.getFileHandler(),controller.getWarListeners());
-				
+//				controller.addInterceptionToUI(target_m.getMissileId(), destructor_m.getDestructorId());
 				destructor_m.addDestructMissile(destructedM);
 				break;
 			case "destructedLanucher":
