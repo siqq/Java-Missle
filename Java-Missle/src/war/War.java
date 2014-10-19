@@ -30,7 +30,7 @@ import war.db.WarDBConnection;
  * 
  */
 
-public class War extends Thread   {
+public class War {//extends Thread   {
     /**
      * 
      */
@@ -130,10 +130,13 @@ public class War extends Thread   {
 
     public void addLauncher(Launcher launcher) {
 	this.missileLaunchers.add(launcher);
-	fireAddLauncherEvent(launcher);
-	// These cause exception, you have any idea why?
-	
-//	launcher.start();
+	fireAddLauncherEvent(launcher);	
+//	try {
+	    launcher.start();
+//	} catch (Exception e) {
+//	    // TODO Auto-generated catch block
+//	    e.printStackTrace();
+//	}
     }
 
 
@@ -146,30 +149,30 @@ public class War extends Thread   {
     }
 
     /** This method start all the other threads this is where all the war begins. */
-    public void run() {
-	synchronized (this) {
-	    String print_log = "War Has been started";
-	    logger.log(Level.INFO, print_log, this);
-
-	    int size = missileLaunchers.size();
-	    for (int i = 0; i < size; i++) {
-		Launcher l = missileLaunchers.get(i);
-		l.start();
-	    }
-
-	    size = missileDestructors.size();
-	    for (int i = 0; i < size; i++) {
-		Destructor d = missileDestructors.get(i);
-		d.start();
-	    }
-
-	    size = missileLauncherDestructors.size();
-	    for (int i = 0; i < size; i++) {
-		Destructor d =	missileLauncherDestructors.get(i);
-		d.start();
-	    }
-	}
-    }
+//    public void run() {
+//	synchronized (this) {
+//	    String print_log = "War Has been started";
+//	    logger.log(Level.INFO, print_log, this);
+//
+//	    int size = missileLaunchers.size();
+//	    for (int i = 0; i < size; i++) {
+//		Launcher l = missileLaunchers.get(i);
+//	//	l.start();
+//	    }
+//
+//	    size = missileDestructors.size();
+//	    for (int i = 0; i < size; i++) {
+//		Destructor d = missileDestructors.get(i);
+////		d.start();
+//	    }
+//
+//	    size = missileLauncherDestructors.size();
+//	    for (int i = 0; i < size; i++) {
+//		Destructor d =	missileLauncherDestructors.get(i);
+////		d.start();
+//	    }
+//	}
+//    }
 
 
 
@@ -238,9 +241,9 @@ public class War extends Thread   {
 		selected_destructor, selected_destructor.getFileHandler(),listeners);
 
 	selected_destructor.addDestructMissile(assigned_destructor);
-	for (WarEventListener l : listeners) {
-	    l.addedLauncherToDestroy(destructor_id,target_id,destruct_time);
-	}
+//	for (WarEventListener l : listeners) {
+//	    l.addedLauncherToDestroy(destructor_id,target_id,destruct_time);
+//	}
 
 
     }
@@ -253,13 +256,14 @@ public class War extends Thread   {
 	DestructedMissile assigned_destructor = new DestructedMissile(target, destruct_time, 
 		selected_destructor, selected_destructor.getFileHandler(), this.getListeners());
 	selected_destructor.addDestructMissile(assigned_destructor);
-	for (WarEventListener l : listeners) {
-	    l.addedMissileToDestroy(ironDome,missileId,destruct_time);
-	}
+//	for (WarEventListener l : listeners) {
+//	    l.addedMissileToDestroy(ironDome,missileId,destruct_time);
+//	}
 
     }
 
     public int[] displayStatistics() {
+
 	int statistics[] = new int[5];
 	int total_launched_missiles = 0;
 	int total_destroyed_missiles = 0;
@@ -299,8 +303,7 @@ public class War extends Thread   {
 
 	return statistics;
     }
-
-
+    
     public void addLauncherToClient(String id)  {
 	if ((id.isEmpty()) || (WarUtility.getLauncherById(id, this) != null)) {
 	    try {

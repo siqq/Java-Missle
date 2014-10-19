@@ -25,7 +25,7 @@ import javax.swing.border.LineBorder;
 
 import war.controller.WarUIEventsListener;
 
-public class ProgressPanel extends JPanel  {
+public class ProgressPanel extends JPanel {
 	/**
      * 
      */
@@ -160,7 +160,6 @@ public class ProgressPanel extends JPanel  {
 		label.setBorder(new EmptyBorder(15, 15, 15, 15));
 		label.setFont(myFont);
 		progressBar.add(label, BorderLayout.CENTER);
-
 		add(progressBar);
 		destructors.put(target_id, progressBar);
 		validate();

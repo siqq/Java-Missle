@@ -136,11 +136,6 @@ public class Missile extends AbstractMissile implements Serializable   {
 		    }
 		    //					notify();
 		    logger.log(Level.INFO, print_log, this);
-//each launcher had missile so every missile must have launcher
-		    //why listener though?
-		    //to add things to gui and backward -- mvc
-		    //your implementation is wrong. when you add a launcher or a missile you should call the function in the controller with the parameters
-		    //for example l.addedMissileToModelEvent(missileId,destination,damage,flyTime);
 		    try {
 			for(int time = 0 ; time <= flyTime ; time++){
 			    Thread.sleep(War.TIME_INTERVAL);

@@ -15,7 +15,7 @@ public class WarController implements WarUIEventsListener, WarEventListener{
 
 	warModel.registerListener(this);
 	warView.registerListener(this);
-	warModel.start();
+//	warModel.start();
     }
 
     public War getWarModel() {

@@ -20,32 +20,23 @@ public class Client extends Thread {
 
     public Client() throws IOException {
     }
-
     public void sendObjectToServer(Launcher launchers, Missile missile)
 	    throws IOException {
 	vec.add(missile);
 	vec.add(launchers);
-
 	toNetOutputStream.writeObject(vec);
-
     }
-
     public void sendObjectToServer(Launcher launcher) throws IOException {
 	vec.add(launcher);
 	toNetOutputStream.writeObject(vec);
-
     }
-
     @Override
     public void run() {
-	// TODO Auto-generated method stub
 	try {
 	    socket = new Socket("localhost", 7000);
 	} catch (UnknownHostException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	} catch (IOException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	}
 	System.out.println(new Date() + " --> Connected to server at "
@@ -54,13 +45,11 @@ public class Client extends Thread {
 	try {
 	    toNetOutputStream = new ObjectOutputStream(socket.getOutputStream());
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	try {
 	    fromNetInputStream = new ObjectInputStream(socket.getInputStream());
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }
