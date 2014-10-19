@@ -177,7 +177,6 @@ public class ProgressPanel extends JPanel {
 					progressBar = map.get(key);
 					progressBar.setForeground(Color.RED);
 					progressBar.setValue(time);
-					System.out.println(time);
 					JLabel temp = (JLabel) progressBar.getComponent(0);
 					temp.setText("Missile id#" + missileId + " Will Hit "
 							+ destination + " for " + damage + " damage in "
