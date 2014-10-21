@@ -25,10 +25,14 @@ public class Client extends Thread {
 	vec.add(missile);
 	vec.add(launchers);
 	toNetOutputStream.writeObject(vec);
+	System.out.println("cilent");
+	vec.clear();
+	toNetOutputStream.reset();
     }
     public void sendObjectToServer(Launcher launcher) throws IOException {
 	vec.add(launcher);
 	toNetOutputStream.writeObject(vec);
+	toNetOutputStream.reset();
     }
     @Override
     public void run() {

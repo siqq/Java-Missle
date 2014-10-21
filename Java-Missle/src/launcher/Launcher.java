@@ -193,6 +193,7 @@ public class Launcher extends Thread  implements Serializable   {
 	public void addMissile(Missile missile) {
 		synchronized (this) {
 			this.notify();
+			System.out.println("notify");
 		}
 	    
 	}

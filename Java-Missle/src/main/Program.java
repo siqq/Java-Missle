@@ -33,17 +33,17 @@ public class Program {
 			War warModel = new War();
 			AbstractWarView viewGui = new WarGui();	
 			WarController controller = new WarController(warModel,viewGui);
-			XMLparser xml = new XMLparser(controller, warModel);
+		//	XMLparser xml = new XMLparser(controller, warModel);
 			
 //		    new WarDBConnection();
 //			WarDBConnection.clearWarDataBase();
 //		    new Server();
 
 			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
+//		} catch (ParserConfigurationException e) {
+//			e.printStackTrace();
+//		} catch (SAXException e) {
+//			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

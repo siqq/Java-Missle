@@ -43,28 +43,52 @@ public class Server extends Thread {
 	    vec = new LinkedList<>();
 	    outputStream = new ObjectOutputStream(socket.getOutputStream());
 	    inputStream = new ObjectInputStream(socket.getInputStream());
+	    while(true){
 	    vec = (Queue<Object>) inputStream.readObject();
-	    System.out.println("work");
-	} catch (Exception e) {
+	       for (Object obj : vec) {
+	         if (obj instanceof Missile) {
+	             missile = (Missile) obj;
+	         }
+	         if (obj instanceof Launcher) {
+	             launcher = (Launcher) obj;
+	         }
+	         }
+	         if (missile != null && launcher != null) {
+	         launcher = WarUtility.getLauncherById(launcher.getLauncherId(),war);
+	         System.out.println(launcher.getLauncherId());
+	         missile = WarUtility.getMissileById(missile.getMissileId(), war);
+	         System.out.println(missile.getMissileId());
+	         launcher.addMissile(missile);
+	         } else {
+	         war.addLauncher(launcher);
+	         System.out.println("only" + launcher.getLauncherId());
+	         }
+	         vec.clear();
+	         missile = null;
+	         launcher = null;
+	        System.out.println("server");
+
+	    }
+	    } catch (Exception e) {
 	    System.out.println(e);
 	} finally {
 	    // socket.close();
 	    // server.close();
-	    for (Object obj : vec) {
-		if (obj instanceof Missile) {
-		    missile = (Missile) obj;
-		}
-		if (obj instanceof Launcher) {
-		    launcher = (Launcher) obj;
-		}
-	    }
-	    if (missile != null && launcher != null) {
-		launcher = WarUtility.getLauncherById(launcher.getLauncherId(),war);
-		missile = WarUtility.getMissileById(missile.getMissileId(), war);
-		launcher.addMissile(missile);
-	    } else {
-		war.addLauncher(launcher);
-	    }
+//	    for (Object obj : vec) {
+//		if (obj instanceof Missile) {
+//		    missile = (Missile) obj;
+//		}
+//		if (obj instanceof Launcher) {
+//		    launcher = (Launcher) obj;
+//		}
+//	    }
+//	    if (missile != null && launcher != null) {
+//		launcher = WarUtility.getLauncherById(launcher.getLauncherId(),war);
+//		missile = WarUtility.getMissileById(missile.getMissileId(), war);
+//		launcher.addMissile(missile);
+//	    } else {
+//		war.addLauncher(launcher);
+//	    }
 	}
     }
 }
