@@ -28,4 +28,6 @@ public interface WarUIEventsListener extends Serializable{
 
 	int[] getStatistics();
 
+	void finishProgram();
+
 }

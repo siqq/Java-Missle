@@ -41,6 +41,10 @@ public class WarGui extends JFrame implements AbstractWarView{
 		setBackground(Color.DARK_GRAY);
 
 		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.NORTH, orefPanel, 10, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, orefPanel, -6, SpringLayout.NORTH, controlPanel);
+		springLayout.putConstraint(SpringLayout.WEST, controlPanel, 6,
+				SpringLayout.EAST, progressPanel);
 		springLayout.putConstraint(SpringLayout.NORTH, ironDomesPanel, 6, SpringLayout.SOUTH, launchersPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, ironDomesPanel, -6, SpringLayout.NORTH, destroyersPanel);
 		springLayout.putConstraint(SpringLayout.NORTH, launchersPanel, 124,
@@ -66,21 +70,14 @@ public class WarGui extends JFrame implements AbstractWarView{
 				SpringLayout.WEST, progressPanel);
 		springLayout.putConstraint(SpringLayout.EAST, destroyersPanel, -6,
 				SpringLayout.WEST, progressPanel);
-		springLayout.putConstraint(SpringLayout.WEST, controlPanel, 6,
-				SpringLayout.EAST, progressPanel);
 		springLayout.putConstraint(SpringLayout.WEST, progressPanel, 6,
 				SpringLayout.EAST, ironDomesPanel);
 
 		// SpringLayout for Progress Panel
 		springLayout.putConstraint(SpringLayout.EAST, progressPanel, -241,
 				SpringLayout.EAST, getContentPane());
-
-		springLayout.putConstraint(SpringLayout.NORTH, orefPanel, 10,
-				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, orefPanel, 6,
 				SpringLayout.EAST, progressPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, orefPanel, -6,
-				SpringLayout.NORTH, controlPanel);
 		springLayout.putConstraint(SpringLayout.EAST, orefPanel, -10,
 				SpringLayout.EAST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, controlPanel, 654,

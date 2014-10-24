@@ -2,9 +2,6 @@ package missile;
 
 import java.util.List;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import launcher.Destructor;
 import launcher.Launcher;
 import war.War;
@@ -14,13 +11,9 @@ import war.db.WarDBConnection;
 public class DestructedLanucher extends AbstractMissile {
 
   private static final long serialVersionUID = 1L;
-
-  private static Logger logger;
-
   private Launcher target;
   private Destructor destructor;
   private List<WarEventListener> allListeners;
-
   /**
    * Constructor
    * 
@@ -32,8 +25,7 @@ public class DestructedLanucher extends AbstractMissile {
     super(destructTime, fileHandler);
     this.target = target;
     this.destructor = destructor;
-    this.allListeners = allListeners;
-    logger = Logger.getLogger("warLogger");
+    this.allListeners = allListeners;    
   }
 
   /**
@@ -66,16 +58,33 @@ public class DestructedLanucher extends AbstractMissile {
         }
 
         // synchronized (destructor) {
-        logger.log(Level.INFO, "Trying to destroy launcher :" + target.getLauncherId(), arr);
+        logDestroyingLauncher();
         destroyTarget(); // try to destroy launcher
       }
     } catch (Exception e) {
-      // no success destroy target and the reason
-      logger.log(Level.INFO, e.getMessage(), arr);
     }
   }
 
-  /**
+  public Launcher getTarget() {
+	return target;
+}
+
+public void setTarget(Launcher target) {
+	this.target = target;
+}
+
+public Destructor getDestructor() {
+	return destructor;
+}
+
+public void setDestructor(Destructor destructor) {
+	this.destructor = destructor;
+}
+
+public void logDestroyingLauncher() {	
+}
+
+/**
    * method to destroy a selected launcher
    * 
    * @throws Exception if fails with message of fail reason
@@ -93,8 +102,7 @@ public class DestructedLanucher extends AbstractMissile {
             l.RemovedLauncherFromUI(target.getLauncherId());
           }
           target.stopLauncher();
-          String print_log = "Launcher " + target.getLauncherId() + " was destroyed";
-          logger.log(Level.INFO, print_log, arr);
+          logTargetDestroyed();                    
           WarDBConnection.updateLauncherStatus(target.getLauncherId().toString(), "Destroy");
         } else {
           for (WarEventListener l : allListeners) {
@@ -121,5 +129,8 @@ public class DestructedLanucher extends AbstractMissile {
           + " was failed - Launcher is not running!");
     }
   }
+
+public void logTargetDestroyed() {	
+}
 
 }

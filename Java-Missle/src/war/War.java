@@ -30,7 +30,7 @@ import war.db.WarDBConnection;
  * 
  */
 
-public class War {//extends Thread   {
+public class War {   
     /**
      * 
      */
@@ -371,6 +371,25 @@ public class War {//extends Thread   {
 	    e.printStackTrace();
 	}
     }
+
+    
+    /** Method to stop all threads and exit */
+	public void finishProgram() {
+		for (int i = 0; i < missileLaunchers.size()  ; i++) {
+			missileLaunchers.elementAt(i).stop();
+		}
+		
+		for (int i = 0; i < missileDestructors.size()  ; i++) {
+			missileDestructors.elementAt(i).stop();			
+		}
+		
+		for (int i = 0; i < missileLauncherDestructors.size()  ; i++) {
+			missileLauncherDestructors.elementAt(i).stop();			
+		}
+		
+		System.exit(0);
+				
+	}
 
 
 

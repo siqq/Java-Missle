@@ -2,9 +2,6 @@ package missile;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import launcher.Launcher;
 import war.War;
 import war.controller.WarEventListener;
@@ -19,8 +16,6 @@ public class Missile extends AbstractMissile implements Serializable   {
 
 
     public enum Status {Waiting, Launched, Destroyed, Hit};   
-    private static Logger 			logger;
-
     private transient List<WarEventListener>  allListeners;
     private String 					missileId;
     private String 					destination;
@@ -55,7 +50,6 @@ public class Missile extends AbstractMissile implements Serializable   {
         //Ok, ill try to eork on it, Thans Bro
         //ill talk to you if there be anything else
         //ok lets just launch last time
-	logger = Logger.getLogger("warLogger");
     }
 
 
@@ -127,15 +121,14 @@ public class Missile extends AbstractMissile implements Serializable   {
 			launcher.revealYourSelf(); 
 			reveal_status = true;
 		    }
-		    String print_log = "Missle "+ this.missileId 
-			    + " was launched from launcher: "
-			    + this.launcher.getLauncherId();
+		    	    	
 	//	    java.sql.Date sqlDate = Utils.utilDateToSqlDate(birthdate);
 		    for (WarEventListener l : allListeners) {
 			l.addedMissileToModelEvent(missileId,destination,damage,flyTime);
 		    }
 		    //					notify();
-		    logger.log(Level.INFO, print_log, this);
+		    
+		    logMissileLaunched();
 		    try {
 			for(int time = 0 ; time <= flyTime ; time++){
 			    Thread.sleep(War.TIME_INTERVAL);
@@ -165,21 +158,27 @@ public class Missile extends AbstractMissile implements Serializable   {
 	} catch (SecurityException e) {
 
 	} catch (Exception e) {
-	    logger.log(Level.INFO, e.getMessage(), this);
 	}
     }
 
 
-    @Override
-    public void destroyTarget() {
-	// print to log that missile successfully hit targer
+    public void logMissileLaunched() {}
 
-	String print_log = "Missle "+ this.missileId + " hit " 
-		+ this.destination + " with " 
-		+ this.damage + " damage";
-	logger.log(Level.INFO, print_log, this);
+
+	@Override
+    public void destroyTarget() {
+	logMissileHit();	
 	this.setStatus(Status.Hit);
 	WarDBConnection.updateMissileStatus(missileId, status.toString());
     }
+
+
+	public void logMissileHit() {}
+
+
+	public String getLauncherId() {
+		
+		return launcher.getLauncherId();
+	}
 
 }

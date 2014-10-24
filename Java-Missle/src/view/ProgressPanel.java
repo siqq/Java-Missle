@@ -192,7 +192,6 @@ public class ProgressPanel extends JPanel {
 					progressBar = destructors.get(key);
 					progressBar.setForeground(Color.BLUE);
 					progressBar.setValue(time);
-					System.out.println(time);
 					JLabel temp = (JLabel) progressBar.getComponent(0);
 					temp.setText(destination + " Will Hit Launcher #"
 							+ missileId + " in " + (flyTime - time) + "s");
@@ -207,7 +206,6 @@ public class ProgressPanel extends JPanel {
 					progressBar = destructors.get(key);
 					progressBar.setForeground(Color.BLUE);
 					progressBar.setValue(time);
-					System.out.println(time);
 					JLabel temp = (JLabel) progressBar.getComponent(0);
 					temp.setText(destination + " Will Hit Missile #"
 							+ missileId + " in " + (flyTime - time) + "s");
