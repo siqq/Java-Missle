@@ -47,7 +47,7 @@ public class DestructedMissile extends AbstractMissile implements Serializable  
 	public void run() {
 		while(true){
 				try {
-
+					sleep(super.getDelayBeforeLaunch() * War.TIME_INTERVAL); 
 			synchronized (destructor) {
 			    if (target.getStatus() == Missile.Status.Launched){
 				for (WarEventListener l : allListeners) {
