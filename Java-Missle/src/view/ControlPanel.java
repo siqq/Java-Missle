@@ -30,10 +30,14 @@ public class ControlPanel extends JPanel  {
 	public static final String BACKGROUND_IMAGE_PATH = "/drawable/desert.png";
 	public static final String CLIENT_IMAGE_PATH = "/drawable/client.jpg";
 	
-	private JButton exitButton,fireMissileButton,addNewLauncherButton,destoryLauncherButton,
-	openClient,addNewDestructorButton,statisticsButton;
+	private JButton exitButton,fireMissileButton;
+	private JButton addNewLauncherButton,destoryLauncherButton;
+	private JButton openClient,addNewDestructorButton,statisticsButton;	
 	private List<WarUIEventsListener> allListeners;
 	private WarGui warGui;
+	
+	
+	
 	public ControlPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
 		setBackground(Color.DARK_GRAY);
 		this.allListeners = allListeners;
@@ -202,6 +206,8 @@ public class ControlPanel extends JPanel  {
 			}
 		});
 		
+		
+		// EXIT BUTTON ACTION LISTENER		
 		exitButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -211,8 +217,8 @@ public class ControlPanel extends JPanel  {
 			}
 		});
 	}
-
-	protected void finishProgram() {
+	/** close all open threads */
+	public void finishProgram() {
 		for (WarUIEventsListener l : allListeners) {
 			l.finishProgram();
 		}
@@ -245,19 +251,22 @@ public class ControlPanel extends JPanel  {
 	    
 	}
 	
+	/** get statistics from warModel */
 	public void ShowStatistics() {
 		int[] statistics = new int[5];				
 		for (WarUIEventsListener l : allListeners) {
 			statistics = l.getStatistics();
-		}
-		
-		
+		}		
+	//[0] - Missiles launched
+	//[1] - Missiles destroyed
+	//[2] - Missiles hit
+	//[3] - Launchers destroyed
+	//[0] - Total Damage			
 		new StatisticsPopUpFrame(statistics[0], statistics[1], statistics[2], statistics[3], statistics[4]);
 
 	}
-
-
-
+	
+   
 
 }
 

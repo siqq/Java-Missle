@@ -123,6 +123,7 @@ public class MissilePopUpFrame extends JFrame   {
 							"You must fill all details!");
 					return;
 				}
+				launchersPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 				for (WarUIEventsListener l : allListeners) {
 					// sending missile details to the relevant GUI launcher
 					l.addMissileToUI(id, dest, damage, flyTime, launcherId);
@@ -134,22 +135,6 @@ public class MissilePopUpFrame extends JFrame   {
 			}
 		}).start();
 		setVisible(false);
-		// String id = txtId.getText();
-		// String dest = txtDest.getText();
-		// String damage = txtDamage.getText();
-		// String flyTime = txtFlyTime.getText();
-		// if (id.isEmpty() || dest.isEmpty() || damage.isEmpty()) {
-		// JOptionPane.showMessageDialog(null, "You must fill all details!");
-		// return;
-		// }
-		// for (WarUIEventsListener l : allListeners) {
-		// // sending missile details to the relevant GUI launcher
-		// l.addMissileToUI(id, dest, damage, flyTime, launcherId);
-		//
-		// }
-		// setVisible(false);
-		// closeFrame();
-
 	}
 
 	public void mouseListener(final JTextField txtBox) {

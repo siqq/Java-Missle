@@ -35,11 +35,9 @@ public class ProgressPanel extends JPanel {
 	private JLabel label;
 	private JButton button;
 	private JProgressBar progressBar;
-	private int flyTime;
 	private String ironDomeId;
-	private List<WarUIEventsListener> allListeners;
-	HashMap<String, JProgressBar> map = new HashMap<String, JProgressBar>();
-	HashMap<String, JProgressBar> destructors = new HashMap<String, JProgressBar>();
+    private	HashMap<String, JProgressBar> map = new HashMap<String, JProgressBar>();
+	private HashMap<String, JProgressBar> destructors = new HashMap<String, JProgressBar>();
 	private Font myFont = new Font("Tahoma", Font.BOLD, 14);
 
 	public ProgressPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
@@ -47,7 +45,6 @@ public class ProgressPanel extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		setVisible(true);
 		this.warGui = warGui;
-		this.allListeners = allListeners;
 
 	}
 
@@ -175,7 +172,7 @@ public class ProgressPanel extends JPanel {
 				String key = keySetIterator.next();
 				if (key.equalsIgnoreCase(missileId)) {
 					progressBar = map.get(key);
-					progressBar.setForeground(Color.RED);
+					progressBar.setForeground(Color.LIGHT_GRAY);
 					progressBar.setValue(time);
 					JLabel temp = (JLabel) progressBar.getComponent(0);
 					temp.setText("Missile id#" + missileId + " Will Hit "
@@ -190,7 +187,7 @@ public class ProgressPanel extends JPanel {
 				String key = destuctorsSetIterator.next();
 				if (key.equalsIgnoreCase(missileId)) {
 					progressBar = destructors.get(key);
-					progressBar.setForeground(Color.BLUE);
+					progressBar.setForeground(Color.CYAN);
 					progressBar.setValue(time);
 					JLabel temp = (JLabel) progressBar.getComponent(0);
 					temp.setText(destination + " Will Hit Launcher #"
@@ -204,7 +201,7 @@ public class ProgressPanel extends JPanel {
 				String key = destuctorsSetIterator.next();
 				if (key.equalsIgnoreCase(missileId)) {
 					progressBar = destructors.get(key);
-					progressBar.setForeground(Color.BLUE);
+					progressBar.setForeground(Color.CYAN);
 					progressBar.setValue(time);
 					JLabel temp = (JLabel) progressBar.getComponent(0);
 					temp.setText(destination + " Will Hit Missile #"

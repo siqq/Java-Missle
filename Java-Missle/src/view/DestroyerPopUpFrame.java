@@ -21,14 +21,17 @@ public class DestroyerPopUpFrame extends JFrame   {
      * 
      */
     private static final long serialVersionUID = 1L;
-	private List<WarUIEventsListener> allListeners;
-	private JRadioButton ironDomeRadioButton, shipRadioButton,
-			planeDomeRadioButton;
-	private JLabel top, center;
-	private JTextField txtId;
-	private JButton addButton;
-	private String destroyerType;
+	private List<WarUIEventsListener> 	allListeners;
+	private JRadioButton 				ironDomeRadioButton;
+	private JRadioButton 				shipRadioButton;
+	private JRadioButton 				planeDomeRadioButton;
+	private JLabel 						top;
+	private JLabel 						center;
+	private JTextField 					txtId;
+	private JButton 					addButton;
+	private String 						destroyerType;
 
+	/** constructor */
 	public DestroyerPopUpFrame(List<WarUIEventsListener> allListeners) {
 		this.allListeners = allListeners;
 		center = new JLabel();
@@ -56,6 +59,7 @@ public class DestroyerPopUpFrame extends JFrame   {
 
 		getContentPane().add(top);
 
+		//Iron Dome Radio Button Action Listener
 		ironDomeRadioButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -64,7 +68,8 @@ public class DestroyerPopUpFrame extends JFrame   {
 
 			}
 		});
-
+		
+		//Ship Radio Button Action Listener
 		shipRadioButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -73,7 +78,8 @@ public class DestroyerPopUpFrame extends JFrame   {
 
 			}
 		});
-
+		
+		//Plane Radio Button Action Listener
 		planeDomeRadioButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -83,6 +89,7 @@ public class DestroyerPopUpFrame extends JFrame   {
 			}
 		});
 
+		// Add selected Destructor button Action Listener
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -97,6 +104,7 @@ public class DestroyerPopUpFrame extends JFrame   {
 		setVisible(true);
 	}
 
+	/** Message to controller that Destroyer is added in UI */
 	public void fireAddnewDestroyerPressed() {
 		destroyerType = null;
 		String id = txtId.getText();

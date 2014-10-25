@@ -12,17 +12,17 @@ public class Missile extends AbstractMissile implements Serializable   {
     /**
      * 
      */
-    private static final long serialVersionUID = 1L;
-
-
-    public enum Status {Waiting, Launched, Destroyed, Hit};   
-    private transient List<WarEventListener>  allListeners;
-    private String 					missileId;
-    private String 					destination;
-    private int 					flyTime;
-    private int 					damage;
-    private Launcher 				launcher;
-    private Status					status;
+	
+	public enum Status {Waiting, Launched, Destroyed, Hit};
+	
+    private static final long 					serialVersionUID = 1L;       
+    private transient List<WarEventListener> 	allListeners;
+    private String 						  	 	missileId;
+    private String 								destination;
+    private int 								flyTime;
+    private int 								damage;
+    private Launcher 							launcher;
+    private Status								status;
 
 
     /**
@@ -45,11 +45,6 @@ public class Missile extends AbstractMissile implements Serializable   {
 	this.launcher = launcher;
 	this.setStatus(Status.Waiting);
 	this.allListeners = allListeners;
-      //  this is dumb implementation. // not mine , those things ha been taken from avishay and dvir
-        //still this is very problematic. try to add transient to every error. it tells the outputstream not to write that specific object
-        //Ok, ill try to eork on it, Thans Bro
-        //ill talk to you if there be anything else
-        //ok lets just launch last time
     }
 
 
@@ -162,7 +157,7 @@ public class Missile extends AbstractMissile implements Serializable   {
     }
 
 
-    public void logMissileLaunched() {}
+    public void logMissileLaunched() {} // aspect log
 
 
 	@Override
@@ -173,7 +168,7 @@ public class Missile extends AbstractMissile implements Serializable   {
     }
 
 
-	public void logMissileHit() {}
+	public void logMissileHit() {} // aspect log
 
 
 	public String getLauncherId() {

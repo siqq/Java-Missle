@@ -22,22 +22,28 @@ public class DestroyersPanel extends JPanel  {
      * 
      */
     private static final long serialVersionUID = 1L;
+    
 	public static final String F16_IMAGE_PATH = "/drawable/f16-100x80.png";
 	public static final String SHIP_IMAGE_PATH = "/drawable/ship.png";	
-    private Queue<JButton> domeQueue = new LinkedList<JButton>();
-    private boolean destroyLauncherButtonPressed;
-    private String launcherIdToDestroy;
-    private List<WarUIEventsListener> allListeners;
+	
+    private Queue<JButton> 				domeQueue;
+    private boolean 					destroyLauncherButtonPressed;
+    private String 						launcherIdToDestroy;
+    private List<WarUIEventsListener> 	allListeners;
+    
     
 	public DestroyersPanel(List<WarUIEventsListener> allListeners) {
 		this.allListeners = allListeners;
+		domeQueue = new LinkedList<JButton>();
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new GridLayout(2, 3,3,3));
 		this.destroyLauncherButtonPressed = false;
 		launcherIdToDestroy = null;
 		}
 	
-	public void addf16ToPanel(String id){		
+	public void addf16ToPanel(String id){	
+		
+		
 		JButton f16 = new JButton(id,new ImageIcon(LaunchersPanel.class.getResource(F16_IMAGE_PATH)));
 		f16.setVerticalTextPosition(SwingConstants.BOTTOM);
 		f16.setHorizontalTextPosition(SwingConstants.CENTER);

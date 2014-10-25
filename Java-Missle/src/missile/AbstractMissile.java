@@ -10,11 +10,11 @@ public abstract class AbstractMissile extends Thread implements Serializable  {
 	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
+    private static final long 		serialVersionUID = 1L;
 	/**
      * 
      */
-	private int 			delayBeforeLaunch;
+	private int 					delayBeforeLaunch;
 	private transient FileHandler 	fileHandler;
 	
 	public AbstractMissile(int delayBeforeLaunch, 

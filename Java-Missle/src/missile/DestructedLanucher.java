@@ -10,10 +10,10 @@ import war.db.WarDBConnection;
 
 public class DestructedLanucher extends AbstractMissile {
 
-  private static final long serialVersionUID = 1L;
-  private Launcher target;
-  private Destructor destructor;
-  private List<WarEventListener> allListeners;
+  private static final long 		serialVersionUID = 1L;
+  private Launcher 					target;
+  private Destructor 				destructor;
+  private List<WarEventListener> 	allListeners;
   /**
    * Constructor
    * 
@@ -130,7 +130,7 @@ public void logDestroyingLauncher() {
     }
   }
 
-public void logTargetDestroyed() {	
+public void logTargetDestroyed() {	// aspect log
 }
 
 }

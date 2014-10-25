@@ -1,8 +1,6 @@
 package view;
 
 import java.util.List;
-import java.util.Vector;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

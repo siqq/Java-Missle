@@ -16,20 +16,16 @@ public class Launcher extends Thread  implements Serializable   {
 	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
-	public static final int 		MIN_REVEAL = 1;
-	public static final int 		MAX_REVEAL = 5;
-
-	private static Logger 			logger;
-
-	private String 					id;
-	private boolean 				isHidden;
-	private boolean 				isRunning;
-	private Vector<Missile> 		missiles;
-	private transient FileHandler 			fileHandler;
-	private transient List<WarEventListener>  allListeners;
-	//why listeners in launcher?
-	
+    private static final long 					serialVersionUID = 1L;
+	public static final int 					MIN_REVEAL = 1;
+	public static final int 					MAX_REVEAL = 5;
+	private static Logger 						logger;
+	private String 								id;
+	private boolean 							isHidden;
+	private boolean 							isRunning;
+	private Vector<Missile> 					missiles;
+	private transient FileHandler 				fileHandler;
+	private transient List<WarEventListener>    allListeners;	
 	/**
 	 * Constructor 
 	 * @param id
@@ -68,7 +64,7 @@ public class Launcher extends Thread  implements Serializable   {
 		this.isHidden = isHidden;
 		this.missiles = new Vector<Missile>();
 		this.isRunning = true;
-		this.allListeners = allListeners; //you never use this shit. delete it
+		this.allListeners = allListeners; 
 		fileHandler = new FileHandler("Launcher_" + this.id + ".txt", false);
 		fileHandler.setFilter(new ObjectFilter(this));
 		fileHandler.setFormatter(new LogFormatter());

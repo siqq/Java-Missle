@@ -12,12 +12,10 @@ public class Program {
 	/**
      * 
      */
-	public static final String 	LAUNCHER = "launcher";
-	public static final String 	MISSILE = "missile";
-	public static final int 	TAKES_TIME_MIN = 1;
-	public static final int 	TAKES_TIME_MAX = 10;
-			
-	private static Scanner 		input = new Scanner(System.in);
+	public static final String 			LAUNCHER = "launcher";
+	public static final String 			MISSILE = "missile";
+	public static final int 			TAKES_TIME_MIN = 1;
+	public static final int 			TAKES_TIME_MAX = 10;
 
 	public static void main(String[] args) {
 		

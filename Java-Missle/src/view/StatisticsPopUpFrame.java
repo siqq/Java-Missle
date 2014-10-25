@@ -7,6 +7,11 @@ import javax.swing.JTextField;
 
 public class StatisticsPopUpFrame extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JTextField launchedMissiles;
 	private JTextField destroyedMissiles;
 	private JTextField hitMissiles;

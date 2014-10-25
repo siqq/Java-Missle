@@ -29,16 +29,20 @@ public class LaunchersPanel extends JPanel  {
 
 	public static final String LAUNCHER_IMAGE_PATH = "/drawable/launcher87x70.png";
 	
-	private Queue<JButton> launchersQueue = new LinkedList<JButton>();
-	private static List<WarUIEventsListener> allListeners;
-	private boolean fireMissileButtonPressed;
-	private boolean javaFX;
-	private boolean destroyLauncherButtonPressed;
-	private WarGui warGui;
-	private JPanel panel;
-	private static String LauncherID;
+	private static String 						LauncherID;
+	private static List<WarUIEventsListener> 	allListeners;
 	
+	private Queue<JButton> 						launchersQueue;
+	private boolean 							fireMissileButtonPressed;
+	private boolean 							javaFX;
+	private boolean 							destroyLauncherButtonPressed;
+	private WarGui 								warGui;
+	private JPanel 								panel;
+	
+	
+	/**Constructor */
 	public LaunchersPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
+		launchersQueue = new LinkedList<JButton>();
 		this.warGui = warGui;
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.setAllListeners(allListeners);

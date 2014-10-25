@@ -42,7 +42,7 @@ public class XMLparser {
 		DocumentBuilder builder;
 		builder = factory.newDocumentBuilder();
 		InputStream xml_file = ClassLoader
-				.getSystemResourceAsStream("war.xml");
+				.getSystemResourceAsStream("war2.xml");
 		//check if we have xml file
 		if (xml_file == null) {
 			return war;
@@ -151,11 +151,9 @@ public class XMLparser {
 //						missileDestructors.get(index / 2);
 				Missile target_m = WarUtility.getMissileById(id, war);
 				DestructedMissile destructedM = new DestructedMissile(target_m,destructAfterLaunch, destructor_m, destructor_m.getFileHandler(),controller.getWarListeners());
-//				controller.addInterceptionToUI(target_m.getMissileId(), destructor_m.getDestructorId());
 				destructor_m.addDestructMissile(destructedM);
 				war.startMissileInterception(target_m.getMissileId(), destructor_m.getDestructorId());
-//
-//				war.startMissileInterception(target_m.getMissileId(), destructor_m.getDestructorId());
+
 			
 				break;
 			case "destructedLanucher":

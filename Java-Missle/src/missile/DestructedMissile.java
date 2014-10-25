@@ -10,6 +10,10 @@ import war.db.WarDBConnection;
 
 public class DestructedMissile extends AbstractMissile implements Serializable  {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * 
      */	
 	private Missile 				target;
@@ -41,27 +45,8 @@ public class DestructedMissile extends AbstractMissile implements Serializable  
 	 * Run object
 	 */
 	public void run() {
-		Object arr[] = { this, target };
 		while(true){
 				try {
-			// wait untill destroy after war launch
-//			for (WarEventListener l : allListeners) {
-//			    l.addedMissileToDestroy(destructor.getDestructorId(),target.getMissileId(),10);
-//			}
-//				for(int time = 0 ; time <= super.getDelayBeforeLaunch() ; time++){
-//				    Thread.sleep(War.TIME_INTERVAL);
-//				    for (WarEventListener l : allListeners) {
-//					l.UpdatedMissileProgressToModelEvent(time, target.getMissileId() , "IronDome",(destructor.getType()+" #" + destructor.getDestructorId()),0,super.getDelayBeforeLaunch());
-//				    }
-//				}
-//				    for (WarEventListener l : allListeners) {
-//					l.RemoveCurrentElement(target.getMissileId());
-//				    }
-////				for (WarEventListener l : allListeners) {
-////				    l.DestroyMissileProgressBar(target.getMissileId() , "missile");
-////				}
-
-	
 
 			synchronized (destructor) {
 			    if (target.getStatus() == Missile.Status.Launched){
@@ -77,9 +62,6 @@ public class DestructedMissile extends AbstractMissile implements Serializable  
 					    for (WarEventListener l : allListeners) {
 						l.RemoveCurrentElement(target.getMissileId());
 					    }
-//					for (WarEventListener l : allListeners) {
-//					    l.DestroyMissileProgressBar(target.getMissileId() , "missile");
-//					}
 					    logDestroyingMissile();
 				destroyTarget();		// try to destroy missile
 			}
@@ -90,10 +72,7 @@ public class DestructedMissile extends AbstractMissile implements Serializable  
 		}
 	}
 	
-	public void logDestroyingMissile() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void logDestroyingMissile() {} // aspect log
 
 	/**
 	 * method to destroy a selected mussile

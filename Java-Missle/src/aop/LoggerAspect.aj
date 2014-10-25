@@ -55,7 +55,10 @@ public aspect LoggerAspect {
 		logger.log(Level.INFO, print_log, arr);
 
 	}
-
+	
+	/**
+	 * Launcher destroyed message
+	 */
 	pointcut LauncherDestroyed() : execution (public void logTargetDestroyed());
 
 	before() : LauncherDestroyed() {

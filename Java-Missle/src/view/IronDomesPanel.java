@@ -21,14 +21,18 @@ public class IronDomesPanel extends JPanel   {
      * 
      */
     private static final long serialVersionUID = 1L;
+    
 	public static final String LAUNCHER_IMAGE_PATH = "/drawable/dome60x89.png";
-	private ImageIcon domeIcon = new ImageIcon(LAUNCHER_IMAGE_PATH);
-    private Queue<JButton> domeQueue = new LinkedList<JButton>();
-    private List<WarUIEventsListener> allListeners;
-    private WarGui warGui;
-    private String missileId;
-    private boolean fireMissileButtonPressed;
+	
+    private List<WarUIEventsListener> 	allListeners;
+    private Queue<JButton> 				domeQueue;
+    private WarGui 						warGui;
+    private String 						missileId;
+    private boolean 					fireMissileButtonPressed;
+    
+    /** Constructor */
 	public IronDomesPanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
+		domeQueue = new LinkedList<JButton>();
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new GridLayout(2, 3,3,3));
 		this.fireMissileButtonPressed = false;
@@ -36,6 +40,7 @@ public class IronDomesPanel extends JPanel   {
 		this.warGui=warGui;
 
 		}
+	
 	public void addIronDomeToPanel(final String id){
 		
 		JButton dome = new JButton(id,new ImageIcon(LaunchersPanel.class.getResource(LAUNCHER_IMAGE_PATH)));

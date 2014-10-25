@@ -53,7 +53,8 @@ public class OrefPanel extends JPanel   {
 	}
 
 	public void addMissileToOrefPanel(String destination, int time, int flyTime) {
-
+		// exclude messages with # - to prevent showing interception alerts
+		if(!(destination.contains ("#"))){
 		// time % 2 - to make the alert blink every second
 		if (time < ALERT_DISPLAY_TIME && time % 2 == 0) {
 			topAlert.setText("Alert in " + destination);
@@ -75,6 +76,7 @@ public class OrefPanel extends JPanel   {
 			setOrefImage(OREF_IMAGE_PATH);
 
 		}
+	}
 	}
 
 	private void setOrefImage(String orefImagePath) {
