@@ -1,21 +1,21 @@
 <war>
 	<missileLaunchers>
 		<launcher  id="L101" isHidden="false">
-			<missile  id="M1" destination="Sderot" launchTime="0" flyTime="20" damage="1500"></missile>
+			<missile  id="M1" destination="Sderot" launchTime="1" flyTime="20" damage="1500"></missile>
 		</launcher>
 		<launcher id="L102" isHidden="true">
 		</launcher>
 	</missileLaunchers>
 	<missileDestructors>
 		<destructor  id="D201" type="Iron Dome">
-		<destructdMissile  id="M1" destructAfterLaunch="8"></destructdMissile>
+		<destructdMissile  id="M1" destructAfterLaunch="4"></destructdMissile>
 		</destructor>
 		<destructor id="D202" type="Iron Dome">		
 		</destructor>
 	</missileDestructors>
 	<missileLauncherDestructors>
 		<destructor id="P202" type="plane">
-
+	<destructedLanucher  id="L101" destructTime="7"></destructedLanucher>
 		</destructor>
 		<destructor id="S202" type="ship">
 

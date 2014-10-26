@@ -14,11 +14,6 @@ public interface WarUIEventsListener extends Serializable{
 	void addMissileToProgress(String name, String dest, String damage,
 			String flyTime, String launcherId);
 
-	void destroyLauncherInUI(String destroyerId, String launcherIdToDestroy);
-
-
-	void addInterceptionToUI(String missileId, String ironDomeId);
-
 	void addLauncherThroughClient(String id);
 
 	void connectToServer();
@@ -29,5 +24,11 @@ public interface WarUIEventsListener extends Serializable{
 	int[] getStatistics();
 
 	void finishProgram();
+
+	void addInterceptionToUI(int destructAfterLaunch, String missileId,
+			String ironDome);
+
+	void destroyLauncherInUI(int destructAfterLaunch, String destroyerId,
+			String launcherIdToDestroy);
 
 }

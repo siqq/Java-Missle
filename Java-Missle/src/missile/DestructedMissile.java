@@ -2,6 +2,7 @@ package missile;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.FileHandler;
+
 import launcher.Destructor;
 import missile.Missile.Status;
 import war.War;
@@ -19,15 +20,17 @@ public class DestructedMissile extends AbstractMissile implements Serializable  
 	private Missile 				target;
 	private Destructor 				destructor;
 	private  List<WarEventListener> allListeners;
-
+	private int delayFromStart;
 	/**
 	 * Constructor 
+	 * @param delayFromStart 
 	 * @param target
 	 * @param destructAfterLaunch
 	 */
-	public DestructedMissile(Missile target, int destructAfterLaunch, 
+	public DestructedMissile(int delayFromStart, Missile target, int destructTime, 
 			Destructor destructor, FileHandler fileHandler , List<WarEventListener> allListeners) {
-		super (destructAfterLaunch, fileHandler);
+		super (destructTime, fileHandler);
+		this.delayFromStart = delayFromStart;
 		this.target = target;
 		this.destructor = destructor;
 		this.allListeners =allListeners;
@@ -47,11 +50,11 @@ public class DestructedMissile extends AbstractMissile implements Serializable  
 	public void run() {
 		while(true){
 				try {
-					sleep(super.getDelayBeforeLaunch() * War.TIME_INTERVAL); 
+					sleep(delayFromStart * War.TIME_INTERVAL); 
 			synchronized (destructor) {
 			    if (target.getStatus() == Missile.Status.Launched){
 				for (WarEventListener l : allListeners) {
-				    l.addedMissileToDestroy(destructor.getDestructorId(),target.getMissileId(),5);
+				    l.addedMissileToDestroy(destructor.getDestructorId(),target.getMissileId(),super.getDelayBeforeLaunch());
 				}
 					for(int time = 0 ; time <= super.getDelayBeforeLaunch() ; time++){
 					    Thread.sleep(War.TIME_INTERVAL);

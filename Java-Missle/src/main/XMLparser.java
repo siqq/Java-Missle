@@ -89,20 +89,15 @@ public class XMLparser {
 				boolean isHidden = Boolean.parseBoolean(launcher
 						.getAttributes().getNamedItem("isHidden")
 						.getNodeValue());
-//				missileLaunchers.add(new Launcher(id, isHidden,controller.getWarListeners()));
 				war.addLauncher(new Launcher(id, isHidden,controller.getWarListeners() ));
 			} else {
 				String type = launcher.getAttributes().getNamedItem("type")
 						.getNodeValue();
 				if ((rootNode.getNodeName().equals("missileDestructors"))) {
-//					missileDestructors.add(new Destructor(id, type, new Vector<AbstractMissile>()));
-				 //   war.addDestructor(new Destructor(id, type, new Vector<AbstractMissile>()));
 				    war.addDestructor(id, type);
 
-				//	controller.addDestructorToUI(id, type);
 				} else {
-//					missileLauncherDestructors.add(new Destructor(id, type,new Vector<AbstractMissile>()));
-//					controller.addDestructorToUI(id, type);
+
 					war.addDestructor(id, type);
 				}
 			}
@@ -148,25 +143,28 @@ public class XMLparser {
 				// get the destructor and then add missile destructor to it
 				
 				Destructor destructor_m = war.getMissileDestructors().get(index / 2);
-//						missileDestructors.get(index / 2);
 				Missile target_m = WarUtility.getMissileById(id, war);
-				DestructedMissile destructedM = new DestructedMissile(target_m,destructAfterLaunch, destructor_m, destructor_m.getFileHandler(),controller.getWarListeners());
+				int destruct_time = (int) (War.TAKES_TIME_MIN + (Math.random() * (War.TAKES_TIME_MAX
+						- War.TAKES_TIME_MIN + 1)));
+				DestructedMissile destructedM = new DestructedMissile(destructAfterLaunch,target_m,destruct_time, destructor_m, destructor_m.getFileHandler(),controller.getWarListeners());
 				destructor_m.addDestructMissile(destructedM);
-				war.startMissileInterception(target_m.getMissileId(), destructor_m.getDestructorId());
+				war.startMissileInterception(destructAfterLaunch, target_m.getMissileId(), destructor_m.getDestructorId());
 
 			
 				break;
 			case "destructedLanucher":
 				// case 3 it is a missle to destruct launchers need
 				// to add to destructors list
-				int destructTime = Integer.parseInt(missile.getAttributes()
+				destructAfterLaunch = Integer.parseInt(missile.getAttributes()
 						.getNamedItem("destructTime").getNodeValue());
 				// get the destructor and then add missile launcher destructor
 				// to it
 				Destructor destructor_l = war.getMissileLauncherDestructors().get(index / 2);
 				Launcher target_l = WarUtility.getLauncherById(id, war);
-				DestructedLanucher destructedL = new DestructedLanucher(target_l, 
-						destructTime, destructor_l, destructor_l.getFileHandler(),controller.getWarListeners());
+				destruct_time = (int) (War.TAKES_TIME_MIN + (Math.random() * (War.TAKES_TIME_MAX
+						- War.TAKES_TIME_MIN + 1)));
+				DestructedLanucher destructedL = new DestructedLanucher(destructAfterLaunch,target_l, 
+						destruct_time, destructor_l, destructor_l.getFileHandler(),controller.getWarListeners());
 				destructor_l.addDestructMissile(destructedL);
 //				war.destroyLauncher(destructor_l.getDestructorId(), target_l.getLauncherId());
 				break;

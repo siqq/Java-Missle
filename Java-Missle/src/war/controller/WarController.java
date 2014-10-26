@@ -110,9 +110,9 @@ public class WarController implements WarUIEventsListener, WarEventListener{
     }
 
     @Override
-    public void destroyLauncherInUI(String destroyerId,
+    public void destroyLauncherInUI(int destructAfterLaunch,String destroyerId,
 	    String launcherIdToDestroy) {
-	warModel.destroyLauncher(destroyerId, launcherIdToDestroy);
+	warModel.destroyLauncher(destructAfterLaunch,destroyerId, launcherIdToDestroy);
 
     }
 
@@ -150,8 +150,8 @@ public class WarController implements WarUIEventsListener, WarEventListener{
     }
 
     @Override
-    public void addInterceptionToUI(String missileId, String ironDome) {
-	warModel.startMissileInterception(missileId, ironDome);
+    public void addInterceptionToUI(int destructAfterLaunch,String missileId, String ironDome) {
+	warModel.startMissileInterception(destructAfterLaunch,missileId, ironDome);
 
     }
 
@@ -202,5 +202,6 @@ public class WarController implements WarUIEventsListener, WarEventListener{
 		warModel.finishProgram();
 		
 	}
+
 
 }

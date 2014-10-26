@@ -58,7 +58,7 @@ public class IronDomesPanel extends JPanel   {
 					validate();
 					//getIronDome(IronDomeId);
 					for (WarUIEventsListener l : allListeners) {
-						l.addInterceptionToUI(missileId, id);
+						l.addInterceptionToUI(0,missileId, id);
 					}
 					fireMissileButtonPressed = false;
 					

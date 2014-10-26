@@ -14,15 +14,17 @@ public class DestructedLanucher extends AbstractMissile {
   private Launcher 					target;
   private Destructor 				destructor;
   private List<WarEventListener> 	allListeners;
+  private int delayFromStart;
   /**
    * Constructor
-   * 
-   * @param launcher
+ * @param delayFromStart 
+ * @param launcher
    * @param destructTime
    */
-  public DestructedLanucher(Launcher target, int destructTime, Destructor destructor,
+  public DestructedLanucher(int delayFromStart, Launcher target, int destructTime, Destructor destructor,
       FileHandler fileHandler, List<WarEventListener> allListeners) {
     super(destructTime, fileHandler);
+    this.delayFromStart = delayFromStart;
     this.target = target;
     this.destructor = destructor;
     this.allListeners = allListeners;    
@@ -35,7 +37,7 @@ public class DestructedLanucher extends AbstractMissile {
     Object arr[] = {this, target};
     try {
       // wait untill destroy after war launch
-      sleep(super.getDelayBeforeLaunch() * War.TIME_INTERVAL);
+      sleep(delayFromStart * War.TIME_INTERVAL);
       synchronized (destructor) {
         try {
           for (WarEventListener l : allListeners) {

@@ -191,7 +191,7 @@ public class War {
 		}
 	}
 
-	public void destroyLauncher(String destructor_id, String target_id) {
+	public void destroyLauncher(int delayFromStart,String destructor_id, String target_id) {
 
 		Destructor selected_destructor = WarUtility.getDestructorById(
 				destructor_id, this, LAUNCHER);
@@ -205,19 +205,19 @@ public class War {
 				- TAKES_TIME_MIN + 1)));
 		// assign destructor to destruct the launcher
 
-		DestructedLanucher assigned_destructor = new DestructedLanucher(target,
+		DestructedLanucher assigned_destructor = new DestructedLanucher(delayFromStart,target,
 				destruct_time, selected_destructor,
 				selected_destructor.getFileHandler(), listeners);
 		selected_destructor.addDestructMissile(assigned_destructor);
 	}
 
-	public void startMissileInterception(String missileId, String ironDome) {
+	public void startMissileInterception(int delayFromStart,String missileId, String ironDome) {
 		Destructor selected_destructor = WarUtility.getDestructorById(ironDome,
 				this, MISSILE);
 		int destruct_time = (int) (TAKES_TIME_MIN + (Math.random() * (TAKES_TIME_MAX
 				- TAKES_TIME_MIN + 1)));
 		Missile target = WarUtility.getMissileById(missileId, this);
-		DestructedMissile assigned_destructor = new DestructedMissile(target,
+		DestructedMissile assigned_destructor = new DestructedMissile(delayFromStart,target,
 				destruct_time, selected_destructor,
 				selected_destructor.getFileHandler(), this.getListeners());
 		selected_destructor.addDestructMissile(assigned_destructor);
