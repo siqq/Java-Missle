@@ -42,7 +42,7 @@ public class XMLparser {
 		DocumentBuilder builder;
 		builder = factory.newDocumentBuilder();
 		InputStream xml_file = ClassLoader
-				.getSystemResourceAsStream("war2.xml");
+				.getSystemResourceAsStream("war.xml");
 		//check if we have xml file
 		if (xml_file == null) {
 			return war;

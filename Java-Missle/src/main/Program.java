@@ -1,12 +1,16 @@
 package main;
 import java.io.IOException;
 import java.util.Scanner;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.SAXException;
+
 import view.WarGui;
 import war.War;
 import war.controller.AbstractWarView;
 import war.controller.WarController;
+import war.db.WarDBConnection;
 
 public class Program {
 	/**
@@ -25,8 +29,8 @@ public class Program {
 			WarController controller = new WarController(warModel,viewGui);
 			XMLparser xml = new XMLparser(controller, warModel);
 			
-//		    new WarDBConnection();
-//			WarDBConnection.clearWarDataBase();
+		    new WarDBConnection();
+			
 //		    new Server();
 
 			

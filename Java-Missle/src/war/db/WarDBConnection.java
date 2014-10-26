@@ -87,7 +87,7 @@ public class WarDBConnection {
 	public static void addNewMissile(String id, String destination, int damage,
 			int flyTime, String status) {
 		try {
-			// connection.createStatement();
+			 connection.createStatement();
 			statement = (PreparedStatement) connection
 					.prepareStatement("INSERT INTO war.missile (id, date,destination,damage,flyTime,status) VALUES (?, now(), ?, ?, ?, ?)");
 			statement.setString(1, id);
@@ -133,7 +133,7 @@ public class WarDBConnection {
 
 	public static void addNewLauncher(String launcherId, int isHidden) {
 		try {
-			// connection.createStatement();
+			 connection.createStatement();
 			statement = (PreparedStatement) connection
 					.prepareStatement("INSERT INTO war.launchers (id, isHidden) VALUES (?, ?)");
 			statement.setString(1, launcherId);
@@ -148,7 +148,7 @@ public class WarDBConnection {
 
 	public static void addNewDestructor(String launcherId, String type) {
 		try {
-			// connection.createStatement();
+			 connection.createStatement();
 			statement = (PreparedStatement) connection
 					.prepareStatement("INSERT INTO war.destructors (id, type) VALUES (?, ?)");
 			statement.setString(1, launcherId);
@@ -181,7 +181,9 @@ public class WarDBConnection {
 			statement = (PreparedStatement) connection
 					.prepareStatement("TRUNCATE TABLE `missile`");
 			statement.execute();
-
+			statement = (PreparedStatement) connection
+					.prepareStatement("TRUNCATE TABLE `destructors`");
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

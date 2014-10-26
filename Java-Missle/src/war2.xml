@@ -8,17 +8,14 @@
 	</missileLaunchers>
 	<missileDestructors>
 		<destructor  id="D201" type="Iron Dome">
-		<destructdMissile  id="M1" destructAfterLaunch="4"></destructdMissile>
 		</destructor>
 		<destructor id="D202" type="Iron Dome">		
 		</destructor>
 	</missileDestructors>
 	<missileLauncherDestructors>
 		<destructor id="P202" type="plane">
-	<destructedLanucher  id="L101" destructTime="7"></destructedLanucher>
 		</destructor>
 		<destructor id="S202" type="ship">
-
 		</destructor>
 	</missileLauncherDestructors>
 </war>

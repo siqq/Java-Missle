@@ -131,10 +131,23 @@ public class War {
 		return listeners;
 	}
 
+	public void addLauncher(String id) throws Exception {
+		if ((id.isEmpty()) || (WarUtility.getLauncherById(id, this) != null)) {
+			throw new Exception("This Id is empty or already exist");
+		}
+		boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
+		addLauncher(new Launcher(id, is_hidden, listeners));
+		int stat = (is_hidden == true) ? 1 : 0;
+		WarDBConnection.addNewLauncher(id, stat);
+	}
+	
 	public void addLauncher(Launcher launcher) {
 		this.missileLaunchers.add(launcher);
+		int stat = (launcher.isHidden() == true) ? 1 : 0;	
+		WarDBConnection.addNewLauncher(launcher.getLauncherId(), stat);
 		fireAddLauncherEvent(launcher);
 		launcher.start();
+		
 	}
 
 	public void fireAddLauncherEvent(Launcher launcher) {
@@ -147,16 +160,6 @@ public class War {
 	public void registerListener(WarController warController) {
 		listeners.add(warController);
 
-	}
-
-	public void addLauncher(String id) throws Exception {
-		if ((id.isEmpty()) || (WarUtility.getLauncherById(id, this) != null)) {
-			throw new Exception("This Id is empty or already exist");
-		}
-		boolean is_hidden = (Math.round(Math.random()) == 1) ? true : false;
-		addLauncher(new Launcher(id, is_hidden, listeners));
-		int stat = (is_hidden == true) ? 1 : 0;
-		WarDBConnection.addNewLauncher(id, stat);
 	}
 
 	public void addDestructor(String id, String type) throws SecurityException,
