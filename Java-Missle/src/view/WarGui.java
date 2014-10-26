@@ -98,7 +98,6 @@ public class WarGui extends JFrame implements AbstractWarView {
 				SpringLayout.EAST, getContentPane());
 		
 		//Destroyers Panel Layout
-
 		springLayout.putConstraint(SpringLayout.WEST, destroyersPanel, 10,
 				SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, destroyersPanel, -6,

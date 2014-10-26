@@ -41,8 +41,6 @@ public class Launchertab extends AnchorPane   {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				// while (true) {
-
 				String id = launcherId.getText();
 				for (WarUIEventsListener l : allListener) {
 					// sending missile details to the relevant GUI launcher

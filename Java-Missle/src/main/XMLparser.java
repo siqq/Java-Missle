@@ -166,7 +166,6 @@ public class XMLparser {
 				DestructedLanucher destructedL = new DestructedLanucher(destructAfterLaunch,target_l, 
 						destruct_time, destructor_l, destructor_l.getFileHandler(),controller.getWarListeners());
 				destructor_l.addDestructMissile(destructedL);
-//				war.destroyLauncher(destructor_l.getDestructorId(), target_l.getLauncherId());
 				break;
 			}
 		}

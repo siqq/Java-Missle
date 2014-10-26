@@ -20,8 +20,7 @@ public class ConsoleApp extends Application     {
     public ConsoleApp() {
 	this.allListeners = LaunchersPanel.getAllListeners();
 	this.launcherId = LaunchersPanel.getLauncherID();
-//	main(null);
-
+	
     }
 
     public void start(Stage primaryStage) throws Exception {

@@ -23,20 +23,10 @@ public class MessagePanel extends JPanel   {
      */
     private static final long serialVersionUID = 1L;
 	private JLabel label;
-	private List<WarUIEventsListener> allListeners;
 	private boolean fireMissileButtonPressed;
-	private boolean destroyLauncherButtonPressed;
-	private WarGui warGui;
 	private JPanel panel;
 	
 	public MessagePanel(List<WarUIEventsListener> allListeners, WarGui warGui) {
-//		this.warGui = warGui;
-//		setPreferredSize(new Dimension(307, 100));
-//		setBorder(new LineBorder(new Color(0, 0, 0)));
-//		this.allListeners = allListeners;
-//		this.fireMissileButtonPressed = false;
-//		this.destroyLauncherButtonPressed = false;
-//		setLayout(new FlowLayout());
 		setLayout(new BorderLayout(0, 0));
 		
 
@@ -44,11 +34,6 @@ public class MessagePanel extends JPanel   {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		JScrollPane scrollPane = new JScrollPane(panel);
 		scrollPane.setPreferredSize(new Dimension(305, 100));
-		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-		        public void adjustmentValueChanged(AdjustmentEvent e) {  
-		            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-		        }
-		    });
 		add(scrollPane, BorderLayout.CENTER);
 	}
 

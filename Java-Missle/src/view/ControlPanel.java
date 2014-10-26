@@ -138,6 +138,8 @@ public class ControlPanel extends JPanel  {
 		add(statisticsButton);
 		///////////////////////
 		
+		
+		// Destroy Launcher Button
 		springLayout.putConstraint(SpringLayout.SOUTH, destoryLauncherButton, -188, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, destoryLauncherButton, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, destoryLauncherButton, -119, SpringLayout.EAST, this);

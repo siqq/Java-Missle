@@ -20,7 +20,7 @@ public class DestroyerPopUpFrame extends JFrame   {
 	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
+    private static final long 			serialVersionUID = 1L;
 	private List<WarUIEventsListener> 	allListeners;
 	private JRadioButton 				ironDomeRadioButton;
 	private JRadioButton 				shipRadioButton;

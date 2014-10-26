@@ -155,7 +155,6 @@ public class LaunchersPanel extends JPanel  {
 	   for(JButton launcher : launchersQueue){
 	       if(launcherId.equalsIgnoreCase(launcher.getText())){
 		   launcher.setVisible(false);
-//		   launcher.setEnabled(false);
 	       }
 	   }
 	    

@@ -83,7 +83,6 @@ public class ProgressPanel extends JPanel {
 		progressBar.add(button, BorderLayout.EAST);
 
 		add(progressBar);
-		// setVisible(true);
 		map.put(missileId, progressBar);
 		validate();
 	}
@@ -94,8 +93,6 @@ public class ProgressPanel extends JPanel {
 		while (keySetIterator.hasNext()) {
 			String key = keySetIterator.next();
 			if (key.equalsIgnoreCase(missileId)) {
-				// progressBar.setBorder(new LineBorder(new Color(255, 0, 0),
-				// 2));
 
 				// sending missile details to the relevant GUI launcher
 				JOptionPane.showMessageDialog(null,

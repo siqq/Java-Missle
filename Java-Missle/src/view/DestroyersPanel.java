@@ -96,7 +96,6 @@ public class DestroyersPanel extends JPanel  {
 	public void addNewLauncherToDestroy(String destroyerId,
 			String launcherIdToDestroy) {
 		for (WarUIEventsListener l : allListeners) {
-			// sending 
 			l.destroyLauncherInUI(0,destroyerId,launcherIdToDestroy);
 
 		}

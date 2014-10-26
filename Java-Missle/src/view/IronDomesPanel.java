@@ -56,7 +56,6 @@ public class IronDomesPanel extends JPanel   {
 					String IronDomeId = ((JButton) e.getSource()).getText(); // id of the launcher to destroy
 					setBorder(new LineBorder(new Color(0, 0, 0)));
 					validate();
-					//getIronDome(IronDomeId);
 					for (WarUIEventsListener l : allListeners) {
 						l.addInterceptionToUI(0,missileId, id);
 					}
