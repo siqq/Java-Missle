@@ -1,7 +1,7 @@
 <war>
 	<missileLaunchers>
 		<launcher  id="L101" isHidden="false">
-			<missile  id="M1" destination="Sderot" launchTime="1" flyTime="20" damage="1500"></missile>
+			<missile  id="M1" destination="Sderot" launchTime="2" flyTime="20" damage="1500"></missile>
 		</launcher>
 		<launcher id="L102" isHidden="true">
 		</launcher>
